@@ -17,7 +17,7 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public GroupDto getGroup(@RequestParam Long groupId) throws Exception {
+    public GroupDto getGroup(@PathVariable Long id) throws Exception {
         return new GroupDto();
     }
 
@@ -32,7 +32,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGroup(@RequestParam Long groupId) {
+    public void deleteGroup(@PathVariable Long id) {
 
     }
 }
