@@ -11,28 +11,54 @@ import java.util.List;
 @RequestMapping(value = "api/v1/groups")
 public class GroupController {
 
+    //test data added to resultList for initial implementation & tests
     @GetMapping
     public List<GroupDto> getGroups() {
-        return new ArrayList<>();
+        GroupDto testGroupValue = GroupDto.builder()
+                .id(1L)
+                .groupName("Pierogi Ruskie")
+                .price(10.90)
+                .description("Smaczne, pyszne! Mniam, mniam!")
+                .build();
+        List<GroupDto> resultList = new ArrayList<>();
+        resultList.add(testGroupValue);
+        return resultList;
     }
 
     @GetMapping("/{id}")
     public GroupDto getGroup(@PathVariable Long id) throws Exception {
-        return new GroupDto();
+        return GroupDto.builder()
+                .id(id)
+                .groupName("Test_Name")
+                .price(333.33)
+                .description("Test_Description")
+                .build();
     }
 
+    //temporary void method switched to return GroupDo for initial implementation & tests
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createGroup(@RequestBody GroupDto groupDto) {
-
+    public GroupDto createGroup(@RequestBody GroupDto groupDto) {
+        return GroupDto.builder()
+                .id(1L)
+                .groupName(groupDto.getGroupName())
+                .price(groupDto.getPrice())
+                .description(groupDto.getDescription())
+                .build();
     }
 
     @PutMapping
     public GroupDto updateGroup(@RequestBody GroupDto groupDto) {
-        return new GroupDto();
+        return GroupDto.builder()
+                .id(groupDto.getId())
+                .groupName(groupDto.getGroupName())
+                .price(groupDto.getPrice())
+                .description(groupDto.getDescription())
+                .build();
     }
 
+    //temporary void method switched to return Long for initial implementation & tests
     @DeleteMapping("/{id}")
-    public void deleteGroup(@PathVariable Long id) {
-
+    public Long deleteGroup(@PathVariable Long id) {
+        return id;
     }
 }
