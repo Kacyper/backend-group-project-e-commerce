@@ -45,6 +45,7 @@ public class ProductController {
                 .build();
     }
 
+    //for testing return Long, later on it has to come back to void
     @DeleteMapping("/{id}")
     public Long deleteProduct(@PathVariable Long id) {
         return id;
