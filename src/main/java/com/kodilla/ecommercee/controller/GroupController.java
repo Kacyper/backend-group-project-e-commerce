@@ -46,10 +46,10 @@ public class GroupController {
                 .build();
     }
 
-    @PutMapping
-    public GroupDto updateGroup(@RequestBody GroupDto groupDto) {
+    @PutMapping("/{id}")
+    public GroupDto updateGroup(@PathVariable Long id, @RequestBody GroupDto groupDto) {
         return GroupDto.builder()
-                .id(groupDto.getId())
+                .id(id)
                 .groupName(groupDto.getGroupName())
                 .price(groupDto.getPrice())
                 .description(groupDto.getDescription())
