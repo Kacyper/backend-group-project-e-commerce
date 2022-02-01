@@ -17,21 +17,36 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProduct(@PathVariable Long id) {
-        return new ProductDto();
+        return ProductDto.builder()
+                .id(1L)
+                .name("name")
+                .quantity(123)
+                .groupId(1L)
+                .build();
     }
 
     @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto();
+        return ProductDto.builder()
+                .id(productDto.getId())
+                .name(productDto.getName())
+                .quantity(productDto.getQuantity())
+                .groupId(productDto.getGroupId())
+                .build();
     }
 
-    @PutMapping
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto();
+    @PutMapping("/{id}")
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        return ProductDto.builder()
+                .id(id)
+                .name(productDto.getName())
+                .quantity(productDto.getQuantity())
+                .groupId(productDto.getGroupId())
+                .build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-
+    public Long deleteProduct(@PathVariable Long id) {
+        return id;
     }
 }
