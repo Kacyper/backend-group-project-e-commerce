@@ -1,28 +1,37 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.CartDto;
+import com.kodilla.ecommercee.domain.ProductDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 public class CartController {
 
-    @GetMapping("/getCart/{id}")
-    public CartDto getCart(@PathVariable Long id) {
-        return new CartDto();
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/createCart")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createCart(@RequestBody CartDto cartDto) {
+        System.out.println("Cart with id: " + cartDto.getIdCart() + " created");
     }
 
-    @PutMapping(value = "/updateCart")
-    public CartDto updateCart(@RequestBody CartDto cartDto) {
-        return new CartDto();
+    @GetMapping("/{idCart}")
+    public List<ProductDto> getProductsFromCart(@PathVariable Long idCart) {
+        return new ArrayList<>();
     }
 
-    @DeleteMapping(value = "/deleteCart/{id}")
-    public void deleteCart(@PathVariable Long id) {
+    @PutMapping("/{idCart}/{idProduct}")
+    public CartDto updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
+        return new CartDto(1L, "Cart1", 300.5);
+    }
+
+    @DeleteMapping("/{idCart}/{idProduct}")
+    public void deleteFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
+        System.out.println("Product with id: " + idProduct + " delated from cart with id: " + idCart);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/createOrder")
+    public void createOrder(@RequestParam Long idCart) {
+        System.out.println("Order for cart with id: " + idCart + " created");
     }
 }
