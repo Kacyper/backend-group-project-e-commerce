@@ -12,7 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
-@Entity(name = "PRODUCTS")
+@Entity(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
