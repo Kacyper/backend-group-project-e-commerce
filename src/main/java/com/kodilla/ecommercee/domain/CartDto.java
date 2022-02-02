@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 public class CartDto {
 
-    private int idCart;
+    private Long idCart;
     private String name;
     private BigDecimal total;
 

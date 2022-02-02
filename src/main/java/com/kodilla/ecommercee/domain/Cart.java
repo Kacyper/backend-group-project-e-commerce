@@ -26,7 +26,7 @@ public class Cart {
     @Unsigned
     @NotNull
     @Column(name = "ID_CART")
-    private int idCart;
+    private Long idCart;
 
     @NotNull
     @Column(name = "NAME")
