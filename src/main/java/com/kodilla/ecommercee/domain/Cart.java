@@ -27,7 +27,6 @@ public class Cart {
     @NotNull
     @Column(name = "ID_CART")
     private Long idCart;
-
     @NotNull
     @Column(name = "NAME")
     private String name;
