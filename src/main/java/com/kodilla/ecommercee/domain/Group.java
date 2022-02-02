@@ -44,5 +44,8 @@ public class Group {
             fetch = FetchType.LAZY
     )
     private List<Product> products;
+<<<<<<<<< Temporary merge branch 1
+=========
     
+>>>>>>>>> Temporary merge branch 2
 }
