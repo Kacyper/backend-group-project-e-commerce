@@ -5,14 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
-@Getter
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @AllArgsConstructor
-
+@NoArgsConstructor
+@Builder
+@Data
 public class ProductDto {
-
     private Long id;
     private String name;
-    private int quantity;
+    private Integer quantity;
     private Long groupId;
-
 }
