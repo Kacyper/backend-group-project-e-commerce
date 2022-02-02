@@ -33,6 +33,15 @@ public class Product {
     @Column(name = "QUANTITY")
     private int quantity;
 
+    @NotNull
+    @Column(name = "PRICE")
+    private double price;
+
+    @Column(name = "product_description")
+    private String productDescription;
+
+
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_GROUP")
     private Group group;

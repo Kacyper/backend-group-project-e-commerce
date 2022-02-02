@@ -30,14 +30,6 @@ public class Group {
     @Column(name = "NAME")
     private String groupName;
 
-    @NotNull
-    @Column(name = "PRICE")
-    private double price;
-
-    @Column(name = "product_description")
-    private String productDescription;
-
-
     @OneToMany(
             mappedBy = "group",
             cascade = CascadeType.ALL,
