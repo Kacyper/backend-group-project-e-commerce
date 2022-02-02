@@ -3,16 +3,14 @@ package com.kodilla.ecommercee.domain;
 
 
 import jdk.jfr.Unsigned;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
 @Entity(name = "product")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
