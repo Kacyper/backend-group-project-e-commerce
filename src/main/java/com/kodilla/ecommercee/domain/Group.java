@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
-@Entity(name = "GROUPS")
+@Entity(name = "GROUPSX")
 @Getter
 @Setter
 @NoArgsConstructor
