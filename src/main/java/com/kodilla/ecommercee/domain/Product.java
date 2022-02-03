@@ -1,20 +1,21 @@
 package com.kodilla.ecommercee.domain;
 
 import jdk.jfr.Unsigned;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.List;
 
 
-@Entity(name = "PRODUCTS")
+@Entity(name = "products")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 
 public class Product {
 
@@ -30,20 +31,19 @@ public class Product {
     private String name;
 
     @NotNull
-    @Column(name = "QUANTITY")
-    private int quantity;
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
     @NotNull
-    @Column(name = "PRICE")
-    private double price;
-
-    @Column(name = "product_description")
+    @Column(name = "PRODUCT_DESCRIPTION")
     private String productDescription;
 
-
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_GROUP")
     private Group group;
 
+    @ManyToMany(cascade = CascadeType.ALL,
+            mappedBy = "products"
+    )
+    private List<Cart> carts;
 }
