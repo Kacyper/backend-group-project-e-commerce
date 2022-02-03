@@ -1,18 +1,27 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.service.DbServiceCart;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/carts")
+@RequiredArgsConstructor
 public class CartController {
+
+    private final DbServiceCart dbServiceCart;
+    private final CartMapper cartMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createCart(@RequestBody CartDto cartDto) {
-        System.out.println("Cart with id: " + cartDto.getIdCart() + " created");
+        Cart cart = cartMapper.mapToCart(cartDto);
+        dbServiceCart.saveCart(cart);
     }
 
     @GetMapping("/{idCart}")
