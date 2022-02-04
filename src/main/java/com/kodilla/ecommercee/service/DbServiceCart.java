@@ -8,7 +8,6 @@ import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -52,15 +51,15 @@ public class DbServiceCart {
         return cart;
     }
 
-    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException {
-        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+    public void deleteFromCart(final Long idCart, final Long idProduct) {
+        Optional<Cart> cart = cartRepository.findById(idCart);
         String deleteMessage = "";
 
         if (!dbServiceProduct.ifExist(idProduct)) {
             deleteMessage = "Product with id: " + idProduct + " doesn't exist or can't be found";
 
         } else {
-            boolean isProductRemoved = cart.getProducts().removeIf(n -> n.getId() == idProduct);
+            boolean isProductRemoved = cart.get().getProducts().removeIf(n -> n.getId() == idProduct);
 
             if (!isProductRemoved) {
                 deleteMessage =
@@ -68,7 +67,8 @@ public class DbServiceCart {
                         "in the cart with id: " + idCart + "or product can't be found";
 
             } else {
-                productRepository.findById(idProduct).get().getCarts().removeIf(n -> n.getIdCart() == idCart);
+                Optional<Product> product = productRepository.findById(idProduct);
+                product.get().getCarts().removeIf(n -> n.getIdCart() == idCart);
                 deleteMessage = "Product with id: " + idProduct + " removed from cart with id: " + idCart;
             };
         }
