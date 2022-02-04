@@ -14,7 +14,6 @@ import java.util.List;
 public class DbServiceCart {
 
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
 
     public Cart saveCart(final Cart cart) {
         return cartRepository.save(cart);
