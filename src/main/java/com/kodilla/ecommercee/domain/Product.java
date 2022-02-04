@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import jdk.jfr.Unsigned;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +21,6 @@ public class Product {
     @Id
     @GeneratedValue
     @NotNull
-    @Unsigned
     @Column(name = "ID_PRODUCT", unique = true)
     private Long id;
 
@@ -43,7 +41,7 @@ public class Product {
     public Group group;
 
     @ManyToMany(cascade = CascadeType.ALL,
-    mappedBy = "products"
+            mappedBy = "products"
     )
     private List<Cart> carts;
 }

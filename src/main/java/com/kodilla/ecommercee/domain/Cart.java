@@ -1,9 +1,8 @@
 package com.kodilla.ecommercee.domain;
 
-import javax.persistence.*;
-import com.sun.istack.NotNull;
-import jdk.jfr.Unsigned;
 import lombok.*;
+import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,30 +14,32 @@ import java.util.List;
 @AllArgsConstructor
 public class Cart {
 
-  @Id
-  @GeneratedValue
-  @NotNull
-  @Unsigned
-  @Column(name = "ID_CART")
-  private Long idCart;
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "ID_CART")
+    private Long idCart;
+    @NotNull
+    @Column(name = "CARTNAME")
+    private String cartName;
 
-  @NotNull
-  @Column(name = "TOTAL")
-  private BigDecimal total;
+    @NotNull
+    @Column(name = "TOTAL")
+    private BigDecimal total;
 
-  @ManyToMany(
-    targetEntity = Product.class,
-    cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY
-  )
-  @JoinTable(
-    name = "CARTS_HAVE_PRODUCTS",
-    joinColumns = {@JoinColumn(name = "ID_CART", referencedColumnName = "ID_CART")},
-    inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
-  )
-  private List<Product> products;
+    @ManyToMany(
+        targetEntity = Product.class,
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY
+    )
+    @JoinTable(
+        name = "CARTS_HAVE_PRODUCTS",
+        joinColumns = {@JoinColumn(name = "ID_CART", referencedColumnName = "ID_CART")},
+        inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
+    )
+    private List<Product> products;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "ORDER_ID")
-  private Order order;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_ORDER")
+    private Order order;
 }
