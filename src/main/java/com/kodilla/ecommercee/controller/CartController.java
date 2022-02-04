@@ -26,6 +26,9 @@ public class CartController {
 
     @GetMapping("/{idCart}")
     public List<ProductDto> getProductsFromCart(@PathVariable Long idCart) {
+        if (dbServiceCart.ifExist(idCart)) {
+            List<ProductDto> =
+        }
         return new ArrayList<>();
     }
 
