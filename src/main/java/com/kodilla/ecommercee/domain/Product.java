@@ -1,15 +1,15 @@
 package com.kodilla.ecommercee.domain;
 
-
-
 import jdk.jfr.Unsigned;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.List;
 
 
-@Entity(name = "product")
+@Entity(name = "products")
 @Builder
 @Getter
 @Setter
@@ -31,11 +31,19 @@ public class Product {
     private String name;
 
     @NotNull
-    @Column(name = "QUANTITY")
-    private int quantity;
+    @Column(name = "PRICE")
+    private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NotNull
+    @Column(name = "PRODUCT_DESCRIPTION")
+    private String productDescription;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_GROUP")
     private Group group;
 
+    @ManyToMany(cascade = CascadeType.ALL,
+    mappedBy = "products"
+    )
+    private List<Cart> carts;
 }
