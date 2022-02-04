@@ -45,6 +45,12 @@ public class CartController {
 
     @PutMapping("/{idCart}/{idProduct}")
     public CartDto updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
+
+        if (dbServiceCart.ifExist(idCart)) {
+
+        } else {
+            System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
+        }
         return new CartDto(1L, "Cart1", 300.5);
     }
 
