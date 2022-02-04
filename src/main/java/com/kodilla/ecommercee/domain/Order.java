@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import jdk.jfr.Unsigned;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -17,10 +17,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "ORDERS")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Unsigned
     @Column(name = "ID_ORDER", unique = true)
     private Long id;
 
@@ -29,14 +29,12 @@ public class Order {
     private LocalDate orderDate;
 
     @NotNull
-    @Unsigned
     @Column(name = "SHIPPING_PRICE")
-    private double shippingPrice;
+    private BigDecimal shippingPrice;
 
     @NotNull
-    @Unsigned
     @Column(name = "TOTAL_PRICE")
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     @NotNull
     @Column(name = "IS_SENT")
@@ -50,7 +48,7 @@ public class Order {
     @JoinColumn(name = "ID_CART")
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")
     private User user;
 }
