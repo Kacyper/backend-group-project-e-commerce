@@ -10,6 +10,8 @@ import com.kodilla.ecommercee.service.DbServiceCart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,7 +53,7 @@ public class CartController {
         } else {
             System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
         }
-        return new CartDto(1L, "Cart1", 300.5);
+        return new CartDto(1L, "Cart1", new BigDecimal(300.5));
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")

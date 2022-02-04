@@ -4,6 +4,7 @@ import javax.persistence.*;
 import com.sun.istack.NotNull;
 import jdk.jfr.Unsigned;
 import lombok.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity(name = "CARTS")
@@ -20,6 +21,10 @@ public class Cart {
   @Unsigned
   @Column(name = "ID_CART")
   private Long idCart;
+
+  @NotNull
+  @Column(name = "TOTAL")
+  private BigDecimal total;
 
   @ManyToMany(
     targetEntity = Product.class,
