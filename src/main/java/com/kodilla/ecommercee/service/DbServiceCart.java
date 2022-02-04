@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.controller.CartNotFoundException;
+import com.kodilla.ecommercee.controller.ProductNotFoundException;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
@@ -52,29 +53,11 @@ public class DbServiceCart {
         return cart;
     }
 
-    public void deleteFromCart(final Long idCart, final Long idProduct) {
+    public void deleteFromCart(final Long idCart, final Long idProduct) throws ProductNotFoundException {
         Optional<Cart> cart = cartRepository.findById(idCart);
-        String deleteMessage = "";
-
-        if (!dbServiceProduct.ifExist(idProduct)) {
-            deleteMessage = "Product with id: " + idProduct + " doesn't exist or can't be found";
-
-        } else {
-            boolean isProductRemoved = cart.get().getProducts().removeIf(n -> n.getId() == idProduct);
-
-            if (!isProductRemoved) {
-                deleteMessage =
-                        "There is no product with given id (" + idProduct+ ") " +
-                        "in the cart with id: " + idCart + "or product can't be found";
-
-            } else {
-                Optional<Product> product = productRepository.findById(idProduct);
-                product.get().getCarts().removeIf(n -> n.getIdCart() == idCart);
-                deleteMessage = "Product with id: " + idProduct + " removed from cart with id: " + idCart;
-            };
-        }
-
-        System.out.println(deleteMessage);
+        productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
+        cart.get().getProducts().removeIf(n -> n.getId() == idProduct);
+        productRepository.findById(idProduct).get().getCarts().removeIf(n -> n.getIdCart() == idCart);
     }
 
     public void createOrder(Long idCart) {
