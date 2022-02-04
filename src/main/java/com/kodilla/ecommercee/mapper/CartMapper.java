@@ -9,8 +9,8 @@ public class CartMapper {
 
     public Cart mapToCart(final CartDto cartDto) {
         return new Cart(
-                cartDto.getIdCart()/*,
-
+                cartDto.getIdCart(),
+                new ArrayList<>()/*,
                 Will be uncommented after full Cart implementation (JDP220102-14)
                 cartDto.getName(),
                 cartDto.getTotal()*/
