@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.CartDto;
+import com.kodilla.ecommercee.domain.Order;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -12,7 +13,8 @@ public class CartMapper {
         return new Cart(
                 cartDto.getIdCart(),
                 cartDto.getTotal(),
-                new ArrayList<>()
+                new ArrayList<>(),
+                new Order()
                 /*,
                 Will be uncommented after full Cart implementation (JDP220102-14)
                 cartDto.getName(),
