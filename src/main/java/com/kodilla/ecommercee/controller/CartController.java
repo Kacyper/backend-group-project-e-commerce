@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1/cart")
+@RequestMapping("/api/v1/carts")
 public class CartController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -30,8 +30,8 @@ public class CartController {
         System.out.println("Product with id: " + idProduct + " delated from cart with id: " + idCart);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/createOrder")
-    public void createOrder(@RequestParam Long idCart) {
+    @PostMapping(value = "/createOrder/{idCart}")
+    public void createOrder(@PathVariable Long idCart) {
         System.out.println("Order for cart with id: " + idCart + " created");
     }
 }
