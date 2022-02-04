@@ -45,13 +45,16 @@ public class CartController {
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")
-    public void deleteFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
+    public ResponseEntity<Void> deleteFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
+
         if (dbServiceCart.ifExist(idCart)) {
-            System.out.println("Product with id: " + idProduct + " delated from cart with id: " + idCart);
+            dbServiceCart.deleteFromCart(idCart, idProduct);
 
         } else {
             System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
         }
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/createOrder/{idCart}")
