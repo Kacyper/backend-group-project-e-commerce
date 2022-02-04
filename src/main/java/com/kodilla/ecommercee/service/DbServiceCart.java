@@ -14,4 +14,8 @@ public class DbServiceCart {
     public Cart saveCart(final Cart cart) {
         return cartRepository.save(cart);
     }
+
+    public boolean ifExist (final Long idCart) {
+        return cartRepository.existsById(idCart);
+    }
 }
