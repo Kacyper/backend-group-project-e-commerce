@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
-import jdk.jfr.Unsigned;
+
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,14 +18,18 @@ import java.util.List;
 
 public class Cart {
 
-
     @Id
     @GeneratedValue
     @NotNull
-    @Unsigned
-    @NotNull
     @Column(name = "ID_CART")
     private Long idCart;
+    @NotNull
+    @Column(name = "CARTNAME")
+    private String cartName;
+
+    @NotNull
+    @Column(name = "TOTAL")
+    private BigDecimal total;
 
     @ManyToMany(
             targetEntity = Product.class,
@@ -36,5 +41,9 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
     )
     private List<Product> products;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_ORDER")
+    private Order order;
 
 }
