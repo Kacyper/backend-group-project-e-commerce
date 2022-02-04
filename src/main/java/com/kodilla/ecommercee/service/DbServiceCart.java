@@ -50,4 +50,8 @@ public class DbServiceCart {
         cart.setTotal(newCurrentTotalFromCart);
         return cart;
     }
+
+    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException {
+        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+    }
 }
