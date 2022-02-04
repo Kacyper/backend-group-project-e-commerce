@@ -37,4 +37,8 @@ public class Cart {
     inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
   )
   private List<Product> products;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "ORDER_ID")
+  private Order order;
 }
