@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
-@Entity(name = "group_s")
+@Entity(name = "\"GROUPS\"")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,18 +25,6 @@ public class Group {
     @Unsigned
     @Column(name = "ID_GROUP", unique = true)
     private Long groupId;
-
-    @NotNull
-    @Column(name = "NAME")
-    private String groupName;
-
-    @NotNull
-    @Column(name = "PRICE")
-    private double price;
-
-    @Column(name = "product_description")
-    private String productDescription;
-
 
     @OneToMany(
             mappedBy = "group",
