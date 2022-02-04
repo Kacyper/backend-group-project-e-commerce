@@ -1,8 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
-import com.kodilla.ecommercee.domain.Order;
-import com.kodilla.ecommercee.domain.Product;
-import jdk.jfr.Unsigned;
+
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,8 +20,6 @@ public class Cart {
 
     @Id
     @GeneratedValue
-    @NotNull
-    @Unsigned
     @NotNull
     @Column(name = "ID_CART")
     private Long idCart;
