@@ -25,6 +25,10 @@ public class Group {
     @Column(name = "ID_GROUP", unique = true)
     private Long groupId;
 
+    @NotNull
+    @Column(name = "NAME")
+    private String groupName;
+
     @OneToMany(
             mappedBy = "group",
             cascade = CascadeType.ALL,
