@@ -1,11 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
-
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -22,9 +21,20 @@ public class Product {
     @Id
     @GeneratedValue
     @NotNull
-
     @Column(name = "ID_PRODUCT", unique = true)
     private Long id;
+
+    @NotNull
+    @Column(name = "NAME")
+    private String name;
+
+    @NotNull
+    @Column(name = "PRICE")
+    private BigDecimal price;
+
+    @NotNull
+    @Column(name = "PRODUCT_DESCRIPTION")
+    private String productDescription;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_GROUP")
