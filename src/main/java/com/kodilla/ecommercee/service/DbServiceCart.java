@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.controller.CartNotFoundException;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.repository.CartRepository;
@@ -32,9 +33,9 @@ public class DbServiceCart {
         return products;
     }
 
-    public Optional<Cart> updateCart(final Long idCart, final Long idProduct) {
-        Optional<Cart> cart = cartRepository.findById(idCart);
-        BigDecimal currentTotalFromCart = cart.get().getTotal();
+    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException {
+        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+        BigDecimal currentTotalFromCart = cart.getTotal();
         BigDecimal productPrice = new BigDecimal(0);
 
         if (dbServiceProduct.ifExist(idProduct)) {
@@ -46,7 +47,7 @@ public class DbServiceCart {
         }
 
         BigDecimal newCurrentTotalFromCart = currentTotalFromCart.add(productPrice);
-        cart.get().setTotal(newCurrentTotalFromCart);
+        cart.setTotal(newCurrentTotalFromCart);
         return cart;
     }
 }

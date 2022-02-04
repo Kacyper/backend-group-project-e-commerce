@@ -1,17 +1,11 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.ProductDto;
-import com.kodilla.ecommercee.mapper.CartMapper;
-import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.domain.*;
+import com.kodilla.ecommercee.mapper.*;
 import com.kodilla.ecommercee.service.DbServiceCart;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,14 +40,8 @@ public class CartController {
     }
 
     @PutMapping("/{idCart}/{idProduct}")
-    public CartDto updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
-
-        if (dbServiceCart.ifExist(idCart)) {
-
-        } else {
-            System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
-        }
-        return new CartDto(1L, "Cart1", new BigDecimal(300.5));
+    public ResponseEntity<CartDto> updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException {
+        return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.updateCart(idCart, idProduct)));
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")
