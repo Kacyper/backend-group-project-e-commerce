@@ -38,9 +38,9 @@ public class Product {
     @Column(name = "PRODUCT_DESCRIPTION")
     private String productDescription;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "ID_GROUP")
-    private Group group;
+    public Group group;
 
     @ManyToMany(cascade = CascadeType.ALL,
     mappedBy = "products"
