@@ -16,12 +16,12 @@ public class CartController {
 
     private final DbServiceCart dbServiceCart;
     private final CartMapper cartMapper;
-    private final ProductMapper productMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createCart(@RequestBody CartDto cartDto) {
+    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) {
         Cart cart = cartMapper.mapToCart(cartDto);
         dbServiceCart.saveCart(cart);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{idCart}")
