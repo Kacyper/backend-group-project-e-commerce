@@ -28,13 +28,9 @@ public class CartController {
     public List<ProductDto> getProductsFromCart(@PathVariable Long idCart) {
 
         if (dbServiceCart.ifExist(idCart)) {
-            List<Product> products = dbServiceCart.getAllProducts(idCart);
-            return products.stream()
-                    .map(product -> productMapper.mapToProductDto(product))
-                    .collect(Collectors.toList());
+            return cartMapper.mapToProductsDto(dbServiceCart.getAllProducts(idCart));
 
         } else {
-            System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
             return new ArrayList<>();
         }
     }
