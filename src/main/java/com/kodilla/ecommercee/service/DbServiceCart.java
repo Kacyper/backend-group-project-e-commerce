@@ -44,12 +44,7 @@ public class DbServiceCart {
         products.add(product);
         carts.add(cart);
 
-        BigDecimal total = null;
-
-        for (Product p : products) {
-            BigDecimal productPrice = p.getPrice();
-            total = total.add(productPrice);
-        }
+        BigDecimal total = countTotalInCart(products);
 
         cart.setProducts(products);
         cart.setTotal(total);
@@ -68,8 +63,22 @@ public class DbServiceCart {
         products.removeIf(p -> p.getId() == idProduct);
         carts.removeIf(c -> c.getIdCart() == idCart);
 
+        BigDecimal total = countTotalInCart(products);
+
         cart.setProducts(products);
+        cart.setTotal(total);
         product.setCarts(carts);
+    }
+
+    private BigDecimal countTotalInCart(List<Product> products) {
+        BigDecimal total = null;
+
+        for (Product product : products) {
+            BigDecimal productPrice = product.getPrice();
+            total = total.add(productPrice);
+        }
+
+        return total;
     }
 
     public void createOrder(Long idCart) {
