@@ -14,7 +14,6 @@ public class CartMapper {
         return Cart.builder()
                 .idCart(cartDto.getIdCart())
                 .cartName(cartDto.getName())
-                .total(cartDto.getTotal())
                 .products(new ArrayList<>())
                 .order(new Order())
                 .build();
@@ -24,7 +23,6 @@ public class CartMapper {
         return CartDto.builder()
                 .idCart(cart.getIdCart())
                 .name(cart.getCartName())
-                .total(cart.getTotal())
                 .build();
     }
 

@@ -14,14 +14,9 @@ import java.util.List;
 public class DbServiceCart {
 
     private final CartRepository cartRepository;
-    private final ProductRepository productRepository;
 
     public Cart saveCart(final Cart cart) {
         return cartRepository.save(cart);
-    }
-
-    public boolean ifExist (final Long idCart) {
-        return cartRepository.existsById(idCart);
     }
 
     public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
@@ -33,48 +28,30 @@ public class DbServiceCart {
     public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
 
-        Product product1 = cart.getProducts().stream()
+        Product product = cart.getProducts().stream()
                 .filter(p -> p.getId().equals(idProduct))
                 .findFirst()
                 .orElseThrow(ProductNotFoundInCartException::new);
 
-        cart.getProducts().remove(product1);
-
+        cart.getProducts().remove(product);
         return cart;
     }
 
-    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException {
+    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
-        Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);;
 
-        List<Product> products = cart.getProducts();
-        List<Cart> carts = product.getCarts();
+        Product product = cart.getProducts().stream()
+                .filter(p -> p.getId().equals(idProduct))
+                .findFirst()
+                .orElseThrow(ProductNotFoundInCartException::new);
 
-        products.removeIf(p -> p.getId() == idProduct);
-        carts.removeIf(c -> c.getIdCart() == idCart);
-
-        BigDecimal total = countTotalInCart(products);
-
-        cart.setProducts(products);
-        cart.setTotal(total);
-        product.setCarts(carts);
-    }
-
-    private BigDecimal countTotalInCart(List<Product> products) {
-        BigDecimal total = null;
-
-        for (Product product : products) {
-            BigDecimal productPrice = product.getPrice();
-            total = total.add(productPrice);
-        }
-
-        return total;
+        cart.getProducts().remove(product);
     }
 
     public Order createOrder(Long idCart) throws CartNotFoundException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         BigDecimal shippingPrice = new BigDecimal(15);
-        BigDecimal totalPrice = countTotalPrice(shippingPrice, idCart);
+        BigDecimal totalPrice = countTotalPrice(shippingPrice, cart.getProducts());
 
         return Order.builder()
                 .orderDate(LocalDate.now())
@@ -86,7 +63,11 @@ public class DbServiceCart {
                 .build();
     }
 
-    private BigDecimal countTotalPrice(BigDecimal shippingPrice, Long idCart) {
-        return cartRepository.findById(idCart).get().getTotal().add(shippingPrice);
+    private BigDecimal countTotalPrice(BigDecimal shippingPrice, List<Product> products) {
+        BigDecimal productsSum = products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return productsSum.add(shippingPrice);
     }
 }

@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity(name = "CARTS")
@@ -22,10 +21,6 @@ public class Cart {
     @NotNull
     @Column(name = "CARTNAME")
     private String cartName;
-
-    @NotNull
-    @Column(name = "TOTAL")
-    private BigDecimal total;
 
     @ManyToMany(
         targetEntity = Product.class,
