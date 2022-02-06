@@ -56,7 +56,6 @@ public class DbServiceCart {
         return Order.builder()
                 .orderDate(LocalDate.now())
                 .shippingPrice(shippingPrice)
-                .totalPrice(totalPrice)
                 .isSent(false)
                 .isPaid(false)
                 .cart(cart)

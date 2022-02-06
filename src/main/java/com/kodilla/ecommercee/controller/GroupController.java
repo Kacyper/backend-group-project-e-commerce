@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.GroupDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,6 @@ public class GroupController {
         GroupDto testGroupValue = GroupDto.builder()
                 .id(1L)
                 .groupName("Pierogi Ruskie")
-                .price(10.90)
-                .description("Smaczne, pyszne! Mniam, mniam!")
                 .build();
         List<GroupDto> resultList = new ArrayList<>();
         resultList.add(testGroupValue);
@@ -30,8 +27,6 @@ public class GroupController {
         return GroupDto.builder()
                 .id(id)
                 .groupName("Test_Name")
-                .price(333.33)
-                .description("Test_Description")
                 .build();
     }
 
@@ -41,8 +36,6 @@ public class GroupController {
         return GroupDto.builder()
                 .id(1L)
                 .groupName(groupDto.getGroupName())
-                .price(groupDto.getPrice())
-                .description(groupDto.getDescription())
                 .build();
     }
 
@@ -51,8 +44,6 @@ public class GroupController {
         return GroupDto.builder()
                 .id(groupDto.getId())
                 .groupName(groupDto.getGroupName())
-                .price(groupDto.getPrice())
-                .description(groupDto.getDescription())
                 .build();
     }
 
