@@ -12,7 +12,7 @@ public class CartController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createCart(@RequestBody CartDto cartDto) {
-        System.out.println("Cart with id: " + cartDto.getIdCart() + " created");
+        System.out.println("Cart with id: " + cartDto.getId() + " created");
     }
 
     @GetMapping("/{idCart}")
@@ -22,7 +22,7 @@ public class CartController {
 
     @PutMapping("/{idCart}/{idProduct}")
     public CartDto updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) {
-        return new CartDto(1L, "Cart1", 300.5);
+        return new CartDto(1L, "Cart1");
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")

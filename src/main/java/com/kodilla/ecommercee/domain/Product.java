@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 @Entity(name = "products")
 @Builder
 @Getter
@@ -15,11 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID_PRODUCT", unique = true)
     private Long id;

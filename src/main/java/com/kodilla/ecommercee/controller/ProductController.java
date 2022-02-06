@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.ProductDto;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class ProductController {
         return ProductDto.builder()
                 .id(1L)
                 .name("name")
-                .quantity(123)
                 .groupId(1L)
                 .build();
     }
@@ -30,7 +28,6 @@ public class ProductController {
         return ProductDto.builder()
                 .id(productDto.getId())
                 .name(productDto.getName())
-                .quantity(productDto.getQuantity())
                 .groupId(productDto.getGroupId())
                 .build();
     }
@@ -40,7 +37,6 @@ public class ProductController {
         return ProductDto.builder()
                 .id(id)
                 .name(productDto.getName())
-                .quantity(productDto.getQuantity())
                 .groupId(productDto.getGroupId())
                 .build();
     }

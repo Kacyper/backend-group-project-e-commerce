@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
-
-
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,21 +12,16 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
-    @Column(name = "ID_CART")
-    private Long idCart;
+    @Column(name = "ID_CART", unique = true)
+    private Long id;
     @NotNull
     @Column(name = "CARTNAME")
     private String cartName;
-
-    @NotNull
-    @Column(name = "TOTAL")
-    private BigDecimal total;
 
     @ManyToMany(
             targetEntity = Product.class,
@@ -45,5 +37,4 @@ public class Cart {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_ORDER")
     private Order order;
-
 }
