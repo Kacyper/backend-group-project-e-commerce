@@ -1,15 +1,10 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.controller.CartNotFoundException;
-import com.kodilla.ecommercee.controller.ProductNotFoundException;
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.repository.CartRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
+import com.kodilla.ecommercee.controller.*;
+import com.kodilla.ecommercee.domain.*;
+import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,7 +13,6 @@ import java.util.List;
 public class DbServiceCart {
 
     private final CartRepository cartRepository;
-    private final DbServiceProduct dbServiceProduct;
     private final ProductRepository productRepository;
 
     public Cart saveCart(final Cart cart) {
