@@ -13,7 +13,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getPrice(),
                 product.getProductDescription(),
-                product.getGroup().getGroupId()
+                product.getGroup().getId()
         );
     }
 }
