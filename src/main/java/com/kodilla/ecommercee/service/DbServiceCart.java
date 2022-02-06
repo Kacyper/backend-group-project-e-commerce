@@ -34,18 +34,12 @@ public class DbServiceCart {
         return products;
     }
 
-    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException {
+    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         BigDecimal currentTotalFromCart = cart.getTotal();
-        BigDecimal productPrice = new BigDecimal(0);
 
-        if (dbServiceProduct.ifExist(idProduct)) {
-            Optional<Product> product = productRepository.findById(idProduct);
-            productPrice = product.get().getPrice();
-
-        } else {
-            System.out.println("Product with id: " + idProduct + " doesn't exist or can't be found");
-        }
+        productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
+        BigDecimal productPrice = productRepository.findById(idProduct).get().getPrice();
 
         BigDecimal newCurrentTotalFromCart = currentTotalFromCart.add(productPrice);
         cart.setTotal(newCurrentTotalFromCart);

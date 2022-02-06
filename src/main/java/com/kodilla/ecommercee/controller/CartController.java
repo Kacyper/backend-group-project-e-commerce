@@ -45,6 +45,7 @@ public class CartController {
 
         if (dbServiceCart.ifExist(idCart)) {
             dbServiceCart.deleteFromCart(idCart, idProduct);
+        }
 
         return ResponseEntity.ok().build();
     }
