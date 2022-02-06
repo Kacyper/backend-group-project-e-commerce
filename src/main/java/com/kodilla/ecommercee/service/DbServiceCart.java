@@ -58,10 +58,18 @@ public class DbServiceCart {
         return cart;
     }
 
-    public void deleteFromCart(final Long idCart, final Long idProduct) throws ProductNotFoundException {
-        productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
-        productRepository.findById(idProduct).get().getCarts().removeIf(n -> n.getIdCart() == idCart);
-        cartRepository.findById(idCart).get().getProducts().removeIf(n -> n.getId() == idProduct);
+    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException {
+        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+        Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);;
+
+        List<Product> products = cart.getProducts();
+        List<Cart> carts = product.getCarts();
+
+        products.removeIf(p -> p.getId() == idProduct);
+        carts.removeIf(c -> c.getIdCart() == idCart);
+
+        cart.setProducts(products);
+        product.setCarts(carts);
     }
 
     public void createOrder(Long idCart) {
