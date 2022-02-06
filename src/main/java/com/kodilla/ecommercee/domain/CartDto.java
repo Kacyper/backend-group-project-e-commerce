@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class CartDto {
     private Long idCart;
     private String name;
-    private double total;
 }

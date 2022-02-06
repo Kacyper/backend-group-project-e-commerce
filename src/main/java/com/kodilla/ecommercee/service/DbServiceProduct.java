@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.repository.ProductRepository;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
-import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +42,11 @@ public class DbServiceProduct {
 
     public void deleteProduct(final Long id) {
         repository.deleteById(id);
+    }
+
+    private final ProductRepository productRepository;
+
+    public boolean ifExist(final Long idProduct) {
+        return productRepository.existsById(idProduct);
     }
 }
