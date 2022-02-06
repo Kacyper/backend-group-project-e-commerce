@@ -11,21 +11,21 @@ public class CartMapper {
     private ProductMapper productMapper;
 
     public Cart mapToCart(final CartDto cartDto) {
-        return new Cart(
-                cartDto.getIdCart(),
-                cartDto.getName(),
-                cartDto.getTotal(),
-                new ArrayList<>(),
-                new Order()
-        );
+        return Cart.builder()
+                .idCart(cartDto.getIdCart())
+                .cartName(cartDto.getName())
+                .total(cartDto.getTotal())
+                .products(new ArrayList<>())
+                .order(new Order())
+                .build();
     }
 
     public CartDto mapToCartDto(final Cart cart) {
-        return new CartDto(
-                cart.getIdCart(),
-                cart.getCartName(),
-                cart.getTotal()
-        );
+        return CartDto.builder()
+                .idCart(cart.getIdCart())
+                .name(cart.getCartName())
+                .total(cart.getTotal())
+                .build();
     }
 
     public List<ProductDto> mapToProductsDto(final List<Product> products) {
