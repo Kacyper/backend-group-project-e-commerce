@@ -1,7 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.Getter;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +14,6 @@ public class ProductDto {
     private Long id;
     private String name;
     private BigDecimal price;
-    private String description;
-    private Long idGroup;
+    private String productDescription;
+    private GroupDto groupDto;
 }

@@ -1,54 +1,45 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.service.DbServiceProduct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProductController {
+
+    private final DbServiceProduct serviceProduct;
 
     @GetMapping
     public List<ProductDto> getProducts() {
-        return new ArrayList<>();
+        return ProductMapper.mapToListDto(serviceProduct.getProducts());
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProduct(@PathVariable Long id) {
-        return ProductDto.builder()
-                .id(1L)
-                .name("name")
-                .price(new BigDecimal(123))
-                .description("Description")
-                .idGroup(1L)
-                .build();
+    public ProductDto getProduct(@PathVariable Long id)
+            throws ProductNotFoundException {
+        return ProductMapper.mapToDto(serviceProduct.getProduct(id));
     }
 
     @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        return ProductDto.builder()
-                .id(productDto.getId())
-                .name(productDto.getName())
-                .price(productDto.getPrice())
-                .idGroup(productDto.getIdGroup())
-                .build();
+        return ProductMapper.mapToDto(serviceProduct.createProduct(ProductMapper.mapToProduct(productDto)));
     }
 
     @PutMapping("/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        return ProductDto.builder()
-                .id(id)
-                .name(productDto.getName())
-                .price(productDto.getPrice())
-                .idGroup(productDto.getIdGroup())
-                .build();
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto)
+            throws ProductNotFoundException {
+        return ProductMapper.mapToDto(serviceProduct.updateProduct(id, ProductMapper.mapToProduct(productDto)));
     }
 
-    //for testing return Long, later on it has to come back to void
     @DeleteMapping("/{id}")
-    public Long deleteProduct(@PathVariable Long id) {
-        return id;
+    public void deleteProduct(@PathVariable Long id) {
+        serviceProduct.deleteProduct(id);
     }
 }
