@@ -48,7 +48,8 @@ public class CartController {
     }
 
     @PostMapping(value = "/createOrder/{idCart}")
-    public void createOrder(@PathVariable Long idCart) {
-        System.out.println("Order for cart with id: " + idCart + " created");
+    public ResponseEntity<Void> createOrder(@PathVariable Long idCart) {
+        Order order = dbServiceCart.createOrder(idCart);
+        return ResponseEntity.ok().build();
     }
 }

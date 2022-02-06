@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -75,7 +76,20 @@ public class DbServiceCart {
         return total;
     }
 
-    public void createOrder(Long idCart) {
+    public Order createOrder(Long idCart) {
+        BigDecimal shippingPrice = new BigDecimal(15);
+        BigDecimal totalPrice = countTotalPrice(shippingPrice, idCart);
 
+        return Order.builder()
+                .orderDate(LocalDate.now())
+                .shippingPrice(shippingPrice)
+                .totalPrice(totalPrice)
+                .isSent(false)
+                .isPaid(false)
+                .build();
+    }
+
+    private BigDecimal countTotalPrice(BigDecimal shippingPrice, Long idCart) {
+        return cartRepository.findById(idCart).get().getTotal().add(shippingPrice);
     }
 }
