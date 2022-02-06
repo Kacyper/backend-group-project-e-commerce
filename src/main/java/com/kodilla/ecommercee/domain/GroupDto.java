@@ -11,4 +11,5 @@ public class GroupDto {
     private String groupName;
     private double price;
     private String description;
+    private Product product;
 }
