@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/carts")
@@ -27,25 +26,18 @@ public class CartController {
     }
 
     @GetMapping("/{idCart}")
-    public List<ProductDto> getProductsFromCart(@PathVariable Long idCart) {
-
-        if (dbServiceCart.ifExist(idCart)) {
-            return cartMapper.mapToProductsDto(dbServiceCart.getAllProducts(idCart));
-
-        } else {
-            return new ArrayList<>();
-        }
+    public ResponseEntity <List<ProductDto>> getProductsFromCart(@PathVariable Long idCart) throws CartNotFoundException {
+        return ResponseEntity.ok(cartMapper.mapToProductsDto(dbServiceCart.getAllProducts(idCart)));
     }
 
     @PutMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundException {
+    public ResponseEntity<CartDto> updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.updateCart(idCart, idProduct)));
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")
     public ResponseEntity<Void> deleteFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundException {
         dbServiceCart.deleteFromCart(idCart, idProduct);
-
         return ResponseEntity.ok().build();
     }
 

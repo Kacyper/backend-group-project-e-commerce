@@ -24,26 +24,21 @@ public class DbServiceCart {
         return cartRepository.existsById(idCart);
     }
 
-    public List<Product> getAllProducts(final Long idCart) {
+    public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
+        cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         List<Product> products = cartRepository.findById(idCart).get().getProducts();
         return products;
     }
 
-    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException {
+    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
-        Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
 
-        List<Product> products = cart.getProducts();
-        List<Cart> carts = product.getCarts();
+        Product product1 = cart.getProducts().stream()
+                .filter(p -> p.getId().equals(idProduct))
+                .findFirst()
+                .orElseThrow(ProductNotFoundInCartException::new);
 
-        products.add(product);
-        carts.add(cart);
-
-        BigDecimal total = countTotalInCart(products);
-
-        cart.setProducts(products);
-        cart.setTotal(total);
-        product.setCarts(carts);
+        cart.getProducts().remove(product1);
 
         return cart;
     }
