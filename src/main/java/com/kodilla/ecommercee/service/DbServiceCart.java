@@ -76,7 +76,8 @@ public class DbServiceCart {
         return total;
     }
 
-    public Order createOrder(Long idCart) {
+    public Order createOrder(Long idCart) throws CartNotFoundException {
+        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         BigDecimal shippingPrice = new BigDecimal(15);
         BigDecimal totalPrice = countTotalPrice(shippingPrice, idCart);
 
@@ -86,6 +87,7 @@ public class DbServiceCart {
                 .totalPrice(totalPrice)
                 .isSent(false)
                 .isPaid(false)
+                .cart(cart)
                 .build();
     }
 
