@@ -15,7 +15,6 @@ public class OrderDto {
     private Long id;
     private LocalDate orderDate;
     private double shippingPrice;
-    private double totalPrice;
     private boolean isSent;
     private boolean isPaid;
 }

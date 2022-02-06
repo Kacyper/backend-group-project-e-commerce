@@ -9,6 +9,4 @@ import lombok.*;
 public class GroupDto {
     private Long id;
     private String groupName;
-    private double price;
-    private String description;
 }

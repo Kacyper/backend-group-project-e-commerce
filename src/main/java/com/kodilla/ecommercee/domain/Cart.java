@@ -1,5 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
+
+
 import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
@@ -14,12 +16,12 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "ID_CART")
-    private Long idCart;
+    @Column(name = "ID_CART", unique = true)
+    private Long id;
     @NotNull
-    @Column(name = "CARTNAME")
+    @Column(name = "NAME_CART")
     private String cartName;
 
     @ManyToMany(

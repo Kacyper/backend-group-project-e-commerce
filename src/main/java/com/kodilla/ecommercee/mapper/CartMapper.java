@@ -12,7 +12,7 @@ public class CartMapper {
 
     public Cart mapToCart(final CartDto cartDto) {
         return Cart.builder()
-                .idCart(cartDto.getIdCart())
+                .id(cartDto.getId())
                 .cartName(cartDto.getName())
                 .products(new ArrayList<>())
                 .order(new Order())
@@ -21,7 +21,7 @@ public class CartMapper {
 
     public CartDto mapToCartDto(final Cart cart) {
         return CartDto.builder()
-                .idCart(cart.getIdCart())
+                .id(cart.getId())
                 .name(cart.getCartName())
                 .build();
     }
