@@ -46,10 +46,6 @@ public class CartController {
         if (dbServiceCart.ifExist(idCart)) {
             dbServiceCart.deleteFromCart(idCart, idProduct);
 
-        } else {
-            System.out.println("Cart with id: " + idCart + " doesn't exist or can't be found");
-        }
-
         return ResponseEntity.ok().build();
     }
 
