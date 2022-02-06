@@ -26,9 +26,4 @@ public class CartMapper {
                 .build();
     }
 
-    public List<ProductDto> mapToProductsDto(final List<Product> products) {
-        return products.stream()
-                .map(product -> productMapper.mapToProductDto(product))
-                .collect(Collectors.toList());
-    }
 }
