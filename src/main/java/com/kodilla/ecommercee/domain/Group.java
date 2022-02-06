@@ -24,7 +24,7 @@ public class Group {
     private Long id;
 
     @NotNull
-    @Column(name = "NAME")
+    @Column(name = "NAME_GROUP")
     private String groupName;
 
     @OneToMany(
