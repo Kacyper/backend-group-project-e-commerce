@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.mapper.*;
 import com.kodilla.ecommercee.service.DbServiceCart;
+import com.kodilla.ecommercee.service.DbServiceOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 public class CartController {
 
     private final DbServiceCart dbServiceCart;
+    private final DbServiceOrder dbServiceOrder;
     private final CartMapper cartMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,6 +52,7 @@ public class CartController {
     @PostMapping(value = "/createOrder/{idCart}")
     public ResponseEntity<Void> createOrder(@PathVariable Long idCart) throws CartNotFoundException {
         Order order = dbServiceCart.createOrder(idCart);
+        dbServiceOrder.saveOrder(order);
         return ResponseEntity.ok().build();
     }
 }
