@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity(name = "\"GROUPS\"")
+@Entity(name = "GROUPS")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +18,7 @@ import java.util.List;
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "ID_GROUP", unique = true)
     private Long id;
