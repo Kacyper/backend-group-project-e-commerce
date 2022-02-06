@@ -36,7 +36,7 @@ public class CartController {
     }
 
     @PutMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException {
+    public ResponseEntity<CartDto> updateCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundException {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.updateCart(idCart, idProduct)));
     }
 

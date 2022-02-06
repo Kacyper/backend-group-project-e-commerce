@@ -9,9 +9,9 @@ import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,13 +36,25 @@ public class DbServiceCart {
 
     public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
-        BigDecimal currentTotalFromCart = cart.getTotal();
+        Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
 
-        productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
-        BigDecimal productPrice = productRepository.findById(idProduct).get().getPrice();
+        List<Product> products = cart.getProducts();
+        List<Cart> carts = product.getCarts();
 
-        BigDecimal newCurrentTotalFromCart = currentTotalFromCart.add(productPrice);
-        cart.setTotal(newCurrentTotalFromCart);
+        products.add(product);
+        carts.add(cart);
+
+        BigDecimal total = null;
+
+        for (Product p : products) {
+            BigDecimal productPrice = p.getPrice();
+            total = total.add(productPrice);
+        }
+
+        cart.setProducts(products);
+        cart.setTotal(total);
+        product.setCarts(carts);
+
         return cart;
     }
 
