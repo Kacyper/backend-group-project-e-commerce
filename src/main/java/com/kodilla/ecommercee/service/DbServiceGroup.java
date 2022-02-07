@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.controller.GroupNotFoundException;
 import com.kodilla.ecommercee.domain.Group;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,6 +35,10 @@ public class DbServiceGroup {
 
     public void deleteGroup(final Long id) {
         groupRepository.deleteById(id);
+    }
+
+    public boolean ifExist(final Long id) {
+        return groupRepository.existsById(id);
     }
 
 }
