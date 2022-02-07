@@ -44,7 +44,6 @@ public class OrderTestSuite {
     public void testCreateNewOrder() {
         //Given
         Order order1 = Order.builder()
-//                .id(23L)
                 .orderDate(LocalDate.now())
                 .isPaid(false)
                 .isSent(false)
@@ -53,6 +52,7 @@ public class OrderTestSuite {
 
         //When
         orderRepository.save(order1);
+        Long id = order1.getId();
         List<Order> orders = orderRepository.findAll();
 
         //Then
@@ -60,7 +60,7 @@ public class OrderTestSuite {
 
         //CleanUp
             try {
-                orderRepository.deleteAll();
+                orderRepository.deleteById(id);
             } catch (Exception e) {
                 System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
             }
@@ -88,13 +88,17 @@ public class OrderTestSuite {
         orderRepository.save(order1);
         orderRepository.save(order2);
         //When
+        Long id1 = order1.getId();
+        Long id2 = order2.getId();
         List<Order> orders = orderRepository.findAll();
         //Then
         assertEquals(2, orders.size());
 
         //CleanUp
         try {
-            orderRepository.deleteAll();
+            orderRepository.deleteById(id1);
+            orderRepository.deleteById(id2);
+
         } catch (Exception e) {
             System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
         }
@@ -165,6 +169,13 @@ public class OrderTestSuite {
         cart1.getProducts().add(water);
         cart1.getProducts().add(butter);
 
+        Long idUser = user1.getId();
+        Long idOrder = order1.getId();
+        Long idCart = cart1.getId();
+        Long idProduct1 =  milk.getId();
+        Long idProduct2 =  water.getId();
+        Long idProduct3 =  butter.getId();
+
         //When
         List<Cart> cartList = cartRepository.findAll();
         List<Order> orders = orderRepository.findAll();
@@ -177,10 +188,12 @@ public class OrderTestSuite {
 
         //CleanUp
         try {
-            userRepository.deleteAll();
-            productRepository.deleteAll();
-            orderRepository.deleteAll();
-            cartRepository.deleteAll();
+            userRepository.deleteById(idUser);
+            productRepository.deleteById(idProduct1);
+            productRepository.deleteById(idProduct2);
+            productRepository.deleteById(idProduct3);
+            orderRepository.deleteById(idOrder);
+            cartRepository.deleteById(idCart);
         } catch (Exception e) {
             System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
         }
@@ -208,7 +221,7 @@ public class OrderTestSuite {
 
         //CleanUp
         try {
-            orderRepository.deleteAll();
+            orderRepository.deleteById(orderId);
         } catch (Exception e) {
             System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
         }
@@ -228,13 +241,13 @@ public class OrderTestSuite {
         //When
         order1.setPaid(true);
         orderRepository.save(order1);
-
+        Long orderId = order1.getId();
         //Then
         assertTrue(order1.isPaid());
 
         //CleanUp
         try {
-            orderRepository.deleteAll();
+            orderRepository.deleteById(orderId);
         } catch (Exception e) {
             System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
         }
