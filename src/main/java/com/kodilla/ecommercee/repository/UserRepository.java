@@ -1,4 +1,16 @@
 package com.kodilla.ecommercee.repository;
 
-public interface UserRepository {
-}
+import com.kodilla.ecommercee.domain.User;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
+
+public interface UserRepository extends CrudRepository <User, Long> {
+
+        @Override
+        User save(User user);
+
+        @Override
+        List<User> findAll();
+
+    }
