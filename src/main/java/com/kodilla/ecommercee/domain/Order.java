@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @NotNull
     @Column(name = "ID_ORDER", unique = true)
     private Long id;
