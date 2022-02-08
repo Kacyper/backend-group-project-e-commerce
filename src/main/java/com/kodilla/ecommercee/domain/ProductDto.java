@@ -1,11 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.Getter;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProductDto {
     private Long id;
     private String name;
-    private Integer quantity;
-    private Long groupId;
+    private BigDecimal price;
+    private String productDescription;
+    private GroupDto groupDto;
 }

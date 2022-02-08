@@ -23,7 +23,6 @@ public class OrderController {
                 .id(id)
                 .orderDate(LocalDate.now())
                 .shippingPrice(8.99)
-                .totalPrice(119.99)
                 .isSent(false)
                 .isPaid(true)
                 .build();
@@ -36,7 +35,6 @@ public class OrderController {
                 .id(1L)
                 .orderDate(orderDto.getOrderDate())
                 .shippingPrice(orderDto.getShippingPrice())
-                .totalPrice(orderDto.getTotalPrice())
                 .isSent(orderDto.isSent())
                 .isPaid(orderDto.isPaid())
                 .build();
@@ -48,7 +46,6 @@ public class OrderController {
                 .id(orderDto.getId())
                 .orderDate(orderDto.getOrderDate())
                 .shippingPrice(orderDto.getShippingPrice())
-                .totalPrice(orderDto.getTotalPrice())
                 .isSent(orderDto.isSent())
                 .isPaid(orderDto.isPaid())
                 .build();
