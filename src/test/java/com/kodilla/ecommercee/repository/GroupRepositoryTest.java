@@ -27,7 +27,7 @@ public class GroupRepositoryTest {
                 .build();
         Group saved = groupRepository.save(newGroup);
         //when
-        Group group = groupRepository.findById(saved.getId()).orElseThrow();
+        Group group = groupRepository.findAll().get(0);
         //then
         assertThat(group.getGroupName()).isEqualTo("new group");
         assertThat(group.getProducts().size()).isEqualTo(0);
@@ -65,7 +65,7 @@ public class GroupRepositoryTest {
                 .build();
         Group saved1 = groupRepository.save(newGroup1);
         //when
-        Group group = groupRepository.findById(saved1.getId()).orElseThrow();
+        Group group = groupRepository.findById(saved1.getId()).get();
         //then
         assertThat(group.getGroupName()).isEqualTo("new group 1");
         assertThat(group.getProducts().size()).isEqualTo(0);
@@ -86,8 +86,6 @@ public class GroupRepositoryTest {
         List<Group> all = groupRepository.findAll();
         //then
         assertThat(all.size()).isEqualTo(0);
-        //cleanUp
-        groupRepository.deleteAll();
     }
 
     @Test
@@ -98,11 +96,11 @@ public class GroupRepositoryTest {
                 .products(new ArrayList<>())
                 .build();
         Group saved1 = groupRepository.save(newGroup1);
-        Group group = groupRepository.findById(saved1.getId()).orElseThrow();
+        Group group = groupRepository.findAll().get(0);
         //when
         group.setGroupName("My group");
         groupRepository.save(group);
-        Group updated = groupRepository.findById(saved1.getId()).orElseThrow();
+        Group updated = groupRepository.findAll().get(0);
         //then
         assertThat(updated.getGroupName()).isEqualTo("My group");
         //cleanUp
