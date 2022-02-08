@@ -25,7 +25,7 @@ public class GroupRepositoryTest {
                 .groupName("new group")
                 .products(new ArrayList<>())
                 .build();
-        Group saved = groupRepository.save(newGroup);
+        groupRepository.save(newGroup);
         //when
         Group group = groupRepository.findAll().get(0);
         //then
@@ -46,8 +46,8 @@ public class GroupRepositoryTest {
                 .groupName("new group 2")
                 .products(new ArrayList<>())
                 .build();
-        Group saved1 = groupRepository.save(newGroup1);
-        Group saved2 = groupRepository.save(newGroup2);
+        groupRepository.save(newGroup1);
+        groupRepository.save(newGroup2);
         //when
         List<Group> all = groupRepository.findAll();
         //then
@@ -95,7 +95,7 @@ public class GroupRepositoryTest {
                 .groupName("new group 1")
                 .products(new ArrayList<>())
                 .build();
-        Group saved1 = groupRepository.save(newGroup1);
+        groupRepository.save(newGroup1);
         Group group = groupRepository.findAll().get(0);
         //when
         group.setGroupName("My group");
