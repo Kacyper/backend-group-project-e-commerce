@@ -1,14 +1,13 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "GROUPS")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +16,6 @@ public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "ID_GROUP", unique = true)
     private Long id;
 
@@ -29,7 +27,7 @@ public class Group {
             targetEntity = Product.class,
             mappedBy = "group",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Product> products;
 }
