@@ -16,7 +16,7 @@ import java.util.List;
 public class Group {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID_GROUP", unique = true)
     private Long id;
