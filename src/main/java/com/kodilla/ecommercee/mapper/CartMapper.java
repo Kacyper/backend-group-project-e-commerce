@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.mapper;
 import com.kodilla.ecommercee.domain.*;
 import org.springframework.stereotype.Service;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CartMapper {
@@ -14,8 +13,6 @@ public class CartMapper {
         return Cart.builder()
                 .id(cartDto.getId())
                 .cartName(cartDto.getName())
-                .products(new ArrayList<>())
-                .order(new Order())
                 .build();
     }
 
