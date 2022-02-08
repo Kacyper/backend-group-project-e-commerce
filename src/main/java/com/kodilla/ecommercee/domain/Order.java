@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID_ORDER", unique = true)
     private Long id;
@@ -31,10 +31,6 @@ public class Order {
     @NotNull
     @Column(name = "SHIPPING_PRICE")
     private BigDecimal shippingPrice;
-
-    @NotNull
-    @Column(name = "TOTAL_PRICE")
-    private BigDecimal totalPrice;
 
     @NotNull
     @Column(name = "IS_SENT")
