@@ -119,9 +119,11 @@ public class GroupRepositoryTest {
                 .price(BigDecimal.TEN)
                 .productDescription("Nowy")
                 .build();
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
         Group group = Group.builder()
                 .groupName("new group 1")
-                .products(List.of(product))
+                .products(products)
                 .build();
         groupRepository.save(group);
         product.setGroup(group);
@@ -149,9 +151,12 @@ public class GroupRepositoryTest {
                 .price(BigDecimal.TEN)
                 .productDescription("Nowy")
                 .build();
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        products.add(product2);
         Group group = Group.builder()
                 .groupName("new group 1")
-                .products(List.of(product,product2))
+                .products(products)
                 .build();
         groupRepository.save(group);
         product2.setGroup(group);
