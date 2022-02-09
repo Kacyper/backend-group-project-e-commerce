@@ -20,7 +20,6 @@ public class GroupController {
 
     @GetMapping
     public ResponseEntity<List<GroupDto>> getGroups() {
-
         return ResponseEntity.ok(GroupMapper.mapToGroupDtoList(dbServiceGroup.getGroups()));
     }
 
