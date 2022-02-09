@@ -1,10 +1,6 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.domain;
 
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Order;
-import com.kodilla.ecommercee.domain.Product;
-import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
@@ -14,15 +10,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,18 +45,13 @@ public class OrderTestSuite {
 
         //When
         orderRepository.save(order1);
-        Long id = order1.getId();
         List<Order> orders = orderRepository.findAll();
 
         //Then
         assertEquals(1, orders.size());
 
         //CleanUp
-            try {
-                orderRepository.deleteById(id);
-            } catch (Exception e) {
-                System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
-            }
+                orderRepository.deleteAll();
     }
 
     @Test
@@ -88,20 +76,12 @@ public class OrderTestSuite {
         orderRepository.save(order1);
         orderRepository.save(order2);
         //When
-        Long id1 = order1.getId();
-        Long id2 = order2.getId();
         List<Order> orders = orderRepository.findAll();
         //Then
         assertEquals(2, orders.size());
 
         //CleanUp
-        try {
-            orderRepository.deleteById(id1);
-            orderRepository.deleteById(id2);
-
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
-        }
+            orderRepository.deleteAll();
     }
 
     @Test
@@ -137,24 +117,18 @@ public class OrderTestSuite {
 
         Product milk = Product.builder()
                 .name("Mleko")
-                .productDescription("Testujemy mleko w koszyku")
-                .price(BigDecimal.valueOf(4.20))
                 .group(null)
                 .carts(new ArrayList<>())
                 .build();
 
         Product water = Product.builder()
                 .name("Woda")
-                .productDescription("Testujemy wodę w koszyku")
-                .price(BigDecimal.valueOf(5.20))
                 .group(null)
                 .carts(new ArrayList<>())
                 .build();
 
         Product butter = Product.builder()
                 .name("masło")
-                .productDescription("Testujemy masło w koszyku")
-                .price(BigDecimal.valueOf(6.60))
                 .group(null)
                 .carts(new ArrayList<>())
                 .build();
@@ -169,13 +143,6 @@ public class OrderTestSuite {
         cart1.getProducts().add(water);
         cart1.getProducts().add(butter);
 
-        Long idUser = user1.getId();
-        Long idOrder = order1.getId();
-        Long idCart = cart1.getId();
-        Long idProduct1 =  milk.getId();
-        Long idProduct2 =  water.getId();
-        Long idProduct3 =  butter.getId();
-
         //When
         List<Cart> cartList = cartRepository.findAll();
         List<Order> orders = orderRepository.findAll();
@@ -187,16 +154,10 @@ public class OrderTestSuite {
         assertEquals(3, products.size());
 
         //CleanUp
-        try {
-            userRepository.deleteById(idUser);
-            productRepository.deleteById(idProduct1);
-            productRepository.deleteById(idProduct2);
-            productRepository.deleteById(idProduct3);
-            orderRepository.deleteById(idOrder);
-            cartRepository.deleteById(idCart);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
-        }
+            userRepository.deleteAll();
+            productRepository.deleteAll();
+            orderRepository.deleteAll();
+            cartRepository.deleteAll();
     }
 
     @Test
@@ -210,21 +171,13 @@ public class OrderTestSuite {
                 .build();
         orderRepository.save(order1);
 
-        Long orderId = order1.getId();
-
         //When
+        Long orderId = order1.getId();
         orderRepository.deleteById(orderId);
 
         //Then
         boolean orderExists = orderRepository.existsById(orderId);
         assertFalse(orderExists);
-
-        //CleanUp
-        try {
-            orderRepository.deleteById(orderId);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
-        }
     }
 
     @Test
@@ -238,18 +191,15 @@ public class OrderTestSuite {
                 .build();
 
         orderRepository.save(order1);
+
         //When
         order1.setPaid(true);
         orderRepository.save(order1);
-        Long orderId = order1.getId();
+
         //Then
         assertTrue(order1.isPaid());
 
         //CleanUp
-        try {
-            orderRepository.deleteById(orderId);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE" + e.getMessage());
-        }
+            orderRepository.deleteAll();
     }
 }

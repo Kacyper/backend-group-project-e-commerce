@@ -4,10 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.List;
 
-@Entity(name = "products")
+@Entity(name = "PRODUCTS")
 @Builder
 @Getter
 @Setter
@@ -26,17 +25,16 @@ public class Product {
     @Column(name = "NAME")
     private String name;
 
-    @NotNull
-    @Column(name = "PRICE")
-    private BigDecimal price;
-
-    @NotNull
-    @Column(name = "PRODUCT_DESCRIPTION")
-    private String productDescription;
-
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")
     public Group group;
+
+    @OneToMany(
+            mappedBy = "group",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<Product> products;
 
     @ManyToMany(cascade = CascadeType.ALL,
             mappedBy = "products"
