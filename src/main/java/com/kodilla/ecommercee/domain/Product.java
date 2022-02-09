@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity(name = "products")
+@Entity(name = "PRODUCTS")
 @Builder
 @Getter
 @Setter
@@ -28,13 +28,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")
     public Group group;
-
-    @OneToMany(
-            mappedBy = "group",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    private List<Product> products;
 
     @ManyToMany(cascade = CascadeType.ALL,
             mappedBy = "products"
