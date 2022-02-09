@@ -1,7 +1,8 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.controller.*;
 import com.kodilla.ecommercee.domain.*;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
+import com.kodilla.ecommercee.exception.ProductNotFoundInCartException;
 import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

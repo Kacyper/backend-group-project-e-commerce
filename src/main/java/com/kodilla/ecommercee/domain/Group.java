@@ -25,7 +25,8 @@ public class Group {
     @OneToMany(
             targetEntity = Product.class,
             mappedBy = "group",
-            fetch = FetchType.EAGER
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
     )
     private List<Product> products;
 }
