@@ -32,9 +32,4 @@ public class DbServiceGroup {
 
         return updatedGroup;
     }
-
-    public void deleteGroup(final Long id) throws GroupNotFoundException {
-        Group group = groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
-        groupRepository.delete(group);
-    }
 }

@@ -40,10 +40,4 @@ public class GroupController {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup
                 .updateGroup(id, GroupMapper.mapToGroup(groupDto))));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGroup(@PathVariable Long id) throws GroupNotFoundException {
-        dbServiceGroup.deleteGroup(id);
-        return ResponseEntity.ok().build();
-    }
 }
