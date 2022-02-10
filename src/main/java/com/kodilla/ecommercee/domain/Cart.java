@@ -5,7 +5,9 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "CARTS")
 @Getter
@@ -16,7 +18,7 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID_CART", unique = true)
     private Long id;
@@ -25,14 +27,19 @@ public class Cart {
     private String cartName;
 
     @ManyToMany(
-        targetEntity = Product.class,
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
+            targetEntity = Product.class,
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                   // CascadeType.MERGE,
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH}
     )
     @JoinTable(
-        name = "CARTS_HAVE_PRODUCTS",
-        joinColumns = {@JoinColumn(name = "ID_CART", referencedColumnName = "ID_CART")},
-        inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
+            name = "CARTS_HAVE_PRODUCTS",
+            joinColumns = {@JoinColumn(name = "ID_CART", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", nullable = false,
+                    updatable = false)}
     )
     private List<Product> products;
 

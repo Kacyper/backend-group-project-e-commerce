@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;

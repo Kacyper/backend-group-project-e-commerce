@@ -1,7 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "ID_PRODUCT", unique = true)
     private Long id;
@@ -38,7 +37,11 @@ public class Product {
     @JoinColumn(name = "ID_GROUP")
     public Group group;
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+          //  CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH},
             mappedBy = "products"
     )
     private List<Cart> carts;
