@@ -1,35 +1,41 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.UserMapper;
+import com.kodilla.ecommercee.service.DbServiceUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
+
+    private final DbServiceUser dbServiceUser;
+    private final UserMapper userMapper;
 
     @GetMapping
     public List<UserDto> getUsers(){
-        return new ArrayList<>();
+        return userMapper.mapToListDto(dbServiceUser.getUsers());
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable Long id) throws UserNotFoundException{
+        return userMapper.mapToUserDto(dbServiceUser.getUser(id));
     }
 
     @PostMapping
-    public void createUser(@RequestBody UserDto userDto){
-
+    public UserDto createUser(@RequestBody UserDto userDto){
+        return userMapper.mapToUserDto(dbServiceUser.createUser(userMapper.mapToUser(userDto)));
     }
 
-    @PutMapping
-    public UserDto blockUser (@RequestBody UserDto userDto){
-        return new UserDto(
-                1L,
-                "John1231",
-                "john@john.com",
-                "password1223",
-                LocalDate.of(2022, 1, 1),
-                false,
-                true);
+    @PutMapping("/{id}")
+    public UserDto blockUser (@PathVariable Long id, @RequestBody UserDto userDto) throws UserNotFoundException{
+        return userMapper.mapToUserDto(dbServiceUser.blockUser(id, userMapper.mapToUser(userDto)));
     }
 
     @PostMapping(value = "generateKey")
