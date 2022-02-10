@@ -33,7 +33,12 @@ public class DbServiceUser {
         return userFromDb;
     }
 
+    public User unblockUser(final Long idUser, final User user) throws UserNotFoundException{
+        User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
 
+        userFromDb.setEnabled(true);
+        return userFromDb;
+    }
 
 
 }
