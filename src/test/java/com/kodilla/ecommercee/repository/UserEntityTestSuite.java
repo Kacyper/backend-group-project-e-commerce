@@ -22,9 +22,9 @@ import static org.junit.Assert.assertFalse;
 public class UserEntityTestSuite {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @Test
     public void createNewUserTest() {
@@ -39,13 +39,14 @@ public class UserEntityTestSuite {
                 .build();
         //When
         userRepository.save(user);
-        List<User> userList = userRepository.findAll();
+        Long id = user.getId();
+
         //Then
-        try {
-            assertEquals(1, userList.size());
-        } finally {
-            userRepository.deleteAll();
-        }
+        List<User> userList = userRepository.findAll();
+        assertEquals(1, userList.size());
+
+        //Cleanup
+        userRepository.deleteById(id);
     }
 
     @Test
@@ -69,21 +70,22 @@ public class UserEntityTestSuite {
                 .isEnabled(true)
                 .build();
 
-        //When
         userRepository.save(user1);
         userRepository.save(user2);
-        Long user2Id = user2.getId();
 
+        //When
+        Long user1Id = user1.getId();
+        Long user2Id = user2.getId();
         int numberOfUsersBeforeDelete = userRepository.findAll().size();
         userRepository.deleteById(user2Id);
+        int numberOfUsersAfterDelete = userRepository.findAll().size();
 
         //Then
-        try {
-            assertEquals(2, numberOfUsersBeforeDelete);
-            assertEquals(1, userRepository.findAll().size());
-        } finally {
-            userRepository.deleteAll();
-        }
+        assertEquals(2, numberOfUsersBeforeDelete);
+        assertEquals(1, numberOfUsersAfterDelete);
+
+        //Cleanup
+        userRepository.deleteById(user1Id);
     }
 
     @Test
@@ -107,23 +109,51 @@ public class UserEntityTestSuite {
                 .isEnabled(true)
                 .build();
 
-        //When
         userRepository.save(user1);
         userRepository.save(user2);
+
+        //When
         String user1UserName = user1.getUsername();
         userRepository.findById(1L);
 
         //Then
-        try {
-            assertEquals("Kate", user1UserName);
-        } finally {
-            userRepository.deleteAll();
-        }
+        assertEquals("Kate", user1UserName);
+
+        //Cleanup
+        userRepository.deleteById(user1.getId());
+        userRepository.deleteById(user2.getId());
     }
 
     @Test
     public void OneToManyRelationWithOrderTest() {
         //Given
+        Order order1 = Order.builder()
+                .orderDate(LocalDate.now())
+                .shippingPrice(new BigDecimal("10.99"))
+                .isPaid(false)
+                .isSent(false)
+                .build();
+
+        orderRepository.save(order1);
+
+        Order order2 = Order.builder()
+                .orderDate(LocalDate.now())
+                .shippingPrice(new BigDecimal("10.99"))
+                .isPaid(false)
+                .isSent(false)
+                .build();
+
+        orderRepository.save(order2);
+
+        Order order3 = Order.builder()
+                .orderDate(LocalDate.now())
+                .shippingPrice(new BigDecimal("10.99"))
+                .isPaid(false)
+                .isSent(false)
+                .build();
+
+        orderRepository.save(order3);
+
         User user = User.builder()
                 .username("Kate")
                 .email("kate@poczta.pl")
@@ -134,46 +164,28 @@ public class UserEntityTestSuite {
                 .orders(new ArrayList<>())
                 .build();
 
-        Order order1 = Order.builder()
-                .orderDate(LocalDate.now())
-                .shippingPrice(new BigDecimal("10.99"))
-                .isPaid(false)
-                .isSent(false)
-                .build();
-
-        Order order2 = Order.builder()
-                .orderDate(LocalDate.now())
-                .shippingPrice(new BigDecimal("10.99"))
-                .isPaid(false)
-                .isSent(false)
-                .build();
-
-        Order order3 = Order.builder()
-                .orderDate(LocalDate.now())
-                .shippingPrice(new BigDecimal("10.99"))
-                .isPaid(false)
-                .isSent(false)
-                .build();
+        userRepository.save(user);
 
         //When
-        userRepository.save(user);
-        orderRepository.save(order1);
-        orderRepository.save(order2);
-        orderRepository.save(order3);
-
+        int numberOfUserOrdersBeforeAddingToUser = user.getOrders().size();
+        order1.setUser(user);
+        order2.setUser(user);
+        order3.setUser(user);
         user.getOrders().add(order1);
         user.getOrders().add(order2);
         user.getOrders().add(order3);
-
-        int numberOfUserOrders = user.getOrders().size();
+        int numberOfUserOrdersAfterAddingToUser = user.getOrders().size();
 
         //Then
-        try {
-            assertEquals(3, numberOfUserOrders);
-        } finally {
-            userRepository.deleteAll();
-            orderRepository.deleteAll();
-        }
+        assertEquals(3, orderRepository.findAll().size());
+        assertEquals(0, numberOfUserOrdersBeforeAddingToUser);
+        assertEquals(3, numberOfUserOrdersAfterAddingToUser);
+
+        //Cleanup
+        userRepository.deleteById(user.getId());
+        orderRepository.deleteById(order1.getId());
+        orderRepository.deleteById(order2.getId());
+        orderRepository.deleteById(order3.getId());
     }
 
     @Test
@@ -189,18 +201,17 @@ public class UserEntityTestSuite {
                 .orders(new ArrayList<>())
                 .build();
 
-        //When
         userRepository.save(user);
         user.setEnabled(false);
+
+        //When
         userRepository.save(user);
 
         //Then
-        try {
-            assertFalse(user.isEnabled());
-        } finally {
-            userRepository.deleteAll();
-            orderRepository.deleteAll();
-        }
+        assertFalse(user.isEnabled());
+
+        //Cleanup
+        userRepository.deleteById(user.getId());
     }
 
     @Test
@@ -237,8 +248,6 @@ public class UserEntityTestSuite {
                 .isSent(false)
                 .build();
 
-        //When
-        userRepository.save(user);
         orderRepository.save(order1);
         orderRepository.save(order2);
         orderRepository.save(order3);
@@ -246,18 +255,28 @@ public class UserEntityTestSuite {
         user.getOrders().add(order1);
         user.getOrders().add(order2);
         user.getOrders().add(order3);
-        user.getOrders().remove(order1);
 
+        //When
+        List<Order> orders = orderRepository.findAll();
+        int numberOfUserOrdersBeforeAddingToUser = user.getOrders().size();
 
-        int numberOfUserOrders = user.getOrders().size();
+        orderRepository.delete(order1);
+        int numberOfUserOrdersAfterAddingToUser = user.getOrders().size();
+        int numberOfOrdersInRepository = orderRepository.findAll().size();
+
+        int numberOfUserOrdersAfterDelete = user.getOrders().size();
+        System.out.println("number of Orders in Repository After Delete " + numberOfOrdersInRepository);
 
         //Then
-        try {
-            assertEquals(2, numberOfUserOrders);
-        } finally {
-            userRepository.deleteAll();
-            orderRepository.deleteAll();
-        }
+        assertEquals(0, numberOfUserOrdersBeforeAddingToUser);
+        assertEquals(3, numberOfUserOrdersAfterAddingToUser);
+        assertEquals(2, numberOfUserOrdersAfterDelete);
+
+        //Cleanup
+        orderRepository.deleteById(order2.getId());
+        orderRepository.deleteById(order3.getId());
+        System.out.println("Number of users " + userRepository.findAll().size());
+        System.out.println("Number of orders " + orderRepository.findAll().size());
     }
 
     @Test
@@ -294,29 +313,34 @@ public class UserEntityTestSuite {
                 .isSent(false)
                 .build();
 
-        //When
-        userRepository.save(user);
         orderRepository.save(order1);
         orderRepository.save(order2);
         orderRepository.save(order3);
+        userRepository.save(user);
 
+        //When
+        int userOrdersBeforeAddingOrdersToUser = user.getOrders().size();
         user.getOrders().add(order1);
         user.getOrders().add(order2);
         user.getOrders().add(order3);
-
+        int userOrdersAfterAddingOrdersToUser = user.getOrders().size();
+        List<User> users = userRepository.findAll();
+        int numberOfUsersBeforeDeletingUser = users.size();
         userRepository.delete(user);
+        int numberOfOrdersAfterDeletingUser = orderRepository.findAll().size();
+        int numberOfUsersAfterDeletingUser = userRepository.findAll().size();
 
-        int numberOfOrders = orderRepository.findAll().size();
-        int numberOfUsers = userRepository.findAll().size();
 
         //Then
-        try {
-            assertEquals(0, numberOfOrders);
-            assertEquals(0, numberOfUsers);
-        } finally {
-            userRepository.deleteAll();
-            orderRepository.deleteAll();
-        }
+        assertEquals(0, userOrdersBeforeAddingOrdersToUser);
+        assertEquals(3, userOrdersAfterAddingOrdersToUser);
+        assertEquals(1, numberOfUsersBeforeDeletingUser);
+        assertEquals(0, numberOfOrdersAfterDeletingUser);
+        assertEquals(0, numberOfUsersAfterDeletingUser);
+
+        //Cleanup
+        orderRepository.deleteById(order1.getId());
+        orderRepository.deleteById(order2.getId());
+        orderRepository.deleteById(order3.getId());
     }
 }
-
