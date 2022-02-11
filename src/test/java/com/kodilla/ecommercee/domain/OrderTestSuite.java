@@ -116,18 +116,24 @@ public class OrderTestSuite {
                 .name("Mleko")
                 .group(null)
                 .carts(new ArrayList<>())
+                .productDescription("hgf")
+                .price(new BigDecimal(5))
                 .build();
 
         Product water = Product.builder()
                 .name("Woda")
                 .group(null)
                 .carts(new ArrayList<>())
+                .productDescription("hgf")
+                .price(new BigDecimal(5))
                 .build();
 
         Product butter = Product.builder()
                 .name("masło")
                 .group(null)
                 .carts(new ArrayList<>())
+                .productDescription("ttft")
+                .price(new BigDecimal(7))
                 .build();
 
         productRepository.save(milk);
