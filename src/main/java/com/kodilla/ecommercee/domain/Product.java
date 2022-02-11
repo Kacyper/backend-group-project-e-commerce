@@ -3,17 +3,20 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Entity(name = "products")
+@NamedQuery(
+        name = "Product.retrieveAvailableProducts",
+        query = "FROM PRODUCTS WHERE isAvailable = true")
+@Entity(name = "PRODUCTS")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Product {
 
     @Id
@@ -33,6 +36,10 @@ public class Product {
     @NotNull
     @Column(name = "PRODUCT_DESCRIPTION")
     private String productDescription;
+
+    @NotNull
+    @Column(name = "IS_AVAILABLE")
+    private boolean isAvailable;
 
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")
