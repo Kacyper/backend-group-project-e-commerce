@@ -36,7 +36,12 @@ public class Product {
     )
     private List<Product> products;
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH
+    },
             mappedBy = "products"
     )
     private List<Cart> carts;
