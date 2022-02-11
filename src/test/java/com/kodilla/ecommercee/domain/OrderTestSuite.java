@@ -58,7 +58,6 @@ public class OrderTestSuite {
     public void testRetrieveAllOrders() {
         //Given
         Order order1 = Order.builder()
-                .cart(null)
                 .orderDate(LocalDate.now())
                 .isPaid(false)
                 .isSent(false)
@@ -66,7 +65,6 @@ public class OrderTestSuite {
                 .build();
 
         Order order2 = Order.builder()
-                .cart(null)
                 .orderDate(LocalDate.now())
                 .isPaid(false)
                 .isSent(false)
@@ -109,7 +107,6 @@ public class OrderTestSuite {
         orderRepository.save(order1);
 
         Cart cart1 = Cart.builder()
-                .cartName("Koszyk testowy numer 1")
                 .products(new ArrayList<>())
                 .build();
 
@@ -138,7 +135,6 @@ public class OrderTestSuite {
         productRepository.save(butter);
 
         user1.getOrders().add(order1);
-        order1.setCart(cart1);
         cart1.getProducts().add(milk);
         cart1.getProducts().add(water);
         cart1.getProducts().add(butter);
