@@ -38,7 +38,4 @@ public class Cart {
     )
     private List<Product> products;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_USER")
-    private User user;
 }
