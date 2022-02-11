@@ -1,11 +1,12 @@
 package com.kodilla.ecommercee.domain;
 
 import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity(name = "GROUPS")
+@Entity(name = "PRODUCT_GROUPS")
 @Getter
 @Setter
 @Builder
