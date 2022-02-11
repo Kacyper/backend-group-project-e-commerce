@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 @NamedQuery(
         name = "Product.retrieveAvailableProducts",
         query = "FROM PRODUCTS WHERE isAvailable = true")
