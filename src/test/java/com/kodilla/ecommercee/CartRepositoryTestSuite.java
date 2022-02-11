@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@ActiveProfiles("MySQL-Test")
+//@ActiveProfiles("MySQL-Test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CartRepositoryTestSuite {
@@ -40,7 +40,6 @@ public class CartRepositoryTestSuite {
     public void CartEntityTest(){
         //given
         Cart cart = Cart.builder()
-                .cartName("MyCart")
                 .products(new ArrayList<>())
                 .build();
 
@@ -81,7 +80,6 @@ public class CartRepositoryTestSuite {
                 .build();
 
         Cart cart1 = Cart.builder()
-                .cartName("MyCart")
                 .products(new ArrayList<>())
                 .build();
 
@@ -129,15 +127,12 @@ public class CartRepositoryTestSuite {
     public void deleteCartTest() {
         //given
         Cart cartA = Cart.builder()
-                .cartName("MyCart1")
                 .products(new ArrayList<>())
                 .build();
         Cart cartB = Cart.builder()
-                .cartName("MyCart2")
                 .products(new ArrayList<>())
                 .build();
         Cart cartC = Cart.builder()
-                .cartName("MyCart3")
                 .products(new ArrayList<>())
                 .build();
 
@@ -170,8 +165,6 @@ public class CartRepositoryTestSuite {
         }
     }
 
-
-
     @Transactional
     @Test
     public void deleteCartNotProductsTest(){
@@ -193,7 +186,6 @@ public class CartRepositoryTestSuite {
                 .build();
 
         Cart cart11 = Cart.builder()
-                .cartName("MyCart")
                 .products(new ArrayList<>())
                 .build();
 
@@ -257,7 +249,6 @@ public class CartRepositoryTestSuite {
                 .build();
 
         Cart cart12 = Cart.builder()
-                .cartName("MyCart")
                 .products(new ArrayList<>())
                 .build();
 
@@ -307,44 +298,42 @@ public class CartRepositoryTestSuite {
         }
     }
 
-    @Test
-    public void cartHasOrder(){
-        //given
-        Cart cart13 = Cart.builder()
-                .cartName("MyCart")
-                .products(new ArrayList<>())
-                .build();
-
-        Order order13 = Order.builder()
-                .orderDate(LocalDate.now())
-                .shippingPrice(new BigDecimal(113))
-                .isSent(true)
-                .isPaid(true)
-                .build();
-        //when
-        cart13.setOrder(order13);
-        order13.setCart(cart13);
-
-        cartRepository.save(cart13);
-        orderRepository.save(order13);
-
-        int carts = cartRepository.findAll().size();
-        int orders = orderRepository.findAll().size();
-        Long cart13Id = cart13.getId();
-        Long order13Id = order13.getId();
-
-        //then
-        assertEquals(1, carts);
-        assertEquals(1, orders);
-
-        //cleanUp
-        try {
-            cartRepository.deleteById(cart13Id);
-            orderRepository.deleteById(order13Id);
-        } catch (Exception e){
-            System.out.println("nie znaleziono");
-        }
-    }
+//    @Test
+//    public void cartHasOrder(){
+//        //given
+//        Cart cart13 = Cart.builder()
+//                .products(new ArrayList<>())
+//                .build();
+//
+//        Order order13 = Order.builder()
+//                .orderDate(LocalDate.now())
+//                .shippingPrice(new BigDecimal(113))
+//                .isSent(true)
+//                .isPaid(true)
+//                .build();
+//        //when
+//
+//
+//        cartRepository.save(cart13);
+//        orderRepository.save(order13);
+//
+//        int carts = cartRepository.findAll().size();
+//        int orders = orderRepository.findAll().size();
+//        Long cart13Id = cart13.getId();
+//        Long order13Id = order13.getId();
+//
+//        //then
+//        assertEquals(1, carts);
+//        assertEquals(1, orders);
+//
+//        //cleanUp
+//        try {
+//            cartRepository.deleteById(cart13Id);
+//            orderRepository.deleteById(order13Id);
+//        } catch (Exception e){
+//            System.out.println("nie znaleziono");
+//        }
+//    }
 
     @Test
     public void cleanUpTest(){
@@ -373,7 +362,6 @@ public class CartRepositoryTestSuite {
                 .build();
 
         Cart cart14 = Cart.builder()
-                .cartName("MyCart")
                 .products(new ArrayList<>())
                 .build();
 
@@ -395,5 +383,4 @@ public class CartRepositoryTestSuite {
        Optional<Cart> cart12 = cartRepository.findById(55L);
        System.out.println("cokolwiek");
     }
-
 }
