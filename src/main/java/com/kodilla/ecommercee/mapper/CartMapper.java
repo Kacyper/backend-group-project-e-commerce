@@ -12,14 +12,12 @@ public class CartMapper {
     public Cart mapToCart(final CartDto cartDto) {
         return Cart.builder()
                 .id(cartDto.getId())
-                .cartName(cartDto.getName())
                 .build();
     }
 
     public CartDto mapToCartDto(final Cart cart) {
         return CartDto.builder()
                 .id(cart.getId())
-                .name(cart.getCartName())
                 .build();
     }
 

@@ -19,14 +19,17 @@ public class Cart {
     @NotNull
     @Column(name = "ID_CART", unique = true)
     private Long id;
-    @NotNull
-    @Column(name = "NAME_CART")
-    private String cartName;
 
     @ManyToMany(
-            targetEntity = Product.class,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+        targetEntity = Product.class,
+        cascade = {
+                CascadeType.PERSIST,
+                CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.REFRESH
+        },
+        fetch = FetchType.LAZY
+
     )
     @JoinTable(
             name = "CARTS_HAVE_PRODUCTS",
@@ -35,11 +38,4 @@ public class Cart {
     )
     private List<Product> products;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_ORDER")
-    private Order order;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_USER")
-    private User user;
 }

@@ -59,7 +59,6 @@ public class DbServiceCart {
                 .shippingPrice(shippingPrice)
                 .isSent(false)
                 .isPaid(false)
-                .cart(cart)
                 .build();
     }
 
