@@ -20,13 +20,15 @@ public class Cart {
     @NotNull
     @Column(name = "ID_CART", unique = true)
     private Long id;
-    @NotNull
-    @Column(name = "NAME_CART")
-    private String cartName;
 
     @ManyToMany(
         targetEntity = Product.class,
-        cascade = CascadeType.ALL,
+        cascade = {
+                CascadeType.PERSIST,
+                CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.REFRESH
+        },
         fetch = FetchType.LAZY
     )
     @JoinTable(
@@ -37,6 +39,6 @@ public class Cart {
     private List<Product> products;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_ORDER")
-    private Order order;
+    @JoinColumn(name = "ID_USER")
+    private User user;
 }
