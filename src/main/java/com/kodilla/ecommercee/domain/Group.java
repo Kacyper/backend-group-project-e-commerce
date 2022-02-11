@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "GROUPS")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
