@@ -134,16 +134,12 @@ public class UserEntityTestSuite {
                 .isSent(false)
                 .build();
 
-        orderRepository.save(order1);
-
         Order order2 = Order.builder()
                 .orderDate(LocalDate.now())
                 .shippingPrice(new BigDecimal("10.99"))
                 .isPaid(false)
                 .isSent(false)
                 .build();
-
-        orderRepository.save(order2);
 
         Order order3 = Order.builder()
                 .orderDate(LocalDate.now())
@@ -152,7 +148,14 @@ public class UserEntityTestSuite {
                 .isSent(false)
                 .build();
 
+        orderRepository.save(order1);
+        orderRepository.save(order2);
         orderRepository.save(order3);
+
+        List<Order> orders = orderRepository.findAll();
+        orders.add(order1);
+        orders.add(order1);
+        orders.add(order1);
 
         User user = User.builder()
                 .username("Kate")
@@ -161,7 +164,7 @@ public class UserEntityTestSuite {
                 .createDate(LocalDateTime.now())
                 .isActive(true)
                 .isEnabled(true)
-                .orders(new ArrayList<>())
+                .orders(orderRepository.findAll())
                 .build();
 
         userRepository.save(user);
@@ -177,6 +180,7 @@ public class UserEntityTestSuite {
         int numberOfUserOrdersAfterAddingToUser = user.getOrders().size();
 
         //Then
+        assertEquals(3, userRepository.findAll(user.getOrders().size()));
         assertEquals(3, orderRepository.findAll().size());
         assertEquals(0, numberOfUserOrdersBeforeAddingToUser);
         assertEquals(3, numberOfUserOrdersAfterAddingToUser);
