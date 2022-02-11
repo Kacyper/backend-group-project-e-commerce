@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group {
