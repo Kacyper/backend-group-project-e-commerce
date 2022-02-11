@@ -28,7 +28,7 @@ public class Cart {
 
     @ManyToMany(
             targetEntity = Product.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                    // CascadeType.MERGE,

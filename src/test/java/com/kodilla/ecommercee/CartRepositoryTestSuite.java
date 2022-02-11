@@ -17,10 +17,10 @@ import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ActiveProfiles("MySQL-Test")
 @RunWith(SpringRunner.class)
@@ -390,5 +390,10 @@ public class CartRepositoryTestSuite {
 
     }
 
+    @Test
+    public void testTest(){
+       Optional<Cart> cart12 = cartRepository.findById(55L);
+       System.out.println("cokolwiek");
+    }
 
 }
