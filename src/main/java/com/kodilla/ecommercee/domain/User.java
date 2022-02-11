@@ -1,7 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -17,7 +20,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     @Column(name = "ID_USER", unique = true)
     private Long id;
 
@@ -33,7 +37,6 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
@@ -52,4 +55,8 @@ public class User {
             cascade = CascadeType.ALL
     )
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_CART")
+    private Cart cart;
 }

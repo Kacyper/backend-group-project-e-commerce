@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
 import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -39,9 +40,10 @@ public class Product {
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
-          //  CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH},
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH
+    },
             mappedBy = "products"
     )
     private List<Cart> carts;
