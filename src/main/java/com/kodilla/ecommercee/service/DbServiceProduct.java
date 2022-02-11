@@ -32,6 +32,8 @@ public class DbServiceProduct {
             throws ProductNotFoundException {
         Product productFromDb = repository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
+        productFromDb.setPrice(product.getPrice());
+        productFromDb.setProductDescription(product.getProductDescription());
         productFromDb.setName(product.getName());
         productFromDb.setGroup(product.getGroup());
 
