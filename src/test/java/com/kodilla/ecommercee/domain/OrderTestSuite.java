@@ -10,11 +10,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -115,7 +117,7 @@ public class OrderTestSuite {
         Product milk = Product.builder()
                 .name("Mleko")
                 .group(null)
-                .carts(new ArrayList<>())
+                .isAvailable(true)
                 .productDescription("hgf")
                 .price(new BigDecimal(5))
                 .build();
@@ -123,7 +125,7 @@ public class OrderTestSuite {
         Product water = Product.builder()
                 .name("Woda")
                 .group(null)
-                .carts(new ArrayList<>())
+                .isAvailable(true)
                 .productDescription("hgf")
                 .price(new BigDecimal(5))
                 .build();
@@ -131,7 +133,7 @@ public class OrderTestSuite {
         Product butter = Product.builder()
                 .name("masło")
                 .group(null)
-                .carts(new ArrayList<>())
+                .isAvailable(true)
                 .productDescription("ttft")
                 .price(new BigDecimal(7))
                 .build();
