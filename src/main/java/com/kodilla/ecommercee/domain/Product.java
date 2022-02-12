@@ -3,10 +3,10 @@ package com.kodilla.ecommercee.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
-
 
 @NamedQuery(
         name = "Product.retrieveAvailableProducts",
@@ -44,21 +44,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")
     public Group group;
-
-    @OneToMany(
-            mappedBy = "group",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    private List<Product> products;
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH
-    },
-            mappedBy = "products"
-    )
-    private List<Cart> carts;
 }
