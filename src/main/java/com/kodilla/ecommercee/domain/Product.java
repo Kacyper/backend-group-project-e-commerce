@@ -44,13 +44,5 @@ public class Product {
     @JoinColumn(name = "ID_GROUP")
     public Group group;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH
-    },
-            mappedBy = "products"
-    )
-    private List<Cart> carts;
+
 }
