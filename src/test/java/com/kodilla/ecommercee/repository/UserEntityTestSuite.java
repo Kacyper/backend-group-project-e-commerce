@@ -118,7 +118,7 @@ public class UserEntityTestSuite {
     public void OneToManyRelationWithOrderTest() {
         //Given
         Order order = Order.builder()
-                .orderDate(LocalDate.of(2022, 01, 23))
+                .orderDate(LocalDate.of(2022, 1, 23))
                 .shippingPrice(new BigDecimal("12.99"))
                 .isPaid(false)
                 .isSent(false)
@@ -222,5 +222,4 @@ public class UserEntityTestSuite {
 
         //Cleanup
     }
-    
 }
