@@ -1,6 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -17,6 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     @Column(name = "ID_USER", unique = true)
     private Long id;
 
@@ -50,4 +55,8 @@ public class User {
             cascade = CascadeType.ALL
     )
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_CART")
+    private Cart cart;
 }
