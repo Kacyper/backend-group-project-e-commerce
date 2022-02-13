@@ -40,10 +40,6 @@ public class Order {
     @Column(name = "IS_PAID")
     private boolean isPaid;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_CART")
-    private Cart cart;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")
     private User user;

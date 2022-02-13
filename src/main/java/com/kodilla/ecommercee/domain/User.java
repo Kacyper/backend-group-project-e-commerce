@@ -55,4 +55,8 @@ public class User {
             cascade = CascadeType.ALL
     )
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_CART")
+    private Cart cart;
 }
