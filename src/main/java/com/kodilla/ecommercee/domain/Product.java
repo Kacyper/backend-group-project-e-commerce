@@ -43,6 +43,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")
     public Group group;
-
-
 }
