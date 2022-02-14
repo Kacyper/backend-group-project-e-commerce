@@ -1,33 +1,38 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.exception.CartNotFoundException;
-import com.kodilla.ecommercee.exception.ProductNotFoundInCartException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DbServiceCart {
 
     private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
 
     public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
-        return cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new).getProducts();
+        return cartRepository.findById(idCart)
+                .orElseThrow(CartNotFoundException::new)
+                .getProducts()
+                .stream()
+                .filter(product -> product.isAvailable() == true)
+                .collect(Collectors.toList());
     }
 
-    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
+    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+        Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
 
-        Product product = cart.getProducts().stream()
-                .filter(p -> p.getId().equals(idProduct))
-                .findFirst()
-                .orElseThrow(ProductNotFoundInCartException::new);
+        if (product.isAvailable()) {
+            cart.getProducts().add(product);
+            return cart;
 
-        cart.getProducts().add(product);
-        return cart;
+        } else throw new ProductNotAvailableException();
     }
 
     public Cart deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
