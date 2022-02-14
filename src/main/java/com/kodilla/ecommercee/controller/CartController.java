@@ -42,11 +42,4 @@ public class CartController {
         dbServiceCart.deleteFromCart(idCart, idProduct);
         return ResponseEntity.ok().build();
     }
-
-//    @PostMapping(value = "/createOrder/{idCart}")
-//    public ResponseEntity<Void> createOrder(@PathVariable Long idCart) throws CartNotFoundException {
-//        Order order = dbServiceCart.createOrder(idCart);
-//        dbServiceOrder.saveOrder(order);
-//        return ResponseEntity.ok().build();
-//    }
 }
