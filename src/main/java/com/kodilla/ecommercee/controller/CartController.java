@@ -17,13 +17,12 @@ import java.util.*;
 public class CartController {
 
     private final DbServiceCart dbServiceCart;
-    private final DbServiceOrder dbServiceOrder;
     private final CartMapper cartMapper;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) {
-        Cart cart = cartMapper.mapToCart(cartDto);
-        dbServiceCart.saveCart(cart);
+    @PostMapping
+    public ResponseEntity<Void> createCart() {
+        CartDto cartDto = new CartDto();
+        dbServiceCart.saveCart(cartMapper.mapToCart(cartDto));
         return ResponseEntity.ok().build();
     }
 
