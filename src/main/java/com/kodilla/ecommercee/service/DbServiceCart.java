@@ -46,12 +46,4 @@ public class DbServiceCart {
 
         cart.getProducts().remove(product);
     }
-
-    private BigDecimal countTotalPrice(BigDecimal shippingPrice, List<Product> products) {
-        BigDecimal productsSum = products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        return productsSum.add(shippingPrice);
-    }
 }
