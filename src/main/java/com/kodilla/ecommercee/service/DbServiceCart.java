@@ -21,9 +21,7 @@ public class DbServiceCart {
     }
 
     public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
-        cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
-        List<Product> products = cartRepository.findById(idCart).get().getProducts();
-        return products;
+        return cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new).getProducts();
     }
 
     public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
@@ -34,7 +32,7 @@ public class DbServiceCart {
                 .findFirst()
                 .orElseThrow(ProductNotFoundInCartException::new);
 
-        cart.getProducts().remove(product);
+        cart.getProducts().add(product);
         return cart;
     }
 
@@ -47,19 +45,6 @@ public class DbServiceCart {
                 .orElseThrow(ProductNotFoundInCartException::new);
 
         cart.getProducts().remove(product);
-    }
-
-    public Order createOrder(Long idCart) throws CartNotFoundException {
-        Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
-        BigDecimal shippingPrice = new BigDecimal(15);
-        BigDecimal totalPrice = countTotalPrice(shippingPrice, cart.getProducts());
-
-        return Order.builder()
-                .orderDate(LocalDate.now())
-                .shippingPrice(shippingPrice)
-                .isSent(false)
-                .isPaid(false)
-                .build();
     }
 
     private BigDecimal countTotalPrice(BigDecimal shippingPrice, List<Product> products) {
