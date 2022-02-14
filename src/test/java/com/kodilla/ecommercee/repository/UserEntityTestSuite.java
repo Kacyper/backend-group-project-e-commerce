@@ -64,28 +64,17 @@ public class UserEntityTestSuite {
                 .isEnabled(true)
                 .build();
 
-        User user2 = User.builder()
-                .username("Tom")
-                .email("tom@poczta.pl")
-                .password("aaaa1111")
-                .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
-                .build();
-
         userRepository.save(user1);
-        userRepository.save(user2);
 
         //When
-        String user1UserName = user1.getUsername();
-        userRepository.findById(1L);
+        Long id = user1.getId();
+        Long readId = userRepository.findById(id).get().getId();
 
         //Then
-        assertEquals("Kate", user1UserName);
+        assertEquals(id, readId);
 
         //Cleanup
         userRepository.deleteById(user1.getId());
-        userRepository.deleteById(user2.getId());
     }
 
     @Test
@@ -175,9 +164,9 @@ public class UserEntityTestSuite {
         //When
         user.setCart(new Cart());
         cartRepository.save(cart);
-        int numberOfUsers = userRepository.findAll().size();
 
         //Then
+        int numberOfUsers = userRepository.findAll().size();
         assertEquals(1, numberOfUsers);
         assertEquals(1, cartRepository.findAll().size());
         assertEquals(cart.getId(), userRepository.findAll().get(0).getCart().getId());

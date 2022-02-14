@@ -16,6 +16,8 @@ import java.util.List;
 @Builder
 @Data
 @Entity
+@NamedEntityGraph(name = "graph.User.orders",
+        attributeNodes = @NamedAttributeNode("orders"))
 @Table(name = "USERS")
 public class User {
 
@@ -52,8 +54,7 @@ public class User {
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            cascade = CascadeType.ALL
     )
     private List<Order> orders = new ArrayList<>();
 
