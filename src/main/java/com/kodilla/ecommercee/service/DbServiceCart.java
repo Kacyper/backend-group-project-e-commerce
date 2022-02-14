@@ -30,7 +30,7 @@ public class DbServiceCart {
         return cart;
     }
 
-    public void deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
+    public Cart deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
 
         Product product = cart.getProducts().stream()
@@ -39,5 +39,6 @@ public class DbServiceCart {
                 .orElseThrow(ProductNotFoundInCartException::new);
 
         cart.getProducts().remove(product);
+        return cart;
     }
 }
