@@ -19,13 +19,6 @@ public class CartController {
     private final DbServiceCart dbServiceCart;
     private final CartMapper cartMapper;
 
-    @PostMapping
-    public ResponseEntity<Void> createCart() {
-        CartDto cartDto = new CartDto();
-        dbServiceCart.saveCart(cartMapper.mapToCart(cartDto));
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/{idCart}")
     public ResponseEntity <List<ProductDto>> getProductsFromCart(@PathVariable Long idCart) throws CartNotFoundException {
         return ResponseEntity.ok(ProductMapper.mapToListDto(dbServiceCart.getAllProducts(idCart)));
