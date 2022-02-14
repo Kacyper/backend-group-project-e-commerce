@@ -14,10 +14,6 @@ public class DbServiceCart {
 
     private final CartRepository cartRepository;
 
-    public Cart saveCart(final Cart cart) {
-        return cartRepository.save(cart);
-    }
-
     public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
         return cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new).getProducts();
     }
