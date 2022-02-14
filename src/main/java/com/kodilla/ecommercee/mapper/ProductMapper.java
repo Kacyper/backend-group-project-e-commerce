@@ -12,8 +12,8 @@ public class ProductMapper {
         return Product.builder()
                 .id(dto.getId())
                 .name(dto.getName())
-//                .price(dto.getPrice())
-//                .productDescription(dto.getProductDescription())
+                .price(dto.getPrice())
+                .productDescription(dto.getProductDescription())
 //                .group() need Group mapper implementation
                 .build();
     }
