@@ -33,8 +33,8 @@ public class DbServiceProduct {
         Product productFromDb = repository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
         productFromDb.setName(product.getName());
-//        productFromDb.setPrice(product.getPrice());
-//        productFromDb.setProductDescription(product.getProductDescription());
+        productFromDb.setPrice(product.getPrice());
+        productFromDb.setProductDescription(product.getProductDescription());
         productFromDb.setGroup(product.getGroup());
 
         return productFromDb;

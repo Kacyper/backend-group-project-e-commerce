@@ -52,7 +52,7 @@ public class DbServiceCart {
     public Order createOrder(Long idCart) throws CartNotFoundException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         BigDecimal shippingPrice = new BigDecimal(15);
-//        BigDecimal totalPrice = countTotalPrice(shippingPrice, cart.getProducts());
+        BigDecimal totalPrice = countTotalPrice(shippingPrice, cart.getProducts());
 
         return Order.builder()
                 .orderDate(LocalDate.now())
@@ -61,11 +61,11 @@ public class DbServiceCart {
                 .isPaid(false)
                 .build();
     }
-//    private BigDecimal countTotalPrice(BigDecimal shippingPrice, List<Product> products) {
-//        BigDecimal productsSum = products.stream()
-//                .map(Product::getPrice)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    private BigDecimal countTotalPrice(BigDecimal shippingPrice, List<Product> products) {
+        BigDecimal productsSum = products.stream()
+                .map(Product::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 //
-//        return productsSum.add(shippingPrice);
-//    }
+        return productsSum.add(shippingPrice);
+    }
 }
