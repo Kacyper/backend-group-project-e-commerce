@@ -30,8 +30,7 @@ public class CartController {
     }
 
     @DeleteMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<Void> deleteFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
-        dbServiceCart.deleteFromCart(idCart, idProduct);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
+        return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.deleteFromCart(idCart, idProduct)));
     }
 }
