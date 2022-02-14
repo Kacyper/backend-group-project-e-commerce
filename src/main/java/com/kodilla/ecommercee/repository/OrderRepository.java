@@ -10,10 +10,4 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Long> {
     @Override
     List<Order> findAll();
-
-    @Override
-    Order save(Order order);
-
-    @Override
-    void delete(Order order);
 }

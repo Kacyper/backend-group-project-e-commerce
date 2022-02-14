@@ -22,31 +22,30 @@ import java.util.List;
 public class CartRepositoryTestSuite {
 
     @Autowired
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
    @Test
-    public void cartEntityTest(){
-        //given
+    public void testSaveCart(){
+        //Given
         Cart cart = Cart.builder()
                 .products(new ArrayList<>())
                 .build();
 
-        //when
+        //When
         cartRepository.save(cart);
         Long id = cart.getId();
-
         List <Cart> cartsList = cartRepository.findAll();
 
-        //then
+        //Then
         assertEquals(1, cartsList.size());
 
-        //cleanup
+        //CleanUp
        try {
            cartRepository.deleteById(id);
        } catch (Exception e){
@@ -55,8 +54,8 @@ public class CartRepositoryTestSuite {
     }
 
     @Test
-    public void cartsHaveProductsTest(){
-        //given
+    public void testCartsHaveProducts(){
+        //Given
         Product soap1 = Product.builder()
                 .name("soap")
                 .price(new BigDecimal(5))
@@ -77,21 +76,23 @@ public class CartRepositoryTestSuite {
                 .products(new ArrayList<>())
                 .build();
 
-        //when
+        //When
         cart1.getProducts().add(soap1);
         cart1.getProducts().add(shampoo1);
 
         cartRepository.save(cart1);
         Long cart1Id = cart1.getId();
+
         productRepository.save(shampoo1);
         Long shampoo1Id = shampoo1.getId();
+
         productRepository.save(soap1);
         Long soap1Id = soap1.getId();
 
         List<Cart> carts = cartRepository.findAll();
         List<Product> products = productRepository.findAll();
 
-        //then
+        //Then
         assertEquals(2, products.size());
         assertEquals(1, carts.size());
         assertEquals(2, cart1.getProducts().size());
@@ -99,7 +100,7 @@ public class CartRepositoryTestSuite {
         assertTrue(cart1.getProducts().contains(shampoo1));
         assertTrue(cart1.getProducts().contains(soap1));
 
-        //cleanUp
+        //CleanUp
         try{
         cartRepository.deleteById(cart1Id);
         productRepository.deleteById(shampoo1Id);
@@ -111,7 +112,7 @@ public class CartRepositoryTestSuite {
     }
 
      @Test
-    public void userHasCart(){
+    public void testUserHasCart(){
         //Given
          Cart myCart = Cart.builder()
                  .products(new ArrayList<>())
@@ -126,12 +127,12 @@ public class CartRepositoryTestSuite {
                  .isEnabled(true)
                  .build();
 
-         //when
+         //When
          user.setCart(myCart);
          userRepository.save(user);
          cartRepository.save(myCart);
 
-         //then
+         //Then
          assertEquals(1, userRepository.findAll().size());
          assertEquals(1, cartRepository.findAll().size());
 
