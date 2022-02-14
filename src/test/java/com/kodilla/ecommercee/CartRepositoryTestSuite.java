@@ -129,13 +129,24 @@ public class CartRepositoryTestSuite {
 
          //When
          user.setCart(myCart);
+
          userRepository.save(user);
+         Long userId = user.getId();
+
          cartRepository.save(myCart);
+         Long cartId = myCart.getId();
 
          //Then
          assertEquals(1, userRepository.findAll().size());
          assertEquals(1, cartRepository.findAll().size());
 
          assertEquals(myCart, user.getCart());
+
+         //CleanUp
+         try {
+             userRepository.deleteById(userId);
+         } catch (Exception e){
+             System.out.println("nie ma takiego uzytkownika");
+         }
      }
 }
