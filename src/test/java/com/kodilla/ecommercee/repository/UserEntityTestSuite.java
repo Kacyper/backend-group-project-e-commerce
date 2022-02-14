@@ -30,7 +30,7 @@ public class UserEntityTestSuite {
     private CartRepository cartRepository;
 
     @Test
-    public void createNewUserTest() {
+    public void testSaveUser() {
         //Given
         User user = User.builder()
                 .username("Kate")
@@ -42,9 +42,9 @@ public class UserEntityTestSuite {
                 .build();
         //When
         userRepository.save(user);
-        Long id = user.getId();
 
         //Then
+        Long id = user.getId();
         List<User> userList = userRepository.findAll();
         assertEquals(1, userList.size());
 
@@ -53,7 +53,7 @@ public class UserEntityTestSuite {
     }
 
     @Test
-    public void findUserByIDTest() {
+    public void testFindUserByID() {
         //Given
         User user1 = User.builder()
                 .username("Kate")
@@ -89,7 +89,7 @@ public class UserEntityTestSuite {
     }
 
     @Test
-    public void UserUpdateTest() {
+    public void testUpdateUser() {
         //Given
         User user = User.builder()
                 .username("Kate")
@@ -102,9 +102,9 @@ public class UserEntityTestSuite {
                 .build();
 
         userRepository.save(user);
-        user.setEnabled(false);
 
         //When
+        user.setEnabled(false);
         userRepository.save(user);
 
         //Then
@@ -115,7 +115,7 @@ public class UserEntityTestSuite {
     }
 
     @Test
-    public void OneToManyRelationWithOrderTest() {
+    public void testAddOrdersToUser() {
         //Given
         Order order = Order.builder()
                 .orderDate(LocalDate.of(2022, 1, 23))
@@ -144,9 +144,9 @@ public class UserEntityTestSuite {
         //When
         List<User> users = userRepository.findAll();
         int numberOfUsers = userRepository.findAll().size();
-        LocalDate orderDate = users.get(0).getOrders().get(0).getOrderDate();
 
         //Then
+        LocalDate orderDate = users.get(0).getOrders().get(0).getOrderDate();
         assertEquals(1, numberOfUsers);
         assertEquals(LocalDate.of(2022, 1, 23), orderDate);
 
@@ -156,7 +156,7 @@ public class UserEntityTestSuite {
     }
 
     @Test
-    public void OneToOneRelationWithCartTest() {
+    public void testAddCartToUser() {
         //Given
         Cart cart = new Cart();
 
@@ -171,10 +171,10 @@ public class UserEntityTestSuite {
                 .build();
 
         userRepository.save(user);
-        user.setCart(new Cart());
-        cartRepository.save(cart);
 
         //When
+        user.setCart(new Cart());
+        cartRepository.save(cart);
         int numberOfUsers = userRepository.findAll().size();
 
         //Then
@@ -185,41 +185,5 @@ public class UserEntityTestSuite {
         //Cleanup
         userRepository.deleteById(user.getId());
         cartRepository.deleteAll();
-    }
-
-    @Test
-    public void UserRemovalRemovesCartTest() {
-        //Given
-        Cart cart = new Cart();
-
-        User user = User.builder()
-                .username("Kate")
-                .email("kate@poczta.pl")
-                .password("aaaa1111")
-                .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
-                .cart(cart)
-                .build();
-
-        userRepository.save(user);
-        user.setCart(new Cart());
-        cartRepository.save(cart);
-        int userRepositoryBeforeUserRemoval = cartRepository.findAll().size();
-        int cartRepositoryBeforeUserRemoval = cartRepository.findAll().size();
-        userRepository.deleteById(user.getId());
-
-        //When
-        int userRepositoryAfterUserRemoval = cartRepository.findAll().size();
-        int cartRepositoryAfterUserRemoval = cartRepository.findAll().size();
-
-        //Then
-
-        assertEquals(1, userRepositoryBeforeUserRemoval);
-        assertEquals(1, cartRepositoryBeforeUserRemoval);
-        assertEquals(0, userRepositoryAfterUserRemoval);
-        assertEquals(0, cartRepositoryAfterUserRemoval);
-
-        //Cleanup
     }
 }
