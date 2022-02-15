@@ -1,6 +1,6 @@
-package com.kodilla.ecommercee.domain;
+package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.repository.OrderRepository;
+import com.kodilla.ecommercee.domain.Order;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
