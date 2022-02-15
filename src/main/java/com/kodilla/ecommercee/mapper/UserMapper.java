@@ -17,8 +17,8 @@ public class UserMapper {
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
                 .createDate(userDto.getCreateDate())
-                .isActive(userDto.isActive())
-                .isEnabled(userDto.isEnabled())
+                .active(userDto.isActive())
+                .enabled(userDto.isEnabled())
                 .build();
     }
 
@@ -29,8 +29,8 @@ public class UserMapper {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .createDate(user.getCreateDate())
-                .isActive(user.isActive())
-                .isEnabled(user.isEnabled())
+                .active(user.isActive())
+                .enabled(user.isEnabled())
                 .build();
     }
 

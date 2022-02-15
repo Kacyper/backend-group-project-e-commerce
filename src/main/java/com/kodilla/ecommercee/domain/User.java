@@ -1,12 +1,13 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,17 +38,21 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @JsonFormat(pattern = "YYYY-MM-DD")
     @NotNull
     @Column(name = "CREATE_DATE")
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
     @NotNull
-    @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    @Column(name = "ACTIVE")
+    private boolean active;
 
     @NotNull
-    @Column(name = "IS_ENABLED")
-    private boolean isEnabled;
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
+    private String userKey = null;
+    private Long KeyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,
