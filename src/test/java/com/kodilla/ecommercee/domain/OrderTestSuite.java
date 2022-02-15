@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
-import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
-import com.kodilla.ecommercee.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +21,6 @@ public class OrderTestSuite {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
     @Test
     public void testSaveOrder() {
         //Given
@@ -47,9 +35,13 @@ public class OrderTestSuite {
         //When
         orderRepository.save(order1);
         List<Order> orders = orderRepository.findAll();
+        Long id1 = order1.getId();
 
         //Then
         assertEquals(1, orders.size());
+
+        //CleanUp
+        orderRepository.deleteById(id1);
     }
 
     @Test
