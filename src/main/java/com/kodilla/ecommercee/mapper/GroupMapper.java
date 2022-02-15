@@ -13,7 +13,7 @@ public class GroupMapper {
         return Group.builder()
                 .id(groupDto.getId())
                 .groupName(groupDto.getGroupName())
-                .products(new ArrayList<>())
+                .products(groupDto.getProducts())
                 .build();
     }
 
@@ -21,7 +21,7 @@ public class GroupMapper {
         return GroupDto.builder()
                 .id(group.getId())
                 .groupName(group.getGroupName())
-                .products(new ArrayList<>())
+                .products(group.getProducts())
                 .build();
     }
 

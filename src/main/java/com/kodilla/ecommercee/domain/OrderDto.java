@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -14,7 +15,8 @@ import java.time.LocalDate;
 public class OrderDto {
     private Long id;
     private LocalDate orderDate;
-    private double shippingPrice;
+    private BigDecimal shippingPrice;
+    private BigDecimal totalPrice;
     private boolean isSent;
     private boolean isPaid;
 }
