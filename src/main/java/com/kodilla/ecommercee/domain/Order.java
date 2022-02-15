@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Order {
     @Column(name = "ID_ORDER", unique = true)
     private Long id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     @Column(name = "ORDER_DATE")
     private LocalDate orderDate;
@@ -31,6 +33,10 @@ public class Order {
     @NotNull
     @Column(name = "SHIPPING_PRICE")
     private BigDecimal shippingPrice;
+
+    @NotNull
+    @Column(name = "TOTAL_PRICE")
+    private BigDecimal totalPrice;
 
     @NotNull
     @Column(name = "IS_SENT")
