@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -103,18 +102,8 @@ public class UserEntityTestSuite {
     }
 
     @Test
-    public void testAddOrdersToUser() {
+    public void testAddOrderToUser() {
         //Given
-        Order order = Order.builder()
-                .orderDate(LocalDate.of(2022, 1, 23))
-                .shippingPrice(new BigDecimal("12.99"))
-                .isPaid(false)
-                .isSent(false)
-                .build();
-
-        List<Order> orders = new ArrayList<>();
-        orders.add(order);
-
         User user = User.builder()
                 .username("Kate")
                 .email("kate@poczta.pl")
@@ -122,25 +111,28 @@ public class UserEntityTestSuite {
                 .createDate(LocalDateTime.now())
                 .isActive(true)
                 .isEnabled(true)
-                .orders(orders)
                 .build();
 
-        userRepository.save(user);
-        order.setUser(user);
+        Order order = Order.builder()
+                .user(user)
+                .orderDate(LocalDate.of(2022, 1, 23))
+                .shippingPrice(new BigDecimal("12.99"))
+                .totalPrice(new BigDecimal("13.99"))
+                .isPaid(false)
+                .isSent(false)
+                .build();
+
         orderRepository.save(order);
 
         //When
         List<User> users = userRepository.findAll();
-        int numberOfUsers = userRepository.findAll().size();
 
         //Then
-        LocalDate orderDate = users.get(0).getOrders().get(0).getOrderDate();
-        assertEquals(1, numberOfUsers);
-        assertEquals(LocalDate.of(2022, 1, 23), orderDate);
+        int numberOfUserOrders = users.get(0).getOrders().size();
+        assertEquals(1, numberOfUserOrders);
 
         //Cleanup
         userRepository.deleteById(user.getId());
-        orderRepository.deleteAll();
     }
 
     @Test
