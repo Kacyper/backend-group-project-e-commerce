@@ -1,59 +1,53 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
-import org.springframework.http.MediaType;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
+import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.DbServiceOrder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/v1/orders")
+@RequiredArgsConstructor
 public class OrderController {
+
+    private final DbServiceOrder dbServiceOrder;
+    private final OrderMapper orderMapper;
 
     @GetMapping
     public List<OrderDto> getOrders() {
-        return new ArrayList<>();
+        return orderMapper.mapToOrderDtoList(dbServiceOrder.getAllOrders());
     }
 
     @GetMapping("/{id}")
-    public OrderDto getOrder(@PathVariable Long id) {
-        return OrderDto.builder()
-                .id(id)
-                .orderDate(LocalDate.now())
-                .shippingPrice(8.99)
-                .isSent(false)
-                .isPaid(true)
-                .build();
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws OrderNotFoundException {
+       return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.getOrder(id)));
     }
 
-    //temporary method for tests, will be void later
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
-        return OrderDto.builder()
-                .id(1L)
-                .orderDate(orderDto.getOrderDate())
-                .shippingPrice(orderDto.getShippingPrice())
-                .isSent(orderDto.isSent())
-                .isPaid(orderDto.isPaid())
-                .build();
+    @PostMapping("/{idCart}")
+    public ResponseEntity<OrderDto> createOrder(@PathVariable Long idCart) throws CartNotFoundException {
+        Order order = dbServiceOrder.createOrder(idCart);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
-    @PutMapping
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        return OrderDto.builder()
-                .id(orderDto.getId())
-                .orderDate(orderDto.getOrderDate())
-                .shippingPrice(orderDto.getShippingPrice())
-                .isSent(orderDto.isSent())
-                .isPaid(orderDto.isPaid())
-                .build();
+    @PutMapping("/{id}/{shippingCompany}")
+    public ResponseEntity<OrderDto> updateOrderChooseShippingCompany(@PathVariable Long id, @PathVariable int shippingCompany) throws OrderNotFoundException {
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderChooseShippingCompany(id, shippingCompany)));
     }
 
-    //temporary method for tests, will be void later
-    @DeleteMapping("/{id}")
-    public Long deleteOrder(@PathVariable Long id) {
-        return id;
+    @PutMapping("/send/{id}")
+    public ResponseEntity<OrderDto> updateOrderIsSent(@PathVariable Long id) throws OrderNotFoundException {
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsSent(id)));
+    }
+
+    @PutMapping("/pay/{id}")
+    public ResponseEntity<OrderDto> updateOrderIsPaid(@PathVariable Long id) throws OrderNotFoundException {
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsPaid(id)));
     }
 }
