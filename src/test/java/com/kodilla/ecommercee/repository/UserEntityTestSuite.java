@@ -87,7 +87,6 @@ public class UserEntityTestSuite {
                 .createDate(LocalDateTime.now())
                 .isActive(true)
                 .isEnabled(true)
-                .orders(new ArrayList<>())
                 .build();
 
         userRepository.save(user);
