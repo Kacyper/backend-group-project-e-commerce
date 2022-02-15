@@ -35,6 +35,10 @@ public class Order {
     private BigDecimal shippingPrice;
 
     @NotNull
+    @Column(name = "TOTAL_PRICE")
+    private BigDecimal totalPrice;
+
+    @NotNull
     @Column(name = "IS_SENT")
     private boolean isSent;
 
