@@ -1,5 +1,6 @@
-package com.kodilla.ecommercee.domain;
+package com.kodilla.ecommercee;
 
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
