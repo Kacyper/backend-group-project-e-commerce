@@ -17,4 +17,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
         return new ResponseEntity<>("Product with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(ProductNotFoundException userNotFoundException) {
+        return new ResponseEntity<>("User with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
+    }
 }

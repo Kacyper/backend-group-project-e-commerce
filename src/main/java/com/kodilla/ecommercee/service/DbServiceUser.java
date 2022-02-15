@@ -26,19 +26,15 @@ public class DbServiceUser {
         return userRepository.save(user);
     }
 
-    public User blockUser(final Long idUser, final User user) throws UserNotFoundException{
+    public User blockUser(final Long idUser) throws UserNotFoundException{
         User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
-
         userFromDb.setEnabled(false);
         return userFromDb;
     }
 
-    public User unblockUser(final Long idUser, final User user) throws UserNotFoundException{
+    public User unblockUser(final Long idUser, final String key) throws UserNotFoundException{
         User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
-
         userFromDb.setEnabled(true);
         return userFromDb;
     }
-
-
 }
