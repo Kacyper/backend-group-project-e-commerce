@@ -6,8 +6,6 @@ import com.kodilla.ecommercee.exception.ProductNotFoundInCartException;
 import com.kodilla.ecommercee.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
