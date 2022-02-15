@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
@@ -101,7 +100,7 @@ public class OrderTestSuite {
                 .build();
 
         orderRepository.save(order1);
-        
+
         Long id1 = order1.getId();
 
         //When
