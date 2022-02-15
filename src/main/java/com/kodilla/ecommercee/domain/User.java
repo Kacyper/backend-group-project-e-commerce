@@ -56,7 +56,7 @@ public class User {
             mappedBy = "user",
             cascade = CascadeType.ALL
     )
-    private final List<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_CART")
