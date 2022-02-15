@@ -24,7 +24,7 @@ public class DbServiceCart {
                 .collect(Collectors.toList());
     }
 
-    public Cart updateCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {
+    public Cart addToCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
 
