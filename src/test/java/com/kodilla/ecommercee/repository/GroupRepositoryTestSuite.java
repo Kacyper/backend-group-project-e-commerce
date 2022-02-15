@@ -77,21 +77,6 @@ public class GroupRepositoryTestSuite {
     }
 
     @Test
-    public void testDeleteGroup(){
-        //given
-        Group newGroup1 = Group.builder()
-                .groupName("new group 1")
-                .products(new ArrayList<>())
-                .build();
-        Group saved1 = groupRepository.save(newGroup1);
-        //when
-        groupRepository.deleteById(saved1.getId());
-        List<Group> all = groupRepository.findAll();
-        //then
-        assertThat(all.size()).isEqualTo(0);
-    }
-
-    @Test
     public void testUpdateGroup(){
         //given
         Group newGroup1 = Group.builder()
