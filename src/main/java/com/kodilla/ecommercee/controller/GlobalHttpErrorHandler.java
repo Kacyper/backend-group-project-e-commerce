@@ -32,4 +32,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleObjectNotFoundException(OrderNotFoundException orderNotFoundException) {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException groupNotFoundException) {
+        return new ResponseEntity<>("Group with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
+    }
 }
