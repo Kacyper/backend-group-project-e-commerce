@@ -16,6 +16,8 @@ import java.util.List;
 @Builder
 @Data
 @Entity
+@NamedEntityGraph(name = "graph.User.orders",
+        attributeNodes = @NamedAttributeNode("orders"))
 @Table(name = "USERS")
 public class User {
 
