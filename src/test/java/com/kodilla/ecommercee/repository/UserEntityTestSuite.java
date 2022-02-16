@@ -153,7 +153,6 @@ public class UserEntityTestSuite {
         userRepository.save(user);
 
         //When
-        user.setCart(new Cart());
         cartRepository.save(cart);
 
         //Then
