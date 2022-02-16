@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +15,7 @@ public class UserDto {
     private String username;
     private String email;
     private String password;
-    private LocalDate createDate;
-    private boolean active;
-    private boolean enabled;
+    private LocalDateTime createDate = LocalDateTime.now();
+    private boolean active = true;
+    private boolean enabled = true;
 }
