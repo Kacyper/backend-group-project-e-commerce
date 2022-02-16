@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
+import com.kodilla.ecommercee.exception.GroupNameIsEmptyStringException;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +25,15 @@ public class DbServiceGroup {
         return groupRepository.save(group);
     }
 
-    public Group updateGroup(final Long id, final Group group) throws GroupNotFoundException {
-        Group updatedGroup = groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
+    public Group updateGroup(final Group group) throws GroupNotFoundException, GroupNameIsEmptyStringException {
+        Group updatedGroup = groupRepository.findById(group.getId()).orElseThrow(GroupNotFoundException::new);
+
+        if (group.getGroupName().isEmpty()) {
+            throw new GroupNameIsEmptyStringException();
+        }
 
         updatedGroup.setGroupName(group.getGroupName());
-        updatedGroup.setProducts(group.getProducts());
-
+        saveGroup(updatedGroup);
         return updatedGroup;
     }
 }
