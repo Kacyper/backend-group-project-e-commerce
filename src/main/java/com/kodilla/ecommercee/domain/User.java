@@ -1,10 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -44,12 +40,15 @@ public class User {
     private LocalDateTime createDate;
 
     @NotNull
-    @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    @Column(name = "ACTIVE")
+    private boolean active;
 
     @NotNull
-    @Column(name = "IS_ENABLED")
-    private boolean isEnabled;
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
+    private String userKey = null;
+    private Long KeyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,

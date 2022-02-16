@@ -123,8 +123,8 @@ public class CartRepositoryTestSuite {
                  .email("whatever")
                  .password("1234")
                  .createDate(LocalDateTime.now())
-                 .isActive(true)
-                 .isEnabled(true)
+                 .active(true)
+                 .enabled(true)
                  .build();
 
          //When
