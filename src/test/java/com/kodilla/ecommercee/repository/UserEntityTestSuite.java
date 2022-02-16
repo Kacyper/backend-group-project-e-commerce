@@ -36,8 +36,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
         //When
         userRepository.save(user);
@@ -59,8 +59,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         userRepository.save(user1);
@@ -84,8 +84,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         userRepository.save(user);
@@ -109,8 +109,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         Order order = Order.builder()
@@ -145,8 +145,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .cart(cart)
                 .build();
 
