@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @Data
 public class CartDto {
     private Long id;
-    private String name;
 }
