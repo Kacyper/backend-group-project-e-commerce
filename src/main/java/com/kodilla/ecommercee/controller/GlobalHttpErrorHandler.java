@@ -1,7 +1,9 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.exception.groupException.*;
+import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
+import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
