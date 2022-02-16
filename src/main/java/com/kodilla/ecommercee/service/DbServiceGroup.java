@@ -1,8 +1,9 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
-import com.kodilla.ecommercee.exception.GroupNameIsEmptyStringException;
-import com.kodilla.ecommercee.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
+import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,19 @@ public class DbServiceGroup {
         return groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
     }
 
-    public Group saveGroup(final Group group) {
-        return groupRepository.save(group);
+    public Group saveGroup(final Group group) throws Exception {
+        if(!groupRepository.existsGroupByGroupName(group.getGroupName())) {
+
+            if(group.getGroupName().isEmpty()) {
+                throw new GroupNameIsEmptyStringException();
+            }
+
+            return groupRepository.save(group);
+
+        } else throw new GroupExistInRepositoryException();
     }
 
-    public Group updateGroup(final Group group) throws GroupNotFoundException, GroupNameIsEmptyStringException {
+    public Group updateGroup(final Group group) throws Exception {
         Group updatedGroup = groupRepository.findById(group.getId()).orElseThrow(GroupNotFoundException::new);
 
         if (group.getGroupName().isEmpty()) {

@@ -1,18 +1,16 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
-import com.kodilla.ecommercee.exception.GroupNameIsEmptyStringException;
-import com.kodilla.ecommercee.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
+import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.DbServiceGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,14 +31,13 @@ public class GroupController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
-        Group group = GroupMapper.mapToGroup(groupDto);
-        dbServiceGroup.saveGroup(group);
+    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) throws Exception {
+        dbServiceGroup.saveGroup(GroupMapper.mapToGroup(groupDto));
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException, GroupNameIsEmptyStringException {
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) throws Exception {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(GroupMapper.mapToGroup(groupDto))));
     }
 }

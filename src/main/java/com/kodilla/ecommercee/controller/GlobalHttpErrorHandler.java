@@ -1,6 +1,9 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.exception.*;
+import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
+import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -33,6 +36,8 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
     }
 
+
+    // Group entity exception handlers:
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException groupNotFoundException) {
         return new ResponseEntity<>("Group with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
@@ -41,5 +46,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GroupNameIsEmptyStringException.class)
     public ResponseEntity<Object> handleNameIsEmptyStringException(GroupNameIsEmptyStringException groupNameIsEmptyStringException) {
         return new ResponseEntity<>("Updating group by giving empty groupName is not possible", HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(GroupExistInRepositoryException.class)
+    public ResponseEntity<Object> handleNameIsEmptyStringException(GroupExistInRepositoryException groupExistInRepositoryException) {
+        return new ResponseEntity<>("Group with given name already exist in the repository", HttpStatus.CONFLICT);
     }
 }
