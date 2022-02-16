@@ -1,17 +1,14 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.domain.Group;
+import com.kodilla.ecommercee.domain.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,20 +18,13 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
 public class ProductRepositoryTestSuite {
-
-    @Autowired
-    GroupRepository groupRepository;
 
     @Autowired
     ProductRepository productRepository;
 
     @Autowired
-    CartRepository cartRepository;
-
-    @Autowired
-    EntityManager entityManager;
+    GroupRepository groupRepository;
 
     @Test
     public void testSaveProduct() {
@@ -43,6 +33,8 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -69,12 +61,16 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         Product butter = Product.builder()
                 .name("Butter")
                 .productDescription("test description for product")
                 .price(new BigDecimal("5.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -104,12 +100,16 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         Product butter = Product.builder()
                 .name("Butter")
                 .productDescription("test description for product")
                 .price(new BigDecimal("5.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -143,6 +143,8 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -169,6 +171,8 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -195,6 +199,8 @@ public class ProductRepositoryTestSuite {
                 .name("Milk")
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
                 .build();
 
         //When
@@ -209,37 +215,91 @@ public class ProductRepositoryTestSuite {
     }
 
     @Test
-    public void testMeasureOperationTimeOfSpecificFetchType() {
-        productRepository.deleteAll();
-        groupRepository.deleteAll();
+    public void testAddProductToGroup() {
         //Given
+        Product milk = Product.builder()
+                .name("Milk")
+                .productDescription("test description for product")
+                .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
+                .build();
+
         Group dairy = Group.builder()
                 .groupName("Dairy")
                 .products(new ArrayList<>())
                 .build();
 
-        //When
-        for (int i=0; i<5; i++) {
-            dairy.getProducts().add(Product.builder()
-                    .name("MILK")
-                    .productDescription("test")
-                    .price(new BigDecimal("3.50"))
-                    .group(dairy)
-                    .build());
-        }
-
+        productRepository.save(milk);
+        Long milkId = milk.getId();
         groupRepository.save(dairy);
-        productRepository.saveAll(dairy.getProducts());
+        Long dairyId = dairy.getId();
+
+        //When
+        milk.setGroup(dairy);
+        dairy.getProducts().add(milk);
+
+        productRepository.save(milk);
+        groupRepository.save(dairy);
+
+        List<Product> products = productRepository.findAll();
+        List<Group> groups = groupRepository.findAll();
+
+        List<Product> dairyProducts = dairy.getProducts();
 
         //Then
-        Long being = System.currentTimeMillis();
-        for (int i=0; i<1000; i++) {
-            Optional<Group> testGroup = groupRepository.findById(dairy.getId());
-        }
-        Long end = System.currentTimeMillis();
+        assertEquals(1, products.size());
+        assertEquals(1, groups.size());
+        assertTrue(dairyProducts.contains(milk));
 
-        System.out.println("BEGIN: " + being + "\nEND: " + end);
-        System.out.println("Time taken for getGroup from database = " + (end-being) + " miliseconds");
-        System.out.println("\nTime taken for getGroup from database = " + (end-being)/1000 + " seconds\n");
+        //CleanUp
+        try {
+            productRepository.deleteById(milkId);
+            groupRepository.deleteById(dairyId);
+        } catch (Exception e) {
+            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void testRetrieveAvailableProducts() {
+        //Given
+        Product milk = Product.builder()
+                .name("Milk")
+                .productDescription("test description for product")
+                .price(new BigDecimal("3.50"))
+                .group(null)
+                .isAvailable(true)
+                .build();
+
+        Product butter = Product.builder()
+                .name("Butter")
+                .productDescription("test description for product")
+                .price(new BigDecimal("5.50"))
+                .group(null)
+                .isAvailable(false)
+                .build();
+
+        //When
+        productRepository.save(milk);
+        Long milkId = milk.getId();
+        productRepository.save(butter);
+        Long butterId = butter.getId();
+
+        List<Product> allProducts = productRepository.findAll();
+        List<Product> onlyAvailableProducts = productRepository.retrieveAvailableProducts();
+
+        //Then
+        assertEquals(2, allProducts.size());
+        assertEquals(1, onlyAvailableProducts.size());
+
+        //CleanUp
+        try {
+            productRepository.deleteById(milkId);
+            productRepository.deleteById(butterId);
+        } catch (Exception e) {
+            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
+        }
     }
 }
