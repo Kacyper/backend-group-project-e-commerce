@@ -37,4 +37,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException groupNotFoundException) {
         return new ResponseEntity<>("Group with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(GroupNameIsEmptyStringException.class)
+    public ResponseEntity<Object> handleNameIsEmptyStringException(GroupNameIsEmptyStringException groupNameIsEmptyStringException) {
+        return new ResponseEntity<>("Updating group by giving empty groupName is not possible", HttpStatus.METHOD_NOT_ALLOWED);
+    }
 }
