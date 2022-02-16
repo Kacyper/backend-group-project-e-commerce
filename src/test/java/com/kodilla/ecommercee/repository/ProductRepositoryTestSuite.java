@@ -41,17 +41,13 @@ public class ProductRepositoryTestSuite {
         productRepository.save(milk);
         Long id = milk.getId();
 
+        //Then
         List<Product> products = productRepository.findAll();
 
-        //Then
         assertEquals(1, products.size());
 
         //CleanUp
-        try {
-            productRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println("Something went wrong here: ".toUpperCase() + e.getMessage());
-        }
+        productRepository.deleteById(id);
     }
 
     @Test
@@ -84,12 +80,8 @@ public class ProductRepositoryTestSuite {
         assertEquals(2, productRepository.findAll().size());
 
         //CleanUp
-        try {
-            for (Product product : products) {
-                productRepository.deleteById(product.getId());
-            }
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
+        for (Product product : products) {
+            productRepository.deleteById(product.getId());
         }
     }
 
@@ -112,12 +104,12 @@ public class ProductRepositoryTestSuite {
                 .isAvailable(true)
                 .build();
 
-        //When
         productRepository.save(milk);
         Long milkId = milk.getId();
         productRepository.save(butter);
         Long butterId = butter.getId();
 
+        //When
         Optional<Product> optionalMilk = productRepository.findById(milkId);
         Optional<Product> optionalButter = productRepository.findById(butterId);
 
@@ -128,12 +120,8 @@ public class ProductRepositoryTestSuite {
         assertEquals(optionalButter.get().getName(), butter.getName());
 
         //CleanUp
-        try {
-            productRepository.deleteById(milkId);
-            productRepository.deleteById(butterId);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
-        }
+        productRepository.deleteById(milkId);
+        productRepository.deleteById(butterId);
     }
 
     @Test
@@ -147,21 +135,17 @@ public class ProductRepositoryTestSuite {
                 .isAvailable(true)
                 .build();
 
-        //When
         productRepository.save(milk);
         Long id = milk.getId();
 
+        //When
         boolean isMilkPresent = productRepository.existsById(id);
 
         //Then
         assertTrue(isMilkPresent);
 
         //CleanUp
-        try {
-            productRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
-        }
+        productRepository.deleteById(id);
     }
 
     @Test
@@ -175,25 +159,21 @@ public class ProductRepositoryTestSuite {
                 .isAvailable(true)
                 .build();
 
-        //When
         productRepository.save(milk);
         Long id = milk.getId();
 
+        //When
         int count = (int) productRepository.count();
 
         //Then
         assertEquals(1, count);
 
         //CleanUp
-        try {
-            productRepository.deleteById(id);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
-        }
+        productRepository.deleteById(id);
     }
 
     @Test
-    public void testDeleteById() {
+    public void testSoftDeleteProduct() {
         //Given
         Product milk = Product.builder()
                 .name("Milk")
@@ -203,15 +183,20 @@ public class ProductRepositoryTestSuite {
                 .isAvailable(true)
                 .build();
 
-        //When
         productRepository.save(milk);
         Long id = milk.getId();
 
-        productRepository.deleteById(id);
-        List<Product> products = productRepository.findAll();
+        //When
+        milk.setAvailable(false);
+        productRepository.save(milk);
 
         //Then
+        List<Product> products = productRepository.retrieveAvailableProducts();
+
         assertEquals(0, products.size());
+
+        //CleanUp
+        productRepository.deleteById(id);
     }
 
     @Test
@@ -239,27 +224,18 @@ public class ProductRepositoryTestSuite {
         milk.setGroup(dairy);
         dairy.getProducts().add(milk);
 
-        productRepository.save(milk);
         groupRepository.save(dairy);
 
-        List<Product> products = productRepository.findAll();
-        List<Group> groups = groupRepository.findAll();
-
-        List<Product> dairyProducts = dairy.getProducts();
-
         //Then
-        assertEquals(1, products.size());
-        assertEquals(1, groups.size());
-        assertTrue(dairyProducts.contains(milk));
+        List<Product> dairyProducts = groupRepository.findById(dairyId).get().getProducts();
+        Group milkGroup = productRepository.findById(milkId).get().getGroup();
+
+        assertEquals(1, dairyProducts.size());
+        assertEquals(groupRepository.findById(dairyId).get().getGroupName(), milkGroup.getGroupName());
 
         //CleanUp
-        try {
-            productRepository.deleteById(milkId);
-            groupRepository.deleteById(dairyId);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
-        }
-
+        productRepository.deleteById(milkId);
+        groupRepository.deleteById(dairyId);
     }
 
     @Test
@@ -281,12 +257,12 @@ public class ProductRepositoryTestSuite {
                 .isAvailable(false)
                 .build();
 
-        //When
         productRepository.save(milk);
         Long milkId = milk.getId();
         productRepository.save(butter);
         Long butterId = butter.getId();
 
+        //When
         List<Product> allProducts = productRepository.findAll();
         List<Product> onlyAvailableProducts = productRepository.retrieveAvailableProducts();
 
@@ -295,11 +271,7 @@ public class ProductRepositoryTestSuite {
         assertEquals(1, onlyAvailableProducts.size());
 
         //CleanUp
-        try {
-            productRepository.deleteById(milkId);
-            productRepository.deleteById(butterId);
-        } catch (Exception e) {
-            System.out.println("SOMETHING WENT WRONG HERE: " + e.getMessage());
-        }
+        productRepository.deleteById(milkId);
+        productRepository.deleteById(butterId);
     }
 }
