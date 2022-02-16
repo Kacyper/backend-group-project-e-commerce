@@ -35,9 +35,8 @@ public class GroupController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestBody GroupDto groupDto) throws GroupNotFoundException {
-        return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup
-                .updateGroup(id, GroupMapper.mapToGroup(groupDto))));
+    @PutMapping
+    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(GroupMapper.mapToGroup(groupDto))));
     }
 }
