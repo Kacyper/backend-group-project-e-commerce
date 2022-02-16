@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,14 +31,14 @@ public class GroupController {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.getGroup(id)));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) throws Exception {
-        dbServiceGroup.saveGroup(GroupMapper.mapToGroup(groupDto));
+    @PostMapping("/{groupName}")
+    public ResponseEntity<Void> createGroup(@PathVariable String groupName) throws Exception {
+        dbServiceGroup.createGroup(groupName);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) throws Exception {
+    public ResponseEntity<GroupDto> updateGroup(@RequestBody @Valid GroupDto groupDto) throws Exception {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(GroupMapper.mapToGroup(groupDto))));
     }
 }

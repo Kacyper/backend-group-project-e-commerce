@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DbServiceGroup {
+
     private final GroupRepository groupRepository;
 
     public List<Group> getGroups() {
@@ -22,16 +23,16 @@ public class DbServiceGroup {
         return groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
     }
 
-    public Group saveGroup(final Group group) throws Exception {
-        if(!groupRepository.existsGroupByGroupName(group.getGroupName())) {
+    public Group createGroup(final String groupName) throws Exception {
+        if (groupRepository.existsGroupByGroupName(groupName)) {
+            throw new GroupExistInRepositoryException();
 
-            if(group.getGroupName().isEmpty()) {
-                throw new GroupNameIsEmptyStringException();
-            }
-
+        } else {
+            Group group = Group.builder()
+                    .groupName(groupName)
+                    .build();
             return groupRepository.save(group);
-
-        } else throw new GroupExistInRepositoryException();
+        }
     }
 
     public Group updateGroup(final Group group) throws Exception {
@@ -44,5 +45,17 @@ public class DbServiceGroup {
         updatedGroup.setGroupName(group.getGroupName());
         saveGroup(updatedGroup);
         return updatedGroup;
+    }
+
+    private Group saveGroup(final Group group) throws Exception {
+        if(!groupRepository.existsGroupByGroupName(group.getGroupName())) {
+
+            if(group.getGroupName().isEmpty()) {
+                throw new GroupNameIsEmptyStringException();
+            }
+
+            return groupRepository.save(group);
+
+        } else throw new GroupExistInRepositoryException();
     }
 }
