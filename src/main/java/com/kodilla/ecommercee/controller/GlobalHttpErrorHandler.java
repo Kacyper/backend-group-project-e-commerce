@@ -1,6 +1,8 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.exception.*;
+import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -41,5 +43,14 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserExistsInRepositoryException.class)
     public ResponseEntity<Object> handleUserExistsInRepositoryException(UserExistsInRepositoryException userExistsInRepositoryException) {
         return new ResponseEntity<>("User already exists.", HttpStatus.CONFLICT);
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException groupNotFoundException ) {
+        return new ResponseEntity<>("Group with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroupExistInRepositoryException.class)
+    public ResponseEntity<Object> handleExistInRepositoryException(GroupExistInRepositoryException groupExistInRepositoryException) {
+        return new ResponseEntity<>("Group with given name exist in the repository", HttpStatus.CONFLICT);
     }
 }
