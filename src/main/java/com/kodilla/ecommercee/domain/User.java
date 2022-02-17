@@ -44,12 +44,12 @@ public class User {
     private LocalDateTime createDate;
 
     @NotNull
-    @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    @Column(name = "ACTIVE")
+    private boolean active;
 
     @NotNull
     @Column(name = "IS_ENABLED")
-    private boolean isEnabled;
+    private boolean enabled;
 
     @OneToMany(
             targetEntity = Order.class,

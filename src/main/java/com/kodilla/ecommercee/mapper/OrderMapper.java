@@ -15,8 +15,8 @@ public class OrderMapper {
                 .id(orderDto.getId())
                 .orderDate(orderDto.getOrderDate())
                 .shippingPrice(orderDto.getShippingPrice())
-                .isSent(orderDto.isSent())
-                .isPaid(orderDto.isPaid())
+                .sent(orderDto.isSent())
+                .paid(orderDto.isPaid())
                 .build();
     }
 

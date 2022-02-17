@@ -44,8 +44,8 @@ public class DbServiceOrder {
                 .orderDate(LocalDate.now())
                 .shippingPrice(setShippingCompany(0))
                 .totalPrice(totalPrice)
-                .isSent(false)
-                .isPaid(false)
+                .sent(false)
+                .paid(false)
                 .build();
 
         cart.getProducts().clear();
