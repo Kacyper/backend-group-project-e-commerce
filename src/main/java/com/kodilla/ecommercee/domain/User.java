@@ -1,15 +1,18 @@
 package com.kodilla.ecommercee.domain;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,19 +24,29 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     @Column(name = "ID_USER", unique = true)
     private Long id;
     @Column(name = "USERNAME")
     private String username;
+
+    @NotNull
     @Column(name = "EMAIL")
     private String email;
+
+    @NotNull
     @Column(name = "PASSWORD")
     private String password;
+
+    @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
+
+    @Column(name = "ACTIVE")
+    @NotNull
 
     @Column(name = "ACTIVE")
     private boolean active;
@@ -51,6 +64,7 @@ public class User implements UserDetails {
             cascade = CascadeType.ALL
     )
     private final List<Order> orders = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_CART")
     private Cart cart;
