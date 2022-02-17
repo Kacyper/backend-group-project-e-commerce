@@ -1,12 +1,9 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -42,14 +39,18 @@ public class User implements UserDetails {
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 
-    @Column(name = "IS_ACTIVE")
-    private boolean active;
-
-    @Column(name = "IS_ENABLED")
-    private boolean enabled;
-
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
+
+    @Column(name = "ACTIVE")
+    private boolean active;
+  
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
+    private String userKey = null;
+  
+    private Long KeyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,
