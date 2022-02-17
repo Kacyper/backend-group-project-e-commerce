@@ -24,29 +24,23 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     @Column(name = "ID_USER", unique = true)
     private Long id;
+
     @Column(name = "USERNAME")
     private String username;
 
-    @NotNull
     @Column(name = "EMAIL")
     private String email;
 
-    @NotNull
     @Column(name = "PASSWORD")
     private String password;
 
-    @NotNull
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
-
-    @Column(name = "ACTIVE")
-    @NotNull
 
     @Column(name = "ACTIVE")
     private boolean active;
@@ -68,6 +62,7 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_CART")
     private Cart cart;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());

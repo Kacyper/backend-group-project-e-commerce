@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.exception.EmailAlreadyExistsInDatabaseException;
@@ -22,6 +23,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class DbServiceUser implements UserDetailsService {
     private final CartRepository cartRepository;
+    private final UserRepository userRepository;
     private final UserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
