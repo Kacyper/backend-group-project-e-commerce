@@ -1,17 +1,12 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.GroupDto;
-import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
-import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
 import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.DbServiceGroup;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,13 +27,12 @@ public class GroupController {
     }
 
     @PostMapping("/{groupName}")
-    public ResponseEntity<Void> createGroup(@PathVariable String groupName) throws Exception {
-        dbServiceGroup.createGroup(groupName);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<GroupDto> createGroup(@PathVariable String groupName) throws Exception {
+        return ResponseEntity.ok((GroupMapper.mapToGroupDto(dbServiceGroup.createGroup(groupName))));
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GroupDto> updateGroup(@RequestBody @Valid GroupDto groupDto) throws Exception {
-        return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(GroupMapper.mapToGroup(groupDto))));
+    @PutMapping("/{id}/{groupName}")
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @PathVariable String groupName) throws Exception {
+        return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(id, groupName)));
     }
 }

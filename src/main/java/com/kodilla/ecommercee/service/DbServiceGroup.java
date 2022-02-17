@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
-import com.kodilla.ecommercee.exception.groupException.GroupNameIsEmptyStringException;
 import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,31 +30,24 @@ public class DbServiceGroup {
             Group group = Group.builder()
                     .groupName(groupName)
                     .build();
-            return groupRepository.save(group);
+            saveGroup(group);
+
+            return group;
         }
     }
 
-    public Group updateGroup(final Group group) throws Exception {
-        Group updatedGroup = groupRepository.findById(group.getId()).orElseThrow(GroupNotFoundException::new);
+    public Group updateGroup(final Long id, final String groupName) throws Exception {
+        Group updatedGroup = groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
 
-        if (group.getGroupName().isEmpty()) {
-            throw new GroupNameIsEmptyStringException();
-        }
-
-        updatedGroup.setGroupName(group.getGroupName());
-        saveGroup(updatedGroup);
-        return updatedGroup;
-    }
-
-    private Group saveGroup(final Group group) throws Exception {
-        if(!groupRepository.existsGroupByGroupName(group.getGroupName())) {
-
-            if(group.getGroupName().isEmpty()) {
-                throw new GroupNameIsEmptyStringException();
-            }
-
-            return groupRepository.save(group);
+        if(!groupRepository.existsGroupByGroupName(groupName)) {
+            updatedGroup.setGroupName(groupName);
+            saveGroup(updatedGroup);
+            return updatedGroup;
 
         } else throw new GroupExistInRepositoryException();
+    }
+
+    private Group saveGroup(final Group group) {
+        return groupRepository.save(group);
     }
 }
