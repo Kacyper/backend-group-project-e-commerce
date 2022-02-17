@@ -60,7 +60,7 @@ public class CartRepositoryTestSuite {
                 .name("soap")
                 .price(new BigDecimal(5))
                 .productDescription("vegan soap")
-                .isAvailable(true)
+                .available(true)
                 .group(null)
                 .build();
 
@@ -68,7 +68,7 @@ public class CartRepositoryTestSuite {
                 .name("shampoo")
                 .price(new BigDecimal(19.99))
                 .productDescription("SLS free shampoo")
-                .isAvailable(true)
+                .available(true)
                 .group(null)
                 .build();
 
@@ -123,8 +123,8 @@ public class CartRepositoryTestSuite {
                  .email("whatever")
                  .password("1234")
                  .createDate(LocalDateTime.now())
-                 .isActive(true)
-                 .isEnabled(true)
+                 .active(true)
+                 .enabled(true)
                  .build();
 
          //When

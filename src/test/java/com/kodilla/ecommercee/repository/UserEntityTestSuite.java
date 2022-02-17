@@ -36,8 +36,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
         //When
         userRepository.save(user);
@@ -59,8 +59,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         userRepository.save(user1);
@@ -84,8 +84,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         userRepository.save(user);
@@ -109,17 +109,18 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .build();
 
         Order order = Order.builder()
                 .user(user)
                 .orderDate(LocalDate.of(2022, 1, 23))
                 .shippingPrice(new BigDecimal("12.99"))
-                .totalPrice(new BigDecimal("13.99"))
-                .isPaid(false)
-                .isSent(false)
+                .productsTotalPrice(new BigDecimal("13.99"))
+                .orderTotalPrice(new BigDecimal("26.98"))
+                .paid(false)
+                .sent(false)
                 .build();
 
         orderRepository.save(order);
@@ -145,8 +146,8 @@ public class UserEntityTestSuite {
                 .email("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .isActive(true)
-                .isEnabled(true)
+                .active(true)
+                .enabled(true)
                 .cart(cart)
                 .build();
 

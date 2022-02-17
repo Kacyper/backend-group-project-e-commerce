@@ -43,10 +43,10 @@ public class User implements UserDetails {
     private LocalDateTime createDate;
 
     @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    private boolean active;
 
     @Column(name = "IS_ENABLED")
-    private boolean isEnabled;
+    private boolean enabled;
 
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
