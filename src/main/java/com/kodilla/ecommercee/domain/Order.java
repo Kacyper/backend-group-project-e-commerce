@@ -10,7 +10,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
+@NamedEntityGraph(name = "graph.Order.products",
+        attributeNodes = @NamedAttributeNode("products"))
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -35,8 +38,12 @@ public class Order {
     private BigDecimal shippingPrice;
 
     @NotNull
-    @Column(name = "TOTAL_PRICE")
-    private BigDecimal totalPrice;
+    @Column(name = "PRODUCTS_TOTAL_PRICE")
+    private BigDecimal productsTotalPrice;
+
+    @NotNull
+    @Column(name = "ORDER_TOTAL_PRICE")
+    private BigDecimal orderTotalPrice;
 
     @NotNull
     @Column(name = "IS_SENT")
@@ -49,4 +56,20 @@ public class Order {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")
     private User user;
+
+    @ManyToMany(
+            targetEntity = Product.class,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.DETACH,
+                    CascadeType.REFRESH
+            },
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(
+            name = "ORDERS_HAVE_PRODUCTS",
+            joinColumns = {@JoinColumn(name = "ID_ORDER", referencedColumnName = "ID_ORDER")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
+    )
+    private List<Product> products;
 }

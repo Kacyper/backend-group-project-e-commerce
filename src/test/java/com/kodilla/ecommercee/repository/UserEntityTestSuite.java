@@ -117,7 +117,8 @@ public class UserEntityTestSuite {
                 .user(user)
                 .orderDate(LocalDate.of(2022, 1, 23))
                 .shippingPrice(new BigDecimal("12.99"))
-                .totalPrice(new BigDecimal("13.99"))
+                .productsTotalPrice(new BigDecimal("13.99"))
+                .orderTotalPrice(new BigDecimal("26.98"))
                 .paid(false)
                 .sent(false)
                 .build();
