@@ -19,6 +19,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
+import java.util.Properties;
 
 import static java.util.Collections.singletonList;
 
@@ -65,10 +66,22 @@ public class CoreConfiguration {
         return new BCryptPasswordEncoder(10);
     }
 
-    @Primary
     @Bean
-    public JavaMailSenderImpl javaMailSenderImplementation(){
-        return new JavaMailSenderImpl();
+    public JavaMailSenderImpl getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("kodilla12345@gmail.com");
+        mailSender.setPassword("Kodilla12345$");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 
 }

@@ -10,7 +10,6 @@ import com.kodilla.ecommercee.validator.EmailValidator;
 import com.kodilla.ecommercee.validator.PasswordEqualityValidator;
 import com.kodilla.ecommercee.validator.PasswordFormatValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -40,8 +39,7 @@ public class RegistrationService {
             throw new PasswordNotMatchException();
         }
 
-        String link = "http://localhost:8080/api/v1/registration/confirm?token="
-                + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
+        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
         emailService.send(
                 request.getEmail(),
                 EmailBuilder.buildEmail("Stranger", link));
@@ -71,3 +69,4 @@ public class RegistrationService {
         return EMAIL_SUCCESSFULLY_CONFIRMED;
     }
 }
+

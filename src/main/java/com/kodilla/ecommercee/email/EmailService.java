@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailService implements EmailSender {
-    private final JavaMailSender mailSender;
+    private final JavaMailSenderImpl mailSender;
     private static final String CONFIRMATION_SUBJECT = "Confirm your email";
 
     @Override
@@ -26,7 +26,7 @@ public class EmailService implements EmailSender {
             helper.setText(email,true);
             helper.setTo(to);
             helper.setSubject(CONFIRMATION_SUBJECT);
-            helper.setFrom("kodilla12345@gmail.com");
+            helper.setFrom("adminEmail");
             mailSender.send(myMessage);
         } catch (MessagingException | MailSendException e) {
             log.error("Failed to send email", e);
