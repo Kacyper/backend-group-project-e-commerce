@@ -136,7 +136,7 @@ public class OrderRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         cart.getProducts().add(milk);
@@ -149,8 +149,8 @@ public class OrderRepositoryTestSuite {
         //When
         Order order = Order.builder()
                 .orderDate(LocalDate.now())
-                .isPaid(false)
-                .isSent(false)
+                .paid(false)
+                .sent(false)
                 .shippingPrice(new BigDecimal(0))
                 .productsTotalPrice(new BigDecimal("2"))
                 .orderTotalPrice(new BigDecimal("2"))
