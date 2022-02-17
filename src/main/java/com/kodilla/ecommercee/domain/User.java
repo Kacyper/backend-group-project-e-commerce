@@ -44,7 +44,7 @@ public class User {
     private LocalDateTime createDate;
 
     @NotNull
-    @Column(name = "ACTIVE")
+    @Column(name = "IS_ACTIVE")
     private boolean active;
 
     @NotNull
