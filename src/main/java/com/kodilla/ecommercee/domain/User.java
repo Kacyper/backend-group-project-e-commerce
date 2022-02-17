@@ -45,11 +45,11 @@ public class User {
 
     @NotNull
     @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    private boolean active;
 
     @NotNull
     @Column(name = "IS_ENABLED")
-    private boolean isEnabled;
+    private boolean enabled;
 
     @OneToMany(
             targetEntity = Order.class,

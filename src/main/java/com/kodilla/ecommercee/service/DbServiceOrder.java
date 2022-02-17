@@ -48,8 +48,8 @@ public class DbServiceOrder {
                 .shippingPrice(setShippingCompany(shipping))
                 .productsTotalPrice(totalPrice)
                 .orderTotalPrice(new BigDecimal("0"))
-                .isSent(false)
-                .isPaid(false)
+                .sent(false)
+                .paid(false)
                 .products(new ArrayList<>())
                 .build();
 

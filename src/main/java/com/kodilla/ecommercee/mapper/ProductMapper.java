@@ -14,7 +14,7 @@ public class ProductMapper {
                 .name(dto.getName())
                 .price(dto.getPrice())
                 .productDescription(dto.getProductDescription())
-//                .group() need Group mapper implementation
+                .group(dto.getGroup())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class ProductMapper {
                 .name(product.getName())
                 .price(product.getPrice())
                 .productDescription(product.getProductDescription())
-//                .groupDto() need Group mapper implementation
+                .group(product.getGroup())
                 .build();
     }
 
@@ -33,5 +33,4 @@ public class ProductMapper {
                 .map(ProductMapper::mapToDto)
                 .collect(Collectors.toList());
     }
-
 }
