@@ -4,7 +4,7 @@ import com.kodilla.ecommercee.jwt.JwtConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.PathSelectors;
@@ -64,5 +64,12 @@ public class CoreConfiguration {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
+
+    @Primary
+    @Bean
+    public JavaMailSenderImpl javaMailSenderImplementation(){
+        return new JavaMailSenderImpl();
+    }
+
 }
 

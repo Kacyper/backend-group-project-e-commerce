@@ -17,8 +17,6 @@ import javax.mail.internet.MimeMessage;
 public class EmailService implements EmailSender {
     private final JavaMailSender mailSender;
     private static final String CONFIRMATION_SUBJECT = "Confirm your email";
-    @Value(value = "${spring.mail.username}")
-    private String adminEmail;
 
     @Override
     public void send(String to, String email) {
@@ -28,7 +26,7 @@ public class EmailService implements EmailSender {
             helper.setText(email,true);
             helper.setTo(to);
             helper.setSubject(CONFIRMATION_SUBJECT);
-            helper.setFrom(adminEmail);
+            helper.setFrom("kodilla12345@gmail.com");
             mailSender.send(myMessage);
         } catch (MessagingException | MailSendException e) {
             log.error("Failed to send email", e);

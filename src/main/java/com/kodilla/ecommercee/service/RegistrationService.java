@@ -26,8 +26,6 @@ public class RegistrationService {
     private final DbServiceUser appUserService;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailService emailService;
-    @Value("${confirm_registration_link}")
-    private String linkWithoutToken;
 
     public String register(RegistrationRequestDto request)
             throws EmailNotValidException, PasswordNotMatchException,
@@ -42,7 +40,8 @@ public class RegistrationService {
             throw new PasswordNotMatchException();
         }
 
-        String link = linkWithoutToken + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
+        String link = "http://localhost:8080/api/v1/registration/confirm?token="
+                + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
         emailService.send(
                 request.getEmail(),
                 EmailBuilder.buildEmail("Stranger", link));
