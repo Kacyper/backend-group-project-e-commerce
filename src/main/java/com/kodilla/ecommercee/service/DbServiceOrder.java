@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,15 +26,16 @@ public class DbServiceOrder {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<Order> getAllUserOrders(final Long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return user.getOrders();
     }
 
     public Order getOrder(final Long id) throws OrderNotFoundException {
         return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
-    public Order createOrder(final Long idCart) throws CartNotFoundException {
+    public Order createOrder(final Long idCart, final int shipping) throws CartNotFoundException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         User user = userRepository.findByCart(cart);
         BigDecimal totalPrice = cart.getProducts().stream()
@@ -42,12 +45,17 @@ public class DbServiceOrder {
         Order order = Order.builder()
                 .user(user)
                 .orderDate(LocalDate.now())
-                .shippingPrice(setShippingCompany(0))
-                .totalPrice(totalPrice)
+                .shippingPrice(setShippingCompany(shipping))
+                .productsTotalPrice(totalPrice)
+                .orderTotalPrice(new BigDecimal("0"))
                 .isSent(false)
                 .isPaid(false)
+                .products(new ArrayList<>())
                 .build();
 
+        order.setOrderTotalPrice(totalPrice.add(order.getShippingPrice()));
+
+        order.setProducts(cart.getProducts());
         cart.getProducts().clear();
 
         orderRepository.save(order);
@@ -74,18 +82,22 @@ public class DbServiceOrder {
     public Order updateOrderChooseShippingCompany(final Long id, final int shippingCompany) throws OrderNotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
         order.setShippingPrice(setShippingCompany(shippingCompany));
+        order.setOrderTotalPrice(order.getProductsTotalPrice().add(order.getShippingPrice()));
+        orderRepository.save(order);
         return order;
     }
 
     public Order updateOrderIsSent(final Long id) throws OrderNotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
         order.setSent(true);
+        orderRepository.save(order);
         return order;
     }
 
     public Order updateOrderIsPaid(final Long id) throws OrderNotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
         order.setPaid(true);
+        orderRepository.save(order);
         return order;
     }
 }

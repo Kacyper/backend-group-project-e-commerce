@@ -4,6 +4,7 @@ import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.DbServiceOrder;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class OrderController {
     private final DbServiceOrder dbServiceOrder;
     private final OrderMapper orderMapper;
 
-    @GetMapping
-    public List<OrderDto> getOrders() {
-        return orderMapper.mapToOrderDtoList(dbServiceOrder.getAllOrders());
+    @GetMapping(value = "/userOrders/{userId}")
+    public List<OrderDto> getUserOrders(@PathVariable Long userId) throws UserNotFoundException {
+        return orderMapper.mapToOrderDtoList(dbServiceOrder.getAllUserOrders(userId));
     }
 
     @GetMapping("/{id}")
@@ -31,8 +32,8 @@ public class OrderController {
     }
 
     @PostMapping("/{idCart}")
-    public ResponseEntity<OrderDto> createOrder(@PathVariable Long idCart) throws CartNotFoundException {
-        Order order = dbServiceOrder.createOrder(idCart);
+    public ResponseEntity<OrderDto> createOrder(@PathVariable Long idCart, @RequestParam int shippingCompany) throws CartNotFoundException {
+        Order order = dbServiceOrder.createOrder(idCart, shippingCompany);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 

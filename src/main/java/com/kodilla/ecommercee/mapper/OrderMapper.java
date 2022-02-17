@@ -15,8 +15,11 @@ public class OrderMapper {
                 .id(orderDto.getId())
                 .orderDate(orderDto.getOrderDate())
                 .shippingPrice(orderDto.getShippingPrice())
+                .productsTotalPrice(orderDto.getProductsTotalPrice())
+                .orderTotalPrice(orderDto.getOrderTotalPrice())
                 .isSent(orderDto.isSent())
                 .isPaid(orderDto.isPaid())
+                .products(orderDto.getProducts())
                 .build();
     }
 
@@ -25,8 +28,11 @@ public class OrderMapper {
                 .id(order.getId())
                 .orderDate(order.getOrderDate())
                 .shippingPrice(order.getShippingPrice())
+                .productsTotalPrice(order.getProductsTotalPrice())
+                .orderTotalPrice(order.getOrderTotalPrice())
                 .isSent(order.isSent())
                 .isPaid(order.isPaid())
+                .products(order.getProducts())
                 .build();
     }
 
