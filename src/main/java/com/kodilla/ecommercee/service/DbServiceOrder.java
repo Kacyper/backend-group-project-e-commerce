@@ -56,7 +56,7 @@ public class DbServiceOrder {
         order.setOrderTotalPrice(totalPrice.add(order.getShippingPrice()));
 
         order.setProducts(cart.getProducts());
-        cart.getProducts().clear();
+        cart.setProducts(new ArrayList<>());
 
         orderRepository.save(order);
         cartRepository.save(cart);
