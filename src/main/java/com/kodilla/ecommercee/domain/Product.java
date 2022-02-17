@@ -5,11 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.List;
 
 @NamedQuery(
         name = "Product.retrieveAvailableProducts",
-        query = "FROM PRODUCTS WHERE isAvailable = true")
+        query = "FROM PRODUCTS WHERE available = true")
 @Entity(name = "PRODUCTS")
 @Builder
 @Getter
@@ -38,7 +37,7 @@ public class Product {
 
     @NotNull
     @Column(name = "IS_AVAILABLE")
-    private boolean isAvailable;
+    private boolean available;
 
     @ManyToOne
     @JoinColumn(name = "ID_GROUP")

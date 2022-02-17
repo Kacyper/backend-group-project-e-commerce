@@ -40,11 +40,11 @@ public class Order {
 
     @NotNull
     @Column(name = "IS_SENT")
-    private boolean isSent;
+    private boolean sent;
 
     @NotNull
     @Column(name = "IS_PAID")
-    private boolean isPaid;
+    private boolean paid;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")
