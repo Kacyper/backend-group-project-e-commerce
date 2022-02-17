@@ -26,8 +26,8 @@ public class OrderRepositoryTestSuite {
         //Given
         Order order1 = Order.builder()
                 .orderDate(LocalDate.now())
-                .isPaid(false)
-                .isSent(false)
+                .paid(false)
+                .sent(false)
                 .shippingPrice(new BigDecimal(0))
                 .totalPrice(new BigDecimal(2))
                 .build();
@@ -49,16 +49,16 @@ public class OrderRepositoryTestSuite {
         //Given
         Order order1 = Order.builder()
                 .orderDate(LocalDate.now())
-                .isPaid(false)
-                .isSent(false)
+                .paid(false)
+                .sent(false)
                 .shippingPrice(new BigDecimal(5))
                 .totalPrice(new BigDecimal(4))
                 .build();
 
         Order order2 = Order.builder()
                 .orderDate(LocalDate.now())
-                .isPaid(false)
-                .isSent(false)
+                .paid(false)
+                .sent(false)
                 .shippingPrice(new BigDecimal(10))
                 .totalPrice(new BigDecimal(2))
                 .build();
@@ -85,8 +85,8 @@ public class OrderRepositoryTestSuite {
         //Given
         Order order1 = Order.builder()
                 .orderDate(LocalDate.now())
-                .isPaid(false)
-                .isSent(false)
+                .paid(false)
+                .sent(false)
                 .shippingPrice(new BigDecimal(0))
                 .totalPrice(new BigDecimal(2))
                 .build();

@@ -34,7 +34,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         //When
@@ -58,7 +58,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         Product butter = Product.builder()
@@ -66,7 +66,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("5.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         //When
@@ -93,7 +93,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         Product butter = Product.builder()
@@ -101,7 +101,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("5.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         productRepository.save(milk);
@@ -132,7 +132,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         productRepository.save(milk);
@@ -156,7 +156,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         productRepository.save(milk);
@@ -180,7 +180,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         productRepository.save(milk);
@@ -207,7 +207,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         Group dairy = Group.builder()
@@ -246,7 +246,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("3.50"))
                 .group(null)
-                .isAvailable(true)
+                .available(true)
                 .build();
 
         Product butter = Product.builder()
@@ -254,7 +254,7 @@ public class ProductRepositoryTestSuite {
                 .productDescription("test description for product")
                 .price(new BigDecimal("5.50"))
                 .group(null)
-                .isAvailable(false)
+                .available(false)
                 .build();
 
         productRepository.save(milk);
