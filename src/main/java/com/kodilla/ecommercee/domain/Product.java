@@ -39,7 +39,7 @@ public class Product {
     @Column(name = "IS_AVAILABLE")
     private boolean isAvailable;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ID_GROUP")
     public Group group;
 }

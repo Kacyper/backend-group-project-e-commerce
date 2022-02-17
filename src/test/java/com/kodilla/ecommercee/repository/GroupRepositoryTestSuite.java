@@ -121,4 +121,41 @@ public class GroupRepositoryTestSuite {
         productRepository.deleteAll();
         groupRepository.deleteAll();
     }
+
+    @Test
+    public void testAddProductsToGroupAndDeleteProduct(){
+        //given
+        Product product = Product.builder()
+                .name("Produkt")
+                .price(BigDecimal.TEN)
+                .productDescription("Nowy")
+                .build();
+        Product product2 = Product.builder()
+                .name("Produkt2")
+                .price(BigDecimal.TEN)
+                .productDescription("Nowy")
+                .build();
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(product);
+        products.add(product2);
+        Group group = Group.builder()
+                .groupName("new group 1")
+                .products(products)
+                .build();
+        Group save = groupRepository.save(group);
+        product2.setGroup(group);
+        product.setGroup(group);
+        save.setProducts(products);
+        productRepository.save(product);
+        productRepository.save(product2);
+        productRepository.delete(product);
+        //when
+        List<Group> all = groupRepository.findAll();
+        //then
+        assertThat(all.get(0).getProducts().size()).isEqualTo(1);
+        assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt2");
+        //cleanUp
+        productRepository.deleteAll();
+        groupRepository.deleteAll();
+    }
 }
