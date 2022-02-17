@@ -40,6 +40,7 @@ public class User {
     private LocalDateTime createDate;
 
     @NotNull
+
     @Column(name = "ACTIVE")
     private boolean active;
 
