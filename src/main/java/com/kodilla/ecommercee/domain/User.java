@@ -1,20 +1,15 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -24,32 +19,31 @@ import java.util.List;
         attributeNodes = @NamedAttributeNode("orders"))
 @Table(name = "USERS")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_USER", unique = true)
     private Long id;
-
     @Column(name = "USERNAME")
     private String username;
-
     @Column(name = "EMAIL")
     private String email;
-
     @Column(name = "PASSWORD")
     private String password;
-
     @Column(name = "CREATE_DATE")
     private LocalDateTime createDate;
 
-    @Column(name = "IS_ACTIVE")
-    private boolean active;
-
-    @Column(name = "IS_ENABLED")
-    private boolean enabled;
-
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
+
+    @Column(name = "ACTIVE")
+    private boolean active;
+
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
+    private String userKey = null;
+
+    private Long KeyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,
@@ -57,34 +51,28 @@ public class User implements UserDetails {
             cascade = CascadeType.ALL
     )
     private final List<Order> orders = new ArrayList<>();
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_CART")
     private Cart cart;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
         return Collections.singletonList(authority);
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return enabled;
     }
 }

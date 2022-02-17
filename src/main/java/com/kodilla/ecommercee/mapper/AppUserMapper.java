@@ -13,7 +13,7 @@ public class AppUserMapper {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .appUserRole(AppUserRole.USER)
-                .isEnabled(false)
+                .enabled(false)
                 .createDate(LocalDateTime.now())
                 .build();
     }
