@@ -50,8 +50,8 @@ public class GroupRepositoryTestSuite {
                 .groupName("new group 2")
                 .products(new ArrayList<>())
                 .build();
-        groupRepository.save(newGroup1);
-        groupRepository.save(newGroup2);
+        Group save = groupRepository.save(newGroup1);
+        Group save1 = groupRepository.save(newGroup2);
         //when
         List<Group> all = groupRepository.findAll();
         //then
@@ -110,7 +110,7 @@ public class GroupRepositoryTestSuite {
                 .groupName("new group 1")
                 .products(products)
                 .build();
-        groupRepository.save(group);
+        Group save = groupRepository.save(group);
         product.setGroup(group);
         productRepository.save(product);
         //when
@@ -119,41 +119,6 @@ public class GroupRepositoryTestSuite {
         assertThat(all.size()).isEqualTo(1);
         assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt");
         //cleanUp
-        groupRepository.deleteAll();
-    }
-
-    @Test
-    public void testAddProductToGroupAndDeleteProduct(){
-        //given
-        Product product = Product.builder()
-                .name("Produkt")
-                .price(BigDecimal.TEN)
-                .productDescription("Nowy")
-                .build();
-        Product product2 = Product.builder()
-                .name("Produkt2")
-                .price(BigDecimal.TEN)
-                .productDescription("Nowy")
-                .build();
-        Group group = Group.builder()
-                .groupName("new group 1")
-                .products(new ArrayList<>())
-                .build();
-        Group savedGroup = groupRepository.save(group);
-        product2.setGroup(group);
-        product.setGroup(group);
-        Product savedProduct = productRepository.save(product);
-        productRepository.save(product2);
-        savedGroup.getProducts().remove(savedProduct);
-        product.setGroup(null);
-        groupRepository.save(savedGroup);
-        productRepository.delete(savedProduct);
-        //when
-        List<Group> all = groupRepository.findAll();
-        //then
-        assertThat(all.get(0).getProducts().size()).isEqualTo(1);
-        assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt2");
-        //cleanUp
-        groupRepository.deleteAll();
+        groupRepository.deleteById(save.getId());
     }
 }
