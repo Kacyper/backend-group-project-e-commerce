@@ -1,39 +1,34 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.UserMapper;
+import com.kodilla.ecommercee.service.DbServiceUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @GetMapping
-    public List<UserDto> getUsers(){
-        return new ArrayList<>();
-    }
+    private final DbServiceUser dbServiceUser;
+    private final UserMapper userMapper;
 
     @PostMapping
-    public void createUser(@RequestBody UserDto userDto){
-
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UserExistsInRepositoryException {
+        return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.createUser(userMapper.mapToUser(userDto))));
     }
 
-    @PutMapping
-    public UserDto blockUser (@RequestBody UserDto userDto){
-        return new UserDto(
-                1L,
-                "John1231",
-                "john@john.com",
-                "password1223",
-                LocalDate.of(2022, 1, 1),
-                false,
-                true);
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException {
+        return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.blockUser(id)));
     }
 
-    @PostMapping(value = "generateKey")
-    public int generateKey(@RequestBody UserDto userDto){
-        return 1;
+    @GetMapping("/{username}")
+    public ResponseEntity<String> generateKey(@PathVariable String username, @RequestParam String password) throws UserNotFoundException {
+        return ResponseEntity.ok(dbServiceUser.generateKey(username, password));
     }
 }
