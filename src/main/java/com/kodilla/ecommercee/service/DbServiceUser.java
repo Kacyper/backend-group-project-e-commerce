@@ -25,8 +25,8 @@ public class DbServiceUser {
             throw  new UserExistsInRepositoryException();
         } else {
             Cart userCart = Cart.builder().build();
-            userDto.setIdCart(userCart.getId());
             cartRepository.save(userCart);
+            userDto.setIdCart(userCart.getId());
             User user = userMapper.mapToUser(userDto);
             return userRepository.save(user);
         }
