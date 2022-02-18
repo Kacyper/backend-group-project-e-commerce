@@ -62,4 +62,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleInvalidPasswordException(InvalidPasswordException invalidPasswordException) {
         return new ResponseEntity<>("Password needs to consists of at least 8 characters", HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler(UserAlreadyBlockedException.class)
+    public ResponseEntity<Object> handleUserAlreadyBlockedException(UserAlreadyBlockedException userAlreadyBlockedException) {
+        return new ResponseEntity<>("User with given id is already blocked", HttpStatus.CONFLICT);
+    }
 }

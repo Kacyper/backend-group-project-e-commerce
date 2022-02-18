@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException {
+    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws Exception {
         return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.blockUser(id)));
     }
 
