@@ -20,7 +20,7 @@ public class DbServiceUser {
     private final CartRepository cartRepository;
     private final UserMapper userMapper;
 
-    public User createUser(final UserDto userDto) throws UserExistsInRepositoryException {
+    public User createUser(final UserDto userDto) throws Exception {
         if (userRepository.existsUserByUsername(userDto.getUsername())) {
             throw  new UserExistsInRepositoryException();
         } else {
