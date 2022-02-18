@@ -2,9 +2,6 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
-import com.kodilla.ecommercee.exception.ProductNotAvailableException;
-import com.kodilla.ecommercee.exception.ProductNotFoundException;
-import com.kodilla.ecommercee.exception.ProductNotFoundInCartException;
 import com.kodilla.ecommercee.mapper.*;
 import com.kodilla.ecommercee.service.DbServiceCart;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +23,13 @@ public class CartController {
     }
 
     @PutMapping("addProduct/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws Exception {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.addToCart(idCart, idProduct)));
     }
 
 
     @PutMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
+    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws Exception {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.deleteFromCart(idCart, idProduct)));
     }
 }

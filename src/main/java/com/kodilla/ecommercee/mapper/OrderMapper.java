@@ -10,19 +10,6 @@ import java.util.stream.Collectors;
 @Service
 public class OrderMapper {
 
-    public Order mapToOrder(final OrderDto orderDto) {
-        return Order.builder()
-                .id(orderDto.getId())
-                .orderDate(orderDto.getOrderDate())
-                .shippingPrice(orderDto.getShippingPrice())
-                .productsTotalPrice(orderDto.getProductsTotalPrice())
-                .orderTotalPrice(orderDto.getOrderTotalPrice())
-                .sent(orderDto.isSent())
-                .paid(orderDto.isPaid())
-                .products(orderDto.getProducts())
-                .build();
-    }
-
     public OrderDto mapToOrderDto(final Order order) {
         return OrderDto.builder()
                 .id(order.getId())

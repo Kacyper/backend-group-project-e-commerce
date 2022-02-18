@@ -8,7 +8,6 @@ import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 import java.util.regex.Pattern;

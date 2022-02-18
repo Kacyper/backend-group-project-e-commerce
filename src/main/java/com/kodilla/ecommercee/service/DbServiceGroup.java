@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DbServiceGroup {
+
     private final GroupRepository groupRepository;
 
     public List<Group> getGroups() {
