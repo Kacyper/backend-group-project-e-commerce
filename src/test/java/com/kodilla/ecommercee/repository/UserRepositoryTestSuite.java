@@ -19,7 +19,7 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserEntityTestSuite {
+public class UserRepositoryTestSuite {
 
     @Autowired
     private UserRepository userRepository;
@@ -139,7 +139,7 @@ public class UserEntityTestSuite {
     @Test
     public void testAddCartToUser() {
         //Given
-        Cart cart = new Cart();
+        Cart cart = Cart.builder().build();
 
         User user = User.builder()
                 .username("Kate")
@@ -151,10 +151,10 @@ public class UserEntityTestSuite {
                 .cart(cart)
                 .build();
 
-        userRepository.save(user);
+        cartRepository.save(cart);
 
         //When
-        cartRepository.save(cart);
+        userRepository.save(user);
 
         //Then
         int numberOfUsers = userRepository.findAll().size();
