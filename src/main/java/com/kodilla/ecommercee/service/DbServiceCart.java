@@ -30,6 +30,7 @@ public class DbServiceCart {
 
         if (product.isAvailable()) {
             cart.getProducts().add(product);
+            cartRepository.save(cart);
             return cart;
 
         } else throw new ProductNotAvailableException();
@@ -44,6 +45,7 @@ public class DbServiceCart {
                 .orElseThrow(ProductNotFoundInCartException::new);
 
         cart.getProducts().remove(product);
+        cartRepository.save(cart);
         return cart;
     }
 }
