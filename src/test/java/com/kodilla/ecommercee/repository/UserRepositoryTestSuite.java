@@ -141,7 +141,7 @@ public class UserRepositoryTestSuite {
     @Test
     public void testAddCartToUser() {
         //Given
-        Cart cart = Cart.builder().build();
+        Cart cart = new Cart();
 
         User user = User.builder()
                 .username("Kate")
@@ -153,10 +153,10 @@ public class UserRepositoryTestSuite {
                 .cart(cart)
                 .build();
 
-        cartRepository.save(cart);
+        userRepository.save(user);
 
         //When
-        userRepository.save(user);
+        cartRepository.save(cart);
 
         //Then
         int numberOfUsers = userRepository.findAll().size();
