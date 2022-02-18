@@ -16,6 +16,7 @@ public class ProductMapper {
                 .name(dto.getName())
                 .price(dto.getPrice())
                 .productDescription(dto.getProductDescription())
+                .available(dto.isAvailable())
                 .group(dto.getGroup())
                 .build();
     }
@@ -26,6 +27,7 @@ public class ProductMapper {
                 .name(product.getName())
                 .price(product.getPrice())
                 .productDescription(product.getProductDescription())
+                .available(product.isAvailable())
                 .group(product.getGroup())
                 .build();
     }

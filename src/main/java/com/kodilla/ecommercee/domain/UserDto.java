@@ -1,19 +1,21 @@
 package com.kodilla.ecommercee.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDto {
     private Long id;
     private String username;
     private String email;
     private String password;
-    private LocalDate createDate;
-    private boolean isActive;
-    private boolean isUnable;
+    private LocalDateTime createDate = LocalDateTime.now();
+    private boolean active = false;
+    private boolean enabled = false;
+    private Long idCart;
 }

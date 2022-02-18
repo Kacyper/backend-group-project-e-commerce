@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
-import com.kodilla.ecommercee.exception.groupException.GroupExistInRepositoryException;
-import com.kodilla.ecommercee.exception.groupException.GroupNotFoundException;
+import com.kodilla.ecommercee.exception.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,7 @@ public class DbServiceGroup {
             throw new GroupExistInRepositoryException();
 
         } else {
-            Group group = Group.builder()
-                    .groupName(groupName)
-                    .build();
+            Group group = Group.builder().groupName(groupName).build();
             saveGroup(group);
 
             return group;
