@@ -31,7 +31,6 @@ public class DbServiceGroup {
                     .groupName(groupName)
                     .build();
             saveGroup(group);
-
             return group;
         }
     }
