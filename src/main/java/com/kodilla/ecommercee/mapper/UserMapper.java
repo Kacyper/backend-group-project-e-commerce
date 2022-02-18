@@ -1,19 +1,18 @@
 package com.kodilla.ecommercee.mapper;
 
+import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.CartNotFoundException;
-import com.kodilla.ecommercee.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserMapper {
-
-    private final CartRepository cartRepository;
-
-    public User mapToUser(final UserDto userDto) throws CartNotFoundException {
+    public User mapToUser(final UserDto userDto){
         return User.builder()
                 .id(userDto.getId())
                 .username(userDto.getUsername())
@@ -22,7 +21,6 @@ public class UserMapper {
                 .createDate(userDto.getCreateDate())
                 .active(userDto.isActive())
                 .enabled(userDto.isEnabled())
-                .cart(cartRepository.findById(userDto.getIdCart()).orElseThrow(CartNotFoundException::new))
                 .build();
     }
 
@@ -35,7 +33,12 @@ public class UserMapper {
                 .createDate(user.getCreateDate())
                 .active(user.isActive())
                 .enabled(user.isEnabled())
-                .idCart(user.getCart().getId())
                 .build();
+    }
+
+    public List<UserDto> mapToListDto(final List<User> users){
+        return users.stream()
+                .map(this::mapToUserDto)
+                .collect(Collectors.toList());
     }
 }
