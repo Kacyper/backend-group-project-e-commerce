@@ -49,7 +49,7 @@ public class User {
     private boolean enabled;
 
     private String userKey = null;
-    private Long KeyGenerationTime = null;
+    private Long keyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,
