@@ -6,14 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class GroupRepositoryTestSuite {
     @Autowired
@@ -28,9 +29,10 @@ public class GroupRepositoryTestSuite {
                 .groupName("new group")
                 .products(new ArrayList<>())
                 .build();
-        groupRepository.save(newGroup);
+        Group saved = groupRepository.save(newGroup);
         //when
-        Group group = groupRepository.findAll().get(0);
+        Group group = groupRepository.findById(saved.getId())
+                .get();
         //then
         assertThat(group.getGroupName()).isEqualTo("new group");
         assertThat(group.getProducts().size()).isEqualTo(0);
@@ -118,12 +120,13 @@ public class GroupRepositoryTestSuite {
         assertThat(all.size()).isEqualTo(1);
         assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt");
         //cleanUp
-        productRepository.deleteAll();
         groupRepository.deleteAll();
+
+        System.out.println(productRepository.findAll().size());
     }
 
     @Test
-    public void testAddProductsToGroupAndDeleteProduct(){
+    public void testAddProductToGroupAndDeleteProduct(){
         //given
         Product product = Product.builder()
                 .name("Produkt")
@@ -135,27 +138,27 @@ public class GroupRepositoryTestSuite {
                 .price(BigDecimal.TEN)
                 .productDescription("Nowy")
                 .build();
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(product);
-        products.add(product2);
         Group group = Group.builder()
                 .groupName("new group 1")
-                .products(products)
+                .products(new ArrayList<>())
                 .build();
-        Group save = groupRepository.save(group);
+        Group savedGroup = groupRepository.save(group);
         product2.setGroup(group);
         product.setGroup(group);
-        save.setProducts(products);
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
         productRepository.save(product2);
-        productRepository.delete(product);
+        savedGroup.getProducts().remove(savedProduct);
+        product.setGroup(null);
+        groupRepository.save(savedGroup);
+        productRepository.delete(savedProduct);
         //when
         List<Group> all = groupRepository.findAll();
         //then
         assertThat(all.get(0).getProducts().size()).isEqualTo(1);
         assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt2");
         //cleanUp
-        productRepository.deleteAll();
         groupRepository.deleteAll();
+
+        System.out.println(productRepository.findAll().size());
     }
 }
