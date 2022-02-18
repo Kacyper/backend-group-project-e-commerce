@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,8 +120,6 @@ public class GroupRepositoryTestSuite {
         assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt");
         //cleanUp
         groupRepository.deleteAll();
-
-        System.out.println(productRepository.findAll().size());
     }
 
     @Test
@@ -158,7 +155,5 @@ public class GroupRepositoryTestSuite {
         assertThat(all.get(0).getProducts().get(0).getName()).isEqualTo("Produkt2");
         //cleanUp
         groupRepository.deleteAll();
-
-        System.out.println(productRepository.findAll().size());
     }
 }
