@@ -29,7 +29,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<Object> handleObjectNotFoundException(OrderNotFoundException orderNotFoundException) {
+    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException orderNotFoundException) {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
     }
 
@@ -41,5 +41,25 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserExistsInRepositoryException.class)
     public ResponseEntity<Object> handleUserExistsInRepositoryException(UserExistsInRepositoryException userExistsInRepositoryException) {
         return new ResponseEntity<>("User already exists.", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<Object> handleInvalidEmailException(InvalidEmailException invalidEmailException) {
+        return new ResponseEntity<>("Given e-mail adress is not valid", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(UserExistByEmailException.class)
+    public ResponseEntity<Object> handleUserExistByEmailException(UserExistByEmailException userExistByEmailException) {
+        return new ResponseEntity<>("This email is connected to another user account", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserNameIsEmptyException.class)
+    public ResponseEntity<Object> handleUserNameIsEmptyException(UserNameIsEmptyException userNameIsEmptyException) {
+        return new ResponseEntity<>("User name is obligatory", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<Object> handleInvalidPasswordException(InvalidPasswordException invalidPasswordException) {
+        return new ResponseEntity<>("Password needs to consists of at least 8 characters", HttpStatus.NOT_ACCEPTABLE);
     }
 }

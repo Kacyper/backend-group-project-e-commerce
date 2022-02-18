@@ -3,14 +3,15 @@ package com.kodilla.ecommercee.service;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +22,12 @@ public class DbServiceUser {
     private final UserMapper userMapper;
 
     public User createUser(final UserDto userDto) throws Exception {
-        if (userRepository.existsUserByUsername(userDto.getUsername())) {
-            throw  new UserExistsInRepositoryException();
-        } else {
-            Cart userCart = Cart.builder().build();
-            cartRepository.save(userCart);
-            userDto.setIdCart(userCart.getId());
-            User user = userMapper.mapToUser(userDto);
-            return userRepository.save(user);
-        }
+        validateRequest(userDto);
+        Cart userCart = Cart.builder().build();
+        cartRepository.save(userCart);
+        userDto.setIdCart(userCart.getId());
+        User user = userMapper.mapToUser(userDto);
+        return userRepository.save(user);
     }
 
     public User blockUser(final Long idUser) throws UserNotFoundException {
@@ -48,5 +46,40 @@ public class DbServiceUser {
             return userFromDb.getUserKey();
         }
         return "Wrong user credentials.";
+    }
+
+    private void validateRequest(UserDto userDto) throws Exception {
+        validateEmail(userDto.getEmail());
+        validateUserName(userDto.getUsername());
+        validatePassword(userDto.getPassword());
+    }
+
+    private void validateEmail(String emailAddress) throws Exception {
+        String regexPattern = "^(.+)@(\\S+)$";
+        boolean isMatch = Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+
+        if (!isMatch) {
+            throw new InvalidEmailException();
+
+        } else if (userRepository.existsUserByEmail(emailAddress)) {
+            throw new UserExistByEmailException();
+        }
+    }
+
+    private void validateUserName(String userName) throws Exception {
+        if (userRepository.existsUserByUsername(userName)) {
+            throw  new UserExistsInRepositoryException();
+
+        } else if (userName.isEmpty()) {
+            throw new UserNameIsEmptyException();
+        }
+    }
+
+    private void validatePassword(String password) throws InvalidPasswordException {
+        if (password.length() < 8) {
+            throw new InvalidPasswordException();
+        }
     }
 }
