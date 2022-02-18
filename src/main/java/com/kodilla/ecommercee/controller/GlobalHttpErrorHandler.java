@@ -38,7 +38,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     // Group entity exception handlers:
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException groupNotFoundException ) {
-        return new ResponseEntity<>("Group with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Group with given id doesn't exist or can't be found in the repository", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GroupExistInRepositoryException.class)
