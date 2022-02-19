@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class AppUserMapper {
     public static User mapToAppUser(final RegistrationRequestDto dto) {
         return User.builder()
-                .username(dto.getUsername())
+                .username(dto.getEmail())
                 .fullName(dto.getFullName())
                 .password(dto.getPassword())
                 .appUserRole(AppUserRole.USER)

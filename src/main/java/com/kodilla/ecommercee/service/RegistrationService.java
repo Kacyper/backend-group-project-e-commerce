@@ -30,14 +30,14 @@ public class RegistrationService {
     public String register(RegistrationRequestDto request)
             throws EmailNotValidException, PasswordNotMatchException,
             EmailAlreadyExistsInDatabaseException, IllegalPasswordFormatException {
-        emailValidator.validate(request.getUsername());
+        emailValidator.validate(request.getEmail());
         passwordFormatValidator.validate(request.getPassword());
         passwordEqualityValidator.validate(request.getPassword(), request.getRepeatPassword());
 
         String link = "http://localhost:8080/api/v1/registration/confirm?token="
                 + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
         emailService.send(
-                request.getUsername(),
+                request.getEmail(),
                 EmailBuilder.buildEmail("Stranger", link));
         return EMAIL_WITH_LINK_JUST_SEND;
     }
