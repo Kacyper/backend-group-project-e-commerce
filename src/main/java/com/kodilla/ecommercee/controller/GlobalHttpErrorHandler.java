@@ -50,7 +50,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistsInDatabaseException.class)
     public ResponseEntity<Object> handleEmailAlreadyExistsInDatabaseException() {
-        return new ResponseEntity<>("You have to pick another login! This one already occupied!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("You have to pick another login! This one already occupied!", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(EmailNotValidException.class)
@@ -65,12 +65,12 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmaiAlreadyConfirmedException.class)
     public ResponseEntity<Object> handleEmaiAlreadyConfirmedException() {
-        return new ResponseEntity<>("Email has been already confirmed!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Email has been already confirmed!", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<Object> handleTokenExpiredException() {
-        return new ResponseEntity<>("Token already expired!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Token already expired!", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({IllegalPasswordFormatException.class})

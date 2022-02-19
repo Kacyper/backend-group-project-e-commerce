@@ -9,10 +9,10 @@ import com.kodilla.ecommercee.mapper.AppUserMapper;
 import com.kodilla.ecommercee.validator.EmailValidator;
 import com.kodilla.ecommercee.validator.PasswordEqualityValidator;
 import com.kodilla.ecommercee.validator.PasswordFormatValidator;
+import com.kodilla.ecommercee.validator.TokenValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -25,25 +25,20 @@ public class RegistrationService {
     private final DbServiceUser appUserService;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailService emailService;
+    private final TokenValidator tokenValidator;
 
     public String register(RegistrationRequestDto request)
             throws EmailNotValidException, PasswordNotMatchException,
             EmailAlreadyExistsInDatabaseException, IllegalPasswordFormatException {
-        if (!emailValidator.test(request.getEmail())) {
-            throw new EmailNotValidException();
-        }
-        if (!passwordFormatValidator.test(request.getPassword())) {
-            throw new IllegalPasswordFormatException();
-        }
-        if (!passwordEqualityValidator.test(request.getPassword(), request.getRepeatPassword())) {
-            throw new PasswordNotMatchException();
-        }
+        emailValidator.validate(request.getEmail());
+        passwordFormatValidator.validate(request.getPassword());
+        passwordEqualityValidator.validate(request.getPassword(), request.getRepeatPassword());
 
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
+        String link = "http://localhost:8080/api/v1/registration/confirm?token="
+                + appUserService.signUpUser(AppUserMapper.mapToAppUser(request));
         emailService.send(
                 request.getEmail(),
                 EmailBuilder.buildEmail("Stranger", link));
-
         return EMAIL_WITH_LINK_JUST_SEND;
     }
 
@@ -54,18 +49,11 @@ public class RegistrationService {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(TokenNotFoundException::new);
-
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new EmaiAlreadyConfirmedException();
-        }
-
-        if (confirmationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new TokenExpiredException();
-        }
+        tokenValidator.validateIfAlreadyConfirmed(confirmationToken.getConfirmedAt());
+        tokenValidator.validateConfirmationTime(confirmationToken.getExpiresAt());
 
         confirmationTokenService.setConfirmedAt(token);
         appUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
-
         return EMAIL_SUCCESSFULLY_CONFIRMED;
     }
 }

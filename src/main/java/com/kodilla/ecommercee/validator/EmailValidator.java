@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.validator;
 
+import com.kodilla.ecommercee.exception.EmailNotValidException;
 import org.springframework.stereotype.Service;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -12,5 +13,10 @@ public class EmailValidator implements Predicate<String> {
         return Pattern.compile(regexPattern)
                 .matcher(email)
                 .matches();
+    }
+    public void validate(final String email) throws EmailNotValidException {
+        if (!test(email)) {
+            throw new EmailNotValidException();
+        }
     }
 }

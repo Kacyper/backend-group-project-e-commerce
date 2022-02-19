@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.DbServiceProduct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +18,26 @@ public class ProductController {
     private final DbServiceProduct serviceProduct;
 
     @GetMapping
-    public List<ProductDto> getProducts() {
-        return ProductMapper.mapToListDto(serviceProduct.getProducts());
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        return ResponseEntity.ok(ProductMapper.mapToListDto(serviceProduct.getProducts()));
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProduct(@PathVariable Long id)
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id)
             throws ProductNotFoundException {
-        return ProductMapper.mapToDto(serviceProduct.getProduct(id));
+        return ResponseEntity.ok(ProductMapper.mapToDto(serviceProduct.getProduct(id)));
     }
 
     @PostMapping
-    public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        return ProductMapper.mapToDto(serviceProduct.createProduct(ProductMapper.mapToProduct(productDto)));
+    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+        return ResponseEntity.ok(ProductMapper
+                .mapToDto(serviceProduct.createProduct(ProductMapper.mapToProduct(productDto))));
     }
 
     @PutMapping("/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto)
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto)
             throws ProductNotFoundException {
-        return ProductMapper.mapToDto(serviceProduct.updateProduct(id, ProductMapper.mapToProduct(productDto)));
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        serviceProduct.deleteProduct(id);
+        return ResponseEntity.ok(ProductMapper
+                .mapToDto(serviceProduct.updateProduct(id, ProductMapper.mapToProduct(productDto))));
     }
 }

@@ -4,6 +4,7 @@ import com.kodilla.ecommercee.domain.RegistrationRequestDto;
 import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,16 +14,16 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequestDto request)
+    public ResponseEntity<String> register(@RequestBody RegistrationRequestDto request)
             throws EmailNotValidException, PasswordNotMatchException,
             EmailAlreadyExistsInDatabaseException, IllegalPasswordFormatException {
-        return registrationService.register(request);
+        return ResponseEntity.ok(registrationService.register(request));
     }
 
     @GetMapping("/confirm")
-    public String confirmEmail(@RequestParam String token)
+    public ResponseEntity<String> confirmEmail(@RequestParam String token)
             throws TokenNotFoundException, EmaiAlreadyConfirmedException,
             TokenExpiredException {
-        return registrationService.confirmToken(token);
+        return ResponseEntity.ok(registrationService.confirmToken(token));
     }
 }
