@@ -45,7 +45,7 @@ public class User implements UserDetails {
     private boolean active;
 
     @Column(name = "ENABLED")
-    private boolean enabled;
+    private Boolean enabled;
 
     private String userKey = null;
 

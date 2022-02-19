@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @PostMapping
-    public ResponseEntity<Void> login(@RequestBody LoginCredentials request){
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void login(@RequestBody LoginCredentials request){
     }
 }

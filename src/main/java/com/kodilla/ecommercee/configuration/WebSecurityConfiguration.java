@@ -1,6 +1,10 @@
 package com.kodilla.ecommercee.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kodilla.ecommercee.jwt.AuthenticationFailureHandler;
+import com.kodilla.ecommercee.jwt.AuthenticationSuccessHandler;
+import com.kodilla.ecommercee.jwt.JwtAuthenticationFilter;
+import com.kodilla.ecommercee.jwt.JwtAuthorizationFilter;
 import com.kodilla.ecommercee.service.DbServiceUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
@@ -25,6 +27,9 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final DbServiceUser appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationSuccessHandler successHandler;
+    private final AuthenticationFailureHandler failureHandler;
+    private final JwtAuthorizationFilter authorizationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,19 +37,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/api/v1/registration/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/login","/api/v1/registration").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/registration/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilter(authenticationFilter())
+                .addFilterAfter(authorizationFilter,JwtAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
@@ -55,4 +62,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .userDetailsService(appUserService)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
+    public JwtAuthenticationFilter authenticationFilter() throws Exception{
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(getObjectMapper());
+        filter.setAuthenticationSuccessHandler(successHandler);
+        filter.setAuthenticationFailureHandler(failureHandler);
+        filter.setAuthenticationManager(super.authenticationManager());
+        return filter;
+    }
+    @Bean
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
+    }
+
 }

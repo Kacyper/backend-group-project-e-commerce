@@ -51,9 +51,8 @@ public class RegistrationService {
                 .orElseThrow(TokenNotFoundException::new);
         tokenValidator.validateIfAlreadyConfirmed(confirmationToken.getConfirmedAt());
         tokenValidator.validateConfirmationTime(confirmationToken.getExpiresAt());
-
         confirmationTokenService.setConfirmedAt(token);
-        appUserService.enableAppUser(confirmationToken.getAppUser().getUsername());
+        appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
         return EMAIL_SUCCESSFULLY_CONFIRMED;
     }
 }

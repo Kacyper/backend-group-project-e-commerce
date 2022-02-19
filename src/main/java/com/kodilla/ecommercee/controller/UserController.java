@@ -17,11 +17,6 @@ public class UserController {
     private final DbServiceUser dbServiceUser;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UserExistsInRepositoryException {
-        return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.createUser(userMapper.mapToUser(userDto))));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException {
         return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.blockUser(id)));

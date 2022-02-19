@@ -8,6 +8,7 @@ import com.kodilla.ecommercee.service.DbServiceGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +20,19 @@ public class GroupController {
 
     private final DbServiceGroup dbServiceGroup;
 
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @GetMapping
     public ResponseEntity<List<GroupDto>> getGroups() {
         return ResponseEntity.ok(GroupMapper.mapToGroupDtoList(dbServiceGroup.getGroups()));
     }
 
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<GroupDto> getGroup(@PathVariable Long id) throws GroupNotFoundException {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.getGroup(id)));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
         Group group = GroupMapper.mapToGroup(groupDto);
@@ -36,6 +40,7 @@ public class GroupController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestBody GroupDto groupDto) throws GroupNotFoundException {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup
