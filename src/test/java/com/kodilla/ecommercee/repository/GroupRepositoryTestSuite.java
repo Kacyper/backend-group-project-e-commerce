@@ -50,8 +50,8 @@ public class GroupRepositoryTestSuite {
                 .groupName("new group 2")
                 .products(new ArrayList<>())
                 .build();
-        Group save = groupRepository.save(newGroup1);
-        Group save1 = groupRepository.save(newGroup2);
+        groupRepository.save(newGroup1);
+        groupRepository.save(newGroup2);
         //when
         List<Group> all = groupRepository.findAll();
         //then
@@ -72,7 +72,6 @@ public class GroupRepositoryTestSuite {
         Group group = groupRepository.findById(saved1.getId()).get();
         //then
         assertThat(group.getGroupName()).isEqualTo("new group 1");
-        assertThat(group.getProducts().size()).isEqualTo(0);
         //cleanUp
         groupRepository.deleteAll();
     }
