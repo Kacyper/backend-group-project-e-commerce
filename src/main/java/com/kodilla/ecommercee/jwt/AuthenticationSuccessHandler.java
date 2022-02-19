@@ -24,10 +24,10 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication){
         UserDetails principal = (UserDetails) authentication.getPrincipal();
-
+        System.out.println(principal.getUsername());
         String token = JWT.create()
                 .withSubject(principal.getUsername())
-                .withClaim("roles", principal.getAuthorities().stream().map(e -> new SimpleGrantedAuthority(e.toString())).collect(Collectors.toList()).get(0).toString())
+//                .withClaim("roles", principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(java.sql.Date.valueOf(LocalDate.now().plusDays(TOKEN_EXPIRATION_TIME_DAYS)))
                 .sign(algorithm.getAlgorithm());

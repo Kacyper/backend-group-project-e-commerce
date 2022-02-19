@@ -5,7 +5,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(name = "EMAIL")
-    private String email;
+    private String fullName;
 
     @Column(name = "PASSWORD")
     private String password;

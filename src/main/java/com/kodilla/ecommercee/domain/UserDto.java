@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserDto {
     private Long id;
     private String username;
-    private String email;
+    private String fullName;
     private String password;
     private LocalDateTime createDate = LocalDateTime.now();
     private boolean active = true;

@@ -7,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegistrationRequestDto {
+    private String fullName;
     private String username;
-    private String email;
     private String password;
     private String repeatPassword;
 }

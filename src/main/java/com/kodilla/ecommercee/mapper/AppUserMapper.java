@@ -10,7 +10,7 @@ public class AppUserMapper {
     public static User mapToAppUser(final RegistrationRequestDto dto) {
         return User.builder()
                 .username(dto.getUsername())
-                .email(dto.getEmail())
+                .fullName(dto.getFullName())
                 .password(dto.getPassword())
                 .appUserRole(AppUserRole.USER)
                 .enabled(false)

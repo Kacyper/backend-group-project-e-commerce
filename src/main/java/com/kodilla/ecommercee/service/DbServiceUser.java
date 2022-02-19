@@ -26,15 +26,15 @@ public class DbServiceUser implements UserDetailsService {
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"));
     }
 
     @Transactional
     public void enableAppUser(final String email) {
-        userRepository.findByEmail(email)
+        userRepository.findByUsername(email)
                 .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"))
                 .setEnabled(true);
     }
@@ -43,7 +43,7 @@ public class DbServiceUser implements UserDetailsService {
     public String signUpUser(final User user)
             throws EmailAlreadyExistsInDatabaseException {
         boolean alreadyExists = userRepository
-                .findByEmail(user.getUsername())
+                .findByUsername(user.getUsername())
                 .isPresent();
         if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
 
@@ -67,7 +67,7 @@ public class DbServiceUser implements UserDetailsService {
     }
 
     public String generateKey(String username, String password) throws UserNotFoundException {
-        User userFromDb = userRepository.findByEmail(username).orElseThrow(UserNotFoundException::new);
+        User userFromDb = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         if (password.equals(userFromDb.getPassword())) {
             userFromDb.setKeyGenerationTime(System.currentTimeMillis());
             userFromDb.setUserKey(UUID.randomUUID().toString());
