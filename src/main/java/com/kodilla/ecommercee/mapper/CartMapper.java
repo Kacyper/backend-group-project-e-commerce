@@ -11,6 +11,7 @@ public class CartMapper {
     private final ProductMapper productMapper;
 
     public CartDto mapToCartDto(final Cart cart) {
+        System.out.println("Producs: "cart.getProducts());
         return CartDto.builder()
                 .id(cart.getId())
                 .productIds(productMapper.mapToProductsIdsFromProducts(cart.getProducts()))
