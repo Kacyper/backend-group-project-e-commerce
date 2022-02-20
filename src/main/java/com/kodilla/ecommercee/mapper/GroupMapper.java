@@ -2,6 +2,10 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
+import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,33 +14,33 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class GroupMapper {
 
-    public static Group mapToGroup(final GroupDto groupDto) {
+    private final ProductMapper productMapper;
+
+    public Group mapToGroup(final GroupDto groupDto) throws ProductNotFoundException{
         return Group.builder()
                 .id(groupDto.getId())
                 .groupName(groupDto.getGroupName())
-                .products(Optional.of(groupDto.getProducts().stream()
-                                .map(ProductMapper::mapToProduct)
-                                .collect(Collectors.toList())).
-                        orElse(new ArrayList<>()))
+                .products(productMapper.mapToProductsFromIdProducts(groupDto.getProductIds()))
                 .build();
     }
 
-    public static GroupDto mapToGroupDto(final Group group) {
+    public GroupDto mapToGroupDto(final Group group) {
         return GroupDto.builder()
                 .id(group.getId())
                 .groupName(group.getGroupName())
-                .products(Optional.of(group.getProducts().stream()
-                                .map(ProductMapper::mapToDto)
-                                .collect(Collectors.toList())).
-                        orElse(new ArrayList<>()))
+                .productIds(productMapper.mapToProductsIdsFromProducts(group.getProducts()))
                 .build();
     }
 
-    public static List<GroupDto> mapToGroupDtoList(final List<Group> groups) {
-        return groups.stream()
-                .map(GroupMapper::mapToGroupDto)
-                .collect(Collectors.toList());
+    public List<GroupDto> mapToGroupDtoList(final List<Group> groups) {
+        List<GroupDto> list = new ArrayList<>();
+        for (Group group : groups) {
+            GroupDto groupDto = mapToGroupDto(group);
+            list.add(groupDto);
+        }
+        return list;
     }
 }
