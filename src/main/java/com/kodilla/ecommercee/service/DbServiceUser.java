@@ -4,10 +4,12 @@ import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
 
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 import java.util.regex.Pattern;
@@ -43,15 +45,15 @@ public class DbServiceUser implements UserDetailsService {
     }
 
     @Transactional
-    public String signUpUser(final User user)
-            throws EmailAlreadyExistsInDatabaseException {
+    public String signUpUser(final User user) throws EmailAlreadyExistsInDatabaseException {
         boolean alreadyExists = userRepository
                 .findByUsername(user.getUsername())
                 .isPresent();
+
         if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Cart userCart = Cart.builder().build();
+        Cart userCart = Cart.builder().products(new ArrayList<>()).build();
         user.setCart(userCart);
         cartRepository.save(userCart);
         userRepository.save(user);
@@ -84,40 +86,5 @@ public class DbServiceUser implements UserDetailsService {
             return userFromDb.getUserKey();
         }
         return "Wrong user credentials.";
-    }
-
-    private void validateRequest(UserDto userDto) throws UserExistByEmailException, InvalidEmailException, UserNameIsEmptyException, UserExistsInRepositoryException, InvalidPasswordException {
-        validateEmail(userDto.getEmail());
-        validateUserName(userDto.getUsername());
-        validatePassword(userDto.getPassword());
-    }
-
-    private void validateEmail(String emailAddress) throws InvalidEmailException, UserExistByEmailException {
-        String regexPattern = "^(.+)@(\\S+)$";
-        boolean isMatch = Pattern.compile(regexPattern)
-                .matcher(emailAddress)
-                .matches();
-
-        if (!isMatch) {
-            throw new InvalidEmailException();
-
-        } else if (userRepository.existsUserByEmail(emailAddress)) {
-            throw new UserExistByEmailException();
-        }
-    }
-
-    private void validateUserName(String userName) throws UserExistsInRepositoryException, UserNameIsEmptyException {
-        if (userRepository.existsUserByUsername(userName)) {
-            throw  new UserExistsInRepositoryException();
-
-        } else if (userName.isEmpty()) {
-            throw new UserNameIsEmptyException();
-        }
-    }
-
-    private void validatePassword(String password) throws InvalidPasswordException {
-        if (password.length() < 8) {
-            throw new InvalidPasswordException();
-        }
     }
 }
