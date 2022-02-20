@@ -53,7 +53,8 @@ public class User implements UserDetails {
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
     )
     private final List<Order> orders = new ArrayList<>();
 

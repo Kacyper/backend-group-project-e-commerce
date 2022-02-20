@@ -1,9 +1,12 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.exception.ModificationTokenNotFoundException;
+import com.kodilla.ecommercee.exception.ModificationTokenNotValidException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.DbServiceProduct;
+import com.kodilla.ecommercee.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +20,7 @@ import java.util.List;
 public class ProductController {
 
     private final DbServiceProduct serviceProduct;
+    private final ModificationTokenService modificationTokenService;
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @GetMapping
@@ -40,8 +44,9 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto)
-            throws ProductNotFoundException {
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto, @RequestParam String modificationToken)
+            throws ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+        modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(ProductMapper
                 .mapToDto(serviceProduct.updateProduct(id, ProductMapper.mapToProduct(productDto))));
     }

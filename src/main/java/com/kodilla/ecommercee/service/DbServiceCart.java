@@ -20,7 +20,7 @@ public class DbServiceCart {
                 .orElseThrow(CartNotFoundException::new)
                 .getProducts()
                 .stream()
-                .filter(product -> product.isAvailable() == true)
+                .filter(product -> product.isAvailable())
                 .collect(Collectors.toList());
     }
 

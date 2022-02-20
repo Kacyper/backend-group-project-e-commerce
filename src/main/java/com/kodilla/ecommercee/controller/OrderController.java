@@ -1,17 +1,16 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.ModificationToken;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.exception.CartNotFoundException;
-import com.kodilla.ecommercee.exception.OrderNotFoundException;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.DbServiceOrder;
+import com.kodilla.ecommercee.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,6 +20,7 @@ public class OrderController {
 
     private final DbServiceOrder dbServiceOrder;
     private final OrderMapper orderMapper;
+    private final ModificationTokenService modificationTokenService;
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @GetMapping(value = "/userOrders/{userId}")
@@ -43,19 +43,25 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/{id}/{shippingCompany}")
-    public ResponseEntity<OrderDto> updateOrderChooseShippingCompany(@PathVariable Long id, @PathVariable int shippingCompany) throws OrderNotFoundException {
+    public ResponseEntity<OrderDto> updateOrderChooseShippingCompany(@PathVariable Long id, @PathVariable int shippingCompany, @RequestParam String modificationToken)
+            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+        modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderChooseShippingCompany(id, shippingCompany)));
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/send/{id}")
-    public ResponseEntity<OrderDto> updateOrderIsSent(@PathVariable Long id) throws OrderNotFoundException {
+    public ResponseEntity<OrderDto> updateOrderIsSent(@PathVariable Long id, @RequestParam String modificationToken)
+            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+        modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsSent(id)));
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/pay/{id}")
-    public ResponseEntity<OrderDto> updateOrderIsPaid(@PathVariable Long id) throws OrderNotFoundException {
+    public ResponseEntity<OrderDto> updateOrderIsPaid(@PathVariable Long id, @RequestParam String modificationToken)
+            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+        modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsPaid(id)));
     }
 }

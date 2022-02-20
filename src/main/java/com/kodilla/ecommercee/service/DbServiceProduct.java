@@ -37,16 +37,6 @@ public class DbServiceProduct {
         productFromDb.setProductDescription(product.getProductDescription());
         productFromDb.setGroup(product.getGroup());
 
-        return productFromDb;
-    }
-
-    public void deleteProduct(final Long id) {
-        repository.deleteById(id);
-    }
-
-    private final ProductRepository productRepository;
-
-    public boolean ifExist(final Long idProduct) {
-        return productRepository.existsById(idProduct);
+        return repository.save(productFromDb);
     }
 }

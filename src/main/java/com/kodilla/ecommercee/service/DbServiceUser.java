@@ -8,7 +8,10 @@ import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
-import java.util.UUID;
+import java.util.ArrayList;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,7 +51,7 @@ public class DbServiceUser implements UserDetailsService {
         if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Cart userCart = Cart.builder().build();
+        Cart userCart = Cart.builder().products(new ArrayList<>()).build();
         user.setCart(userCart);
         cartRepository.save(userCart);
         userRepository.save(user);
@@ -66,14 +69,15 @@ public class DbServiceUser implements UserDetailsService {
         return userFromDb;
     }
 
-    public String generateKey(String username, String password) throws UserNotFoundException {
-        User userFromDb = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        if (password.equals(userFromDb.getPassword())) {
-            userFromDb.setKeyGenerationTime(System.currentTimeMillis());
-            userFromDb.setUserKey(UUID.randomUUID().toString());
-            userRepository.save(userFromDb);
-            return userFromDb.getUserKey();
+    public User getCurrentlyLoggedInUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
         }
-        return "Wrong user credentials.";
+        return (User)loadUserByUsername(username);
     }
+
 }
