@@ -1,36 +1,62 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.CartNotFoundException;
-import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
-import com.kodilla.ecommercee.mapper.UserMapper;
-import com.kodilla.ecommercee.repository.CartRepository;
+import com.kodilla.ecommercee.exception.EmailAlreadyExistsInDatabaseException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.repository.CartRepository;
 import java.util.UUID;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class DbServiceUser {
-
-    private final UserRepository userRepository;
+public class DbServiceUser implements UserDetailsService {
     private final CartRepository cartRepository;
-    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public User createUser(final UserDto userDto) throws UserExistsInRepositoryException, CartNotFoundException {
-        if (userRepository.existsUserByUsername(userDto.getUsername())) {
-            throw  new UserExistsInRepositoryException();
-        } else {
-            Cart userCart = Cart.builder().build();
-            cartRepository.save(userCart);
-            userDto.setIdCart(userCart.getId());
-            User user = userMapper.mapToUser(userDto);
-            return userRepository.save(user);
-        }
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"));
+    }
+
+    @Transactional
+    public void enableAppUser(final String email) {
+        userRepository.findByUsername(email)
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"))
+                .setEnabled(true);
+    }
+
+    @Transactional
+    public String signUpUser(final User user)
+            throws EmailAlreadyExistsInDatabaseException {
+        boolean alreadyExists = userRepository
+                .findByUsername(user.getUsername())
+                .isPresent();
+        if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Cart userCart = Cart.builder().build();
+        user.setCart(userCart);
+        cartRepository.save(userCart);
+        userRepository.save(user);
+
+        ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        return confirmationToken.getToken();
     }
 
     public User blockUser(final Long idUser) throws UserNotFoundException {

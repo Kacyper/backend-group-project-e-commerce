@@ -120,7 +120,7 @@ public class CartRepositoryTestSuite {
 
          User user = User.builder()
                  .username("asd")
-                 .email("whatever")
+                 .fullName("whatever")
                  .password("1234")
                  .createDate(LocalDateTime.now())
                  .active(true)
