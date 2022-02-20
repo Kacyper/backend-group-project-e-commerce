@@ -1,12 +1,11 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommerce.controller;
 
-import com.kodilla.ecommercee.domain.ModificationToken;
-import com.kodilla.ecommercee.domain.Order;
-import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.mapper.OrderMapper;
-import com.kodilla.ecommercee.service.DbServiceOrder;
-import com.kodilla.ecommercee.service.ModificationTokenService;
+import com.kodilla.ecommerce.domain.Order;
+import com.kodilla.ecommerce.domain.OrderDto;
+import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.mapper.OrderMapper;
+import com.kodilla.ecommerce.service.DbServiceOrder;
+import com.kodilla.ecommerce.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

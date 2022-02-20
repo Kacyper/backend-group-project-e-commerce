@@ -1,10 +1,10 @@
-package com.kodilla.ecommercee.service;
+package com.kodilla.ecommerce.service;
 
-import com.kodilla.ecommercee.domain.ModificationToken;
-import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.exception.ModificationTokenNotFoundException;
-import com.kodilla.ecommercee.exception.ModificationTokenNotValidException;
-import com.kodilla.ecommercee.repository.ModificationTokenRepository;
+import com.kodilla.ecommerce.domain.ModificationToken;
+import com.kodilla.ecommerce.repository.ModificationTokenRepository;
+import com.kodilla.ecommerce.domain.User;
+import com.kodilla.ecommerce.exception.ModificationTokenNotFoundException;
+import com.kodilla.ecommerce.exception.ModificationTokenNotValidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

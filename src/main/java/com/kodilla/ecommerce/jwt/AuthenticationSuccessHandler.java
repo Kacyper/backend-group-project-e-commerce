@@ -1,8 +1,8 @@
 package com.kodilla.ecommerce.jwt;
 
 import com.auth0.jwt.JWT;
-import com.kodilla.ecommercee.repository.UserRepository;
-import com.kodilla.ecommercee.service.ModificationTokenService;
+import com.kodilla.ecommerce.repository.UserRepository;
+import com.kodilla.ecommerce.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;

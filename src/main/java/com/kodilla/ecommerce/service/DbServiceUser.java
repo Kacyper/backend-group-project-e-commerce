@@ -1,14 +1,14 @@
-package com.kodilla.ecommercee.service;
+package com.kodilla.ecommerce.service;
 
-import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.ConfirmationToken;
-import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.exception.EmailAlreadyExistsInDatabaseException;
-import com.kodilla.ecommercee.exception.UserAlreadyBlockedException;
-import com.kodilla.ecommercee.repository.UserRepository;
+import com.kodilla.ecommerce.exception.UserNotFoundException;
+import com.kodilla.ecommerce.repository.CartRepository;
+import com.kodilla.ecommerce.domain.Cart;
+import com.kodilla.ecommerce.domain.ConfirmationToken;
+import com.kodilla.ecommerce.domain.User;
+import com.kodilla.ecommerce.exception.EmailAlreadyExistsInDatabaseException;
+import com.kodilla.ecommerce.exception.UserAlreadyBlockedException;
+import com.kodilla.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
-import com.kodilla.ecommercee.repository.CartRepository;
 import java.util.ArrayList;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

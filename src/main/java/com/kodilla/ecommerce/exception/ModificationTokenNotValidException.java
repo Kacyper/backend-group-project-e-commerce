@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.exception;
+package com.kodilla.ecommerce.exception;
 
 public class ModificationTokenNotValidException extends Exception{
 }

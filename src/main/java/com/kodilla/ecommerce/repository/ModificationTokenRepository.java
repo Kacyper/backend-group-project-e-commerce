@@ -1,7 +1,7 @@
-package com.kodilla.ecommercee.repository;
+package com.kodilla.ecommerce.repository;
 
-import com.kodilla.ecommercee.domain.ModificationToken;
-import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommerce.domain.ModificationToken;
+import com.kodilla.ecommerce.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

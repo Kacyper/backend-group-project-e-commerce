@@ -1,10 +1,10 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommerce.controller;
 
-import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.mapper.UserMapper;
-import com.kodilla.ecommercee.service.DbServiceUser;
-import com.kodilla.ecommercee.service.ModificationTokenService;
+import com.kodilla.ecommerce.domain.UserDto;
+import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.mapper.UserMapper;
+import com.kodilla.ecommerce.service.DbServiceUser;
+import com.kodilla.ecommerce.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RegistrationService {
     public static final String EMAIL_WITH_LINK_JUST_SEND = "Email with confirmation request just send";
     public static final String EMAIL_SUCCESSFULLY_CONFIRMED = "Email successfully confirmed!";
@@ -27,9 +27,10 @@ public class RegistrationService {
     private final EmailService emailService;
     private final TokenValidator tokenValidator;
 
+
     public String register(RegistrationRequestDto request)
-            throws EmailNotValidException, PasswordNotMatchException,
-            EmailAlreadyExistsInDatabaseException, IllegalPasswordFormatException {
+            throws EmailNotValidException, PasswordNotMatchException, IllegalPasswordFormatException,
+            EmailAlreadyExistsInDatabaseException {
         emailValidator.validate(request.getEmail());
         passwordFormatValidator.validate(request.getPassword());
         passwordEqualityValidator.validate(request.getPassword(), request.getRepeatPassword());

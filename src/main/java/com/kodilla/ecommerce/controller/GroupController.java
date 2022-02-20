@@ -1,10 +1,10 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommerce.controller;
 
-import com.kodilla.ecommercee.domain.GroupDto;
-import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.mapper.GroupMapper;
-import com.kodilla.ecommercee.service.DbServiceGroup;
-import com.kodilla.ecommercee.service.ModificationTokenService;
+import com.kodilla.ecommerce.service.DbServiceGroup;
+import com.kodilla.ecommerce.domain.GroupDto;
+import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.mapper.GroupMapper;
+import com.kodilla.ecommerce.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,15 +36,15 @@ public class GroupController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<GroupDto> createGroup(@RequestBody GroupDto groupDto, @RequestParam String modificationToken)
-            throws GroupExistInRepositoryException, GroupNameIsEmptyException, ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
-        modificationTokenService.checkIfModificationTokenValid(modificationToken);
+            throws GroupExistInRepositoryException, GroupNameIsEmptyException, ProductNotFoundException{
         return ResponseEntity.ok(groupMapper.mapToGroupDto(dbServiceGroup.createGroup(groupMapper.mapToGroup(groupDto))));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestParam String groupName, @RequestParam String modificationToken)
-            throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+            throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException,
+            ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(groupMapper.mapToGroupDto(dbServiceGroup.updateGroup(id, groupName)));
     }
