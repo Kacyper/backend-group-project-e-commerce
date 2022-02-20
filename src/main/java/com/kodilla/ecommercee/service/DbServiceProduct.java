@@ -43,8 +43,10 @@ public class DbServiceProduct {
         return productRepository.save(productFromDb);
     }
 
-    public void deleteProduct(final Long id) {
-        productRepository.deleteById(id);
+    public Product deleteProduct(final Long id) throws ProductNotFoundException {
+        Product deletedProduct = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        deletedProduct.setAvailable(false);
+        return productRepository.save(deletedProduct);
     }
 
     private void validateProductName(String productName) throws ProductNameIsEmptyException, ProductExistInRepositoryException {
