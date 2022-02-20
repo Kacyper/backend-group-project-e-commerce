@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,12 +43,9 @@ public class ProductMapper {
     }
 
     public List<ProductDto> mapToListDto(final List<Product> products) {
-        List<ProductDto> productDtos = new ArrayList<>();
-        for (Product product : products) {
-            ProductDto productDto = mapToDto(product);
-            productDtos.add(productDto);
-        }
-        return productDtos;
+        return products.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
     public List<Product> mapToProductsFromIdProducts(final List<Long> productIds) throws ProductNotFoundException {
