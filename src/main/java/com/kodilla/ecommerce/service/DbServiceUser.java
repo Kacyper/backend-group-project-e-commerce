@@ -1,23 +1,21 @@
 package com.kodilla.ecommerce.service;
 
+import com.kodilla.ecommerce.exception.UserNotFoundException;
+import com.kodilla.ecommerce.repository.CartRepository;
 import com.kodilla.ecommerce.domain.Cart;
 import com.kodilla.ecommerce.domain.ConfirmationToken;
 import com.kodilla.ecommerce.domain.User;
-
-import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.exception.EmailAlreadyExistsInDatabaseException;
+import com.kodilla.ecommerce.exception.UserAlreadyBlockedException;
 import com.kodilla.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import com.kodilla.ecommerce.repository.CartRepository;
-
 import java.util.ArrayList;
-import java.util.UUID;
-
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 
 @Service
@@ -43,11 +41,11 @@ public class DbServiceUser implements UserDetailsService {
     }
 
     @Transactional
-    public String signUpUser(final User user) throws EmailAlreadyExistsInDatabaseException {
+    public String signUpUser(final User user)
+            throws EmailAlreadyExistsInDatabaseException {
         boolean alreadyExists = userRepository
                 .findByUsername(user.getUsername())
                 .isPresent();
-
         if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -75,14 +73,15 @@ public class DbServiceUser implements UserDetailsService {
         return userFromDb;
     }
 
-    public String generateKey(String username, String password) throws UserNotFoundException {
-        User userFromDb = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        if (password.equals(userFromDb.getPassword())) {
-            userFromDb.setKeyGenerationTime(System.currentTimeMillis());
-            userFromDb.setUserKey(UUID.randomUUID().toString());
-            userRepository.save(userFromDb);
-            return userFromDb.getUserKey();
+    public User getCurrentlyLoggedInUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
         }
-        return "Wrong user credentials.";
+        return (User)loadUserByUsername(username);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.kodilla.ecommerce.domain;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Getter

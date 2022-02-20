@@ -128,8 +128,18 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Token already expired!", HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({IllegalPasswordFormatException.class})
-    public ResponseEntity<String> handleIllegalPasswordFormatException(IllegalPasswordFormatException e) {
+    @ExceptionHandler(IllegalPasswordFormatException.class)
+    public ResponseEntity<String> handleIllegalPasswordFormatException() {
         return new ResponseEntity<>("Your password should contains at least 6 signs!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ModificationTokenNotValidException.class)
+    public ResponseEntity<String> handleModificationTokenNotValidException() {
+        return new ResponseEntity<>("Your modification token expired! Get new one!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ModificationTokenNotFoundException.class)
+    public ResponseEntity<String> handleModificationTokenNotFoundException() {
+        return new ResponseEntity<>("Cannot find modification token! Get new one!", HttpStatus.BAD_REQUEST);
     }
 }

@@ -46,14 +46,11 @@ public class User implements UserDetails {
     @Column(name = "ENABLED")
     private Boolean enabled;
 
-    private String userKey = null;
-
-    private Long keyGenerationTime = null;
-
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
     )
     private final List<Order> orders = new ArrayList<>();
 

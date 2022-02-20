@@ -2,7 +2,6 @@ package com.kodilla.ecommerce.repository;
 
 import com.kodilla.ecommerce.domain.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
