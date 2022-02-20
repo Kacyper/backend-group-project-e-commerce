@@ -4,20 +4,18 @@ import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.exception.EmailAlreadyExistsInDatabaseException;
+import com.kodilla.ecommercee.exception.UserAlreadyBlockedException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
 import java.util.ArrayList;
-
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 
 @Service

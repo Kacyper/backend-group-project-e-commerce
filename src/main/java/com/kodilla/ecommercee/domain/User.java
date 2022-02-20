@@ -46,10 +46,6 @@ public class User implements UserDetails {
     @Column(name = "ENABLED")
     private Boolean enabled;
 
-    private String userKey = null;
-
-    private Long keyGenerationTime = null;
-
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",

@@ -35,6 +35,6 @@ public class DbServiceProduct {
         productFromDb.setProductDescription(product.getProductDescription());
         productFromDb.setGroup(product.getGroup());
 
-        return repository.save(productFromDb);
+        return productRepository.save(productFromDb);
     }
 }
