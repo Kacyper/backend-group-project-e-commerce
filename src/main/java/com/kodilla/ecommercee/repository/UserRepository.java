@@ -17,7 +17,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findAll();
 
     User findByCart(Cart cart);
+
     Optional<User> findByUsername(String username);
+
     boolean existsUserByUsername(String username);
-    boolean existsUserByEmail(String email);
 }
