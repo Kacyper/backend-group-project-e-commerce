@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 
 @RestController
@@ -21,7 +22,7 @@ public class CartController {
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @GetMapping("/{idCart}")
-    public ResponseEntity <List<ProductDto>> getProductsFromCart(@PathVariable Long idCart) throws CartNotFoundException {
+    public ResponseEntity<List<ProductDto>> getProductsFromCart(@PathVariable Long idCart) throws CartNotFoundException {
         return ResponseEntity.ok(productMapper.mapToListDto(dbServiceCart.getAllProducts(idCart)));
     }
 

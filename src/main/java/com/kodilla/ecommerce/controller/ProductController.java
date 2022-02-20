@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/deleteProduct/idProduct")
+    @PutMapping("/deleteProduct/{idProduct}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long idProduct) throws ProductNotFoundException {
         return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.deleteProduct(idProduct)));
     }
