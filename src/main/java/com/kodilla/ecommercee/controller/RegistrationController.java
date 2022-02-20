@@ -22,7 +22,7 @@ public class RegistrationController {
 
     @GetMapping("/confirm")
     public ResponseEntity<String> confirmEmail(@RequestParam String token)
-            throws TokenNotFoundException, EmaiAlreadyConfirmedException,
+            throws TokenNotFoundException, EmailAlreadyConfirmedException,
             TokenExpiredException {
         return ResponseEntity.ok(registrationService.confirmToken(token));
     }

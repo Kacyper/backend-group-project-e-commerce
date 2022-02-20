@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.validator;
 
-import com.kodilla.ecommercee.exception.EmaiAlreadyConfirmedException;
+import com.kodilla.ecommercee.exception.EmailAlreadyConfirmedException;
 import com.kodilla.ecommercee.exception.TokenExpiredException;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +15,9 @@ public class TokenValidator {
         }
     }
     public void validateIfAlreadyConfirmed(final LocalDateTime confirmedAt)
-            throws EmaiAlreadyConfirmedException {
+            throws EmailAlreadyConfirmedException {
         if (confirmedAt != null) {
-            throw new EmaiAlreadyConfirmedException();
+            throw new EmailAlreadyConfirmedException();
         }
     }
 }

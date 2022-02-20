@@ -63,7 +63,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Couldn't find confirmation token in database!", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EmaiAlreadyConfirmedException.class)
+    @ExceptionHandler(EmailAlreadyConfirmedException.class)
     public ResponseEntity<Object> handleEmaiAlreadyConfirmedException() {
         return new ResponseEntity<>("Email has been already confirmed!", HttpStatus.CONFLICT);
     }

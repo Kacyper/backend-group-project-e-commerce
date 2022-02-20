@@ -44,7 +44,7 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(final String token)
-            throws TokenNotFoundException, EmaiAlreadyConfirmedException,
+            throws TokenNotFoundException, EmailAlreadyConfirmedException,
             TokenExpiredException {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
