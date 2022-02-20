@@ -5,7 +5,6 @@ import com.kodilla.ecommerce.repository.ProductRepository;
 import com.kodilla.ecommerce.domain.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,12 +14,8 @@ public class DbServiceProduct {
 
     private final ProductRepository productRepository;
 
-    public List<Product> getProducts() throws EmptyProductRepositoryException {
-        List<Product> products = productRepository.findAll().stream().filter(p -> p.isAvailable()).collect(Collectors.toList());
-        if(products.size() < 1) {
-            throw new EmptyProductRepositoryException();
-        }
-        return products;
+    public List<Product> getProducts() {
+        return productRepository.findAllByAvailable(true);
     }
 
     public Product getProduct(final Long id) throws ProductNotFoundException {

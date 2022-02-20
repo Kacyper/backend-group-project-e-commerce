@@ -142,4 +142,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleModificationTokenNotFoundException() {
         return new ResponseEntity<>("Cannot find modification token! Get new one!", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(WrongCredentialException.class)
+    public ResponseEntity<String> handleWrongCredentialException() {
+        return new ResponseEntity<>("Wrong credentials!", HttpStatus.BAD_REQUEST);
+    }
 }

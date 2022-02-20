@@ -21,7 +21,6 @@ import static com.kodilla.ecommerce.jwt.JwtConstant.*;
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtAlgorithm algorithm;
     private final ModificationTokenService modificationTokenService;
-    private final UserRepository userRepository;
 
     @SneakyThrows
     @Override

@@ -1,5 +1,6 @@
 package com.kodilla.ecommerce.jwt;
 
+import com.kodilla.ecommerce.exception.WrongCredentialException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,6 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) {
-        System.out.println("SOMETHING WRONG");
+        throw new WrongCredentialException();
     }
 }

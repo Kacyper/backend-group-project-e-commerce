@@ -12,9 +12,10 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Override
     List<Product> findAll();
-
     @Query
     List<Product> retrieveAvailableProducts();
 
     boolean existsProductByName(String productName);
+
+    List<Product> findAllByAvailable(boolean available);
 }
