@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service("userDetailsService")
+@Service
 @RequiredArgsConstructor
 public class DbServiceUser implements UserDetailsService {
     private final CartRepository cartRepository;

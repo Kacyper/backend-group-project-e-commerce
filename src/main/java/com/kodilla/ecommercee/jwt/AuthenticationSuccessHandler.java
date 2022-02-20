@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.jwt;
 import com.auth0.jwt.JWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 import static com.kodilla.ecommercee.jwt.JwtConstant.*;
 
