@@ -1,6 +1,8 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Group;
+import com.kodilla.ecommercee.exception.GroupExistInRepositoryException;
+import com.kodilla.ecommercee.exception.GroupNameIsEmptyException;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +23,30 @@ public class DbServiceGroup {
         return groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
     }
 
-    public Group saveGroup(final Group group) {
+    public Group createGroup(final Group group) throws GroupExistInRepositoryException, GroupNameIsEmptyException {
+        validateGroupName(group.getGroupName());
+        return saveGroup(group);
+    }
+
+    public Group updateGroup(final Long id, final String groupName) throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException {
+        Group updatedGroup = groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
+        validateGroupName(groupName);
+        updatedGroup.setGroupName(groupName);
+        saveGroup(updatedGroup);
+        return updatedGroup;
+    }
+
+    private Group saveGroup(final Group group) {
         return groupRepository.save(group);
     }
 
-    public Group updateGroup(final Long id, final Group group) throws GroupNotFoundException {
-        Group updatedGroup = groupRepository.findById(id).orElseThrow(GroupNotFoundException::new);
+    private void validateGroupName(String groupName) throws GroupExistInRepositoryException, GroupNameIsEmptyException {
+        if (groupRepository.existsGroupByGroupName(groupName)) {
+            throw new GroupExistInRepositoryException();
+        }
 
-        updatedGroup.setGroupName(group.getGroupName());
-        updatedGroup.setProducts(group.getProducts());
-
-        return updatedGroup;
+        if (groupName.isEmpty()) {
+            throw new GroupNameIsEmptyException();
+        }
     }
 }

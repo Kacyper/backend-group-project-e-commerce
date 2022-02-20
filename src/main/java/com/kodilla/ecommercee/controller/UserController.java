@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.DbServiceUser;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws Exception {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UserExistByEmailException, InvalidPasswordException, UserNameIsEmptyException, InvalidEmailException, UserExistsInRepositoryException, CartNotFoundException {
         return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.createUser(userDto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws Exception {
+    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException, UserAlreadyBlockedException {
         return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.blockUser(id)));
     }
 

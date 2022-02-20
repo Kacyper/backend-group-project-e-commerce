@@ -20,7 +20,7 @@ public class DbServiceUser {
     private final CartRepository cartRepository;
     private final UserMapper userMapper;
 
-    public User createUser(final UserDto userDto) throws Exception {
+    public User createUser(final UserDto userDto) throws UserExistByEmailException, InvalidPasswordException, UserNameIsEmptyException, InvalidEmailException, UserExistsInRepositoryException, CartNotFoundException {
         validateRequest(userDto);
         Cart userCart = Cart.builder().build();
         cartRepository.save(userCart);
@@ -29,7 +29,7 @@ public class DbServiceUser {
         return userRepository.save(user);
     }
 
-    public User blockUser(final Long idUser) throws Exception {
+    public User blockUser(final Long idUser) throws UserNotFoundException, UserAlreadyBlockedException {
         User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
 
         if (!userFromDb.isEnabled()) {
@@ -53,13 +53,13 @@ public class DbServiceUser {
         return "Wrong user credentials.";
     }
 
-    private void validateRequest(UserDto userDto) throws Exception {
+    private void validateRequest(UserDto userDto) throws UserExistByEmailException, InvalidEmailException, UserNameIsEmptyException, UserExistsInRepositoryException, InvalidPasswordException {
         validateEmail(userDto.getEmail());
         validateUserName(userDto.getUsername());
         validatePassword(userDto.getPassword());
     }
 
-    private void validateEmail(String emailAddress) throws Exception {
+    private void validateEmail(String emailAddress) throws InvalidEmailException, UserExistByEmailException {
         String regexPattern = "^(.+)@(\\S+)$";
         boolean isMatch = Pattern.compile(regexPattern)
                 .matcher(emailAddress)
@@ -73,7 +73,7 @@ public class DbServiceUser {
         }
     }
 
-    private void validateUserName(String userName) throws Exception {
+    private void validateUserName(String userName) throws UserExistsInRepositoryException, UserNameIsEmptyException {
         if (userRepository.existsUserByUsername(userName)) {
             throw  new UserExistsInRepositoryException();
 
