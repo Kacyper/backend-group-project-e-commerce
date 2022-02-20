@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.UserMapper;
@@ -18,8 +19,8 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UserExistsInRepositoryException {
-        return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.createUser(userMapper.mapToUser(userDto))));
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) throws UserExistsInRepositoryException, CartNotFoundException {
+        return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.createUser(userDto)));
     }
 
     @PutMapping("/{id}")

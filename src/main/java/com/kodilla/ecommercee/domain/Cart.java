@@ -36,5 +36,4 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "ID_PRODUCT", referencedColumnName = "ID_PRODUCT")}
     )
     private List<Product> products;
-
 }

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
+
     @Override
     @EntityGraph(value = "graph.User.orders")
     List<User> findAll();

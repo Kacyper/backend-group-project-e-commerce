@@ -2,8 +2,11 @@ package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.User;
+import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +19,16 @@ public class DbServiceUser {
 
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final UserMapper userMapper;
 
-    public User createUser(final User user) throws UserExistsInRepositoryException {
-        if (userRepository.existsUserByUsername(user.getUsername())) {
+    public User createUser(final UserDto userDto) throws UserExistsInRepositoryException, CartNotFoundException {
+        if (userRepository.existsUserByUsername(userDto.getUsername())) {
             throw  new UserExistsInRepositoryException();
         } else {
             Cart userCart = Cart.builder().build();
-            user.setCart(userCart);
             cartRepository.save(userCart);
+            userDto.setIdCart(userCart.getId());
+            User user = userMapper.mapToUser(userDto);
             return userRepository.save(user);
         }
     }
