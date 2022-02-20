@@ -1,9 +1,9 @@
-package com.kodilla.ecommercee.controller;
+package com.kodilla.ecommerce.controller;
 
-import com.kodilla.ecommercee.domain.ProductDto;
-import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.mapper.ProductMapper;
-import com.kodilla.ecommercee.service.DbServiceProduct;
+import com.kodilla.ecommerce.domain.ProductDto;
+import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.mapper.ProductMapper;
+import com.kodilla.ecommerce.service.DbServiceProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,8 +38,14 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/deleteProduct")
+    @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws ProductNotFoundException, GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException {
         return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.updateProduct(id, productMapper.mapToProduct(productDto))));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/deleteProduct")
+    public ResponseEntity<ProductDto> deleteProduct(@RequestParam Long idProduct) throws ProductNotFoundException {
+        return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.deleteProduct(idProduct)));
     }
 }

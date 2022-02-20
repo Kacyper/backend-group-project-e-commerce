@@ -1,8 +1,8 @@
-package com.kodilla.ecommercee.service;
+package com.kodilla.ecommerce.service;
 
-import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.repository.ProductRepository;
-import com.kodilla.ecommercee.domain.Product;
+import com.kodilla.ecommerce.exception.*;
+import com.kodilla.ecommerce.repository.ProductRepository;
+import com.kodilla.ecommerce.domain.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
