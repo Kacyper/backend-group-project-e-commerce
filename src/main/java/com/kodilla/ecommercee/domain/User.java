@@ -48,7 +48,7 @@ public class User implements UserDetails {
 
     private String userKey = null;
 
-    private Long KeyGenerationTime = null;
+    private Long keyGenerationTime = null;
 
     @OneToMany(
             targetEntity = Order.class,

@@ -3,12 +3,17 @@ package com.kodilla.ecommercee.service;
 import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.exception.EmailAlreadyExistsInDatabaseException;
+
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
+
+import java.util.ArrayList;
 import java.util.UUID;
+
+import java.util.regex.Pattern;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,15 +45,15 @@ public class DbServiceUser implements UserDetailsService {
     }
 
     @Transactional
-    public String signUpUser(final User user)
-            throws EmailAlreadyExistsInDatabaseException {
+    public String signUpUser(final User user) throws EmailAlreadyExistsInDatabaseException {
         boolean alreadyExists = userRepository
                 .findByUsername(user.getUsername())
                 .isPresent();
+
         if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Cart userCart = Cart.builder().build();
+        Cart userCart = Cart.builder().products(new ArrayList<>()).build();
         user.setCart(userCart);
         cartRepository.save(userCart);
         userRepository.save(user);
@@ -59,9 +64,15 @@ public class DbServiceUser implements UserDetailsService {
         return confirmationToken.getToken();
     }
 
-    public User blockUser(final Long idUser) throws UserNotFoundException {
+    public User blockUser(final Long idUser) throws UserNotFoundException, UserAlreadyBlockedException {
         User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
+
+        if (!userFromDb.isEnabled()) {
+            throw new UserAlreadyBlockedException();
+        }
+
         userFromDb.setEnabled(false);
+        userFromDb.setActive(false);
         userRepository.save(userFromDb);
         return userFromDb;
     }
