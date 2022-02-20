@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
+import com.kodilla.ecommercee.exception.UserExistsInRepositoryException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.DbServiceUser;

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
+
     @Override
     @EntityGraph(value = "graph.Order.products")
     List<Order> findAll();

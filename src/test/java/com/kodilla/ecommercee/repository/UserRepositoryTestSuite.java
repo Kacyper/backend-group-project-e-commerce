@@ -19,7 +19,7 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserEntityTestSuite {
+public class UserRepositoryTestSuite {
 
     @Autowired
     private UserRepository userRepository;
