@@ -28,6 +28,21 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Product with given id doesn't exist or can't be found in the Cart with given id", HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(EmptyProductRepositoryException.class)
+    public ResponseEntity<Object> handleEmptyProductRepositoryException(EmptyProductRepositoryException emptyProductRepositoryException) {
+        return new ResponseEntity<>("There is no available products in the repository", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductExistInRepositoryException.class)
+    public ResponseEntity<Object> handleProductExistInRepositoryException(ProductExistInRepositoryException productExistInRepositoryException) {
+        return new ResponseEntity<>("Product with given name exist in the repository", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ProductNameIsEmptyException.class)
+    public ResponseEntity<Object> handleProductNameIsEmptyException(ProductNameIsEmptyException productNameIsEmptyException) {
+        return new ResponseEntity<>("Product name can not be empty", HttpStatus.NOT_ACCEPTABLE);
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException orderNotFoundException) {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
@@ -55,7 +70,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserExistsInRepositoryException.class)
     public ResponseEntity<Object> handleUserExistsInRepositoryException(UserExistsInRepositoryException userExistsInRepositoryException) {
-        return new ResponseEntity<>("User already exists.", HttpStatus.CONFLICT);
+        return new ResponseEntity<>("Given userName is already taken", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(InvalidEmailException.class)
