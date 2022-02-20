@@ -36,7 +36,7 @@ public class GroupController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @Valid @RequestParam String groupName) throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException {
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestParam String groupName) throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException {
         return ResponseEntity.ok(GroupMapper.mapToGroupDto(dbServiceGroup.updateGroup(id, groupName)));
     }
 }
