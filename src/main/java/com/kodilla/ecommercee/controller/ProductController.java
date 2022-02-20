@@ -37,7 +37,7 @@ public class ProductController {
         return productMapper.mapToDto(serviceProduct.updateProduct(id, productMapper.mapToProduct(productDto)));
     }
 
-    @PutMapping("deleteProduct")
+    @PutMapping("/deleteProduct")
     public ProductDto deleteProduct(@RequestParam Long id) throws ProductNotFoundException {
         return productMapper.mapToDto(serviceProduct.deleteProduct(id));
     }
