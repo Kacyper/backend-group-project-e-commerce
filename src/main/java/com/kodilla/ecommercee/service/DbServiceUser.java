@@ -1,32 +1,67 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Cart;
+import com.kodilla.ecommercee.domain.ConfirmationToken;
 import com.kodilla.ecommercee.domain.User;
-import com.kodilla.ecommercee.domain.UserDto;
+
 import com.kodilla.ecommercee.exception.*;
-import com.kodilla.ecommercee.mapper.UserMapper;
-import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.kodilla.ecommercee.repository.CartRepository;
+
+import java.util.ArrayList;
 import java.util.UUID;
+
 import java.util.regex.Pattern;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class DbServiceUser {
-
-    private final UserRepository userRepository;
+public class DbServiceUser implements UserDetailsService {
     private final CartRepository cartRepository;
-    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public User createUser(final UserDto userDto) throws UserExistByEmailException, InvalidPasswordException, UserNameIsEmptyException, InvalidEmailException, UserExistsInRepositoryException, CartNotFoundException {
-        validateRequest(userDto);
-        Cart userCart = Cart.builder().build();
+    @Override
+    public UserDetails loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"));
+    }
+
+    @Transactional
+    public void enableAppUser(final String email) {
+        userRepository.findByUsername(email)
+                .orElseThrow(() -> new UsernameNotFoundException("There is no user with given email in database!"))
+                .setEnabled(true);
+    }
+
+    @Transactional
+    public String signUpUser(final User user) throws EmailAlreadyExistsInDatabaseException {
+        boolean alreadyExists = userRepository
+                .findByUsername(user.getUsername())
+                .isPresent();
+
+        if (alreadyExists) throw new EmailAlreadyExistsInDatabaseException();
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Cart userCart = Cart.builder().products(new ArrayList<>()).build();
+        user.setCart(userCart);
         cartRepository.save(userCart);
-        userDto.setIdCart(userCart.getId());
-        User user = userMapper.mapToUser(userDto);
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+        return confirmationToken.getToken();
     }
 
     public User blockUser(final Long idUser) throws UserNotFoundException, UserAlreadyBlockedException {
@@ -51,40 +86,5 @@ public class DbServiceUser {
             return userFromDb.getUserKey();
         }
         return "Wrong user credentials.";
-    }
-
-    private void validateRequest(UserDto userDto) throws UserExistByEmailException, InvalidEmailException, UserNameIsEmptyException, UserExistsInRepositoryException, InvalidPasswordException {
-        validateEmail(userDto.getEmail());
-        validateUserName(userDto.getUsername());
-        validatePassword(userDto.getPassword());
-    }
-
-    private void validateEmail(String emailAddress) throws InvalidEmailException, UserExistByEmailException {
-        String regexPattern = "^(.+)@(\\S+)$";
-        boolean isMatch = Pattern.compile(regexPattern)
-                .matcher(emailAddress)
-                .matches();
-
-        if (!isMatch) {
-            throw new InvalidEmailException();
-
-        } else if (userRepository.existsUserByEmail(emailAddress)) {
-            throw new UserExistByEmailException();
-        }
-    }
-
-    private void validateUserName(String userName) throws UserExistsInRepositoryException, UserNameIsEmptyException {
-        if (userRepository.existsUserByUsername(userName)) {
-            throw  new UserExistsInRepositoryException();
-
-        } else if (userName.isEmpty()) {
-            throw new UserNameIsEmptyException();
-        }
-    }
-
-    private void validatePassword(String password) throws InvalidPasswordException {
-        if (password.length() < 8) {
-            throw new InvalidPasswordException();
-        }
     }
 }

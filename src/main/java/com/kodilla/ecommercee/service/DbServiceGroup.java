@@ -36,7 +36,7 @@ public class DbServiceGroup {
         return updatedGroup;
     }
 
-    private Group saveGroup(final Group group) {
+    public Group saveGroup(final Group group) {
         return groupRepository.save(group);
     }
 
