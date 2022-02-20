@@ -35,7 +35,7 @@ public class UserRepositoryTestSuite {
         //Given
         User user = User.builder()
                 .username("Kate")
-                .email("kate@poczta.pl")
+                .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
                 .active(true)
@@ -58,7 +58,7 @@ public class UserRepositoryTestSuite {
         //Given
         User user1 = User.builder()
                 .username("Kate")
-                .email("kate@poczta.pl")
+                .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
                 .active(true)
@@ -83,7 +83,7 @@ public class UserRepositoryTestSuite {
         //Given
         User user = User.builder()
                 .username("Kate")
-                .email("kate@poczta.pl")
+                .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
                 .active(true)
@@ -108,7 +108,7 @@ public class UserRepositoryTestSuite {
         //Given
         User user = User.builder()
                 .username("Kate")
-                .email("kate@poczta.pl")
+                .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
                 .active(true)
@@ -145,7 +145,7 @@ public class UserRepositoryTestSuite {
 
         User user = User.builder()
                 .username("Kate")
-                .email("kate@poczta.pl")
+                .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
                 .active(true)

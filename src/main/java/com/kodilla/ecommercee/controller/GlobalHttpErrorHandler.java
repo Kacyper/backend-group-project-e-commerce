@@ -97,4 +97,39 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUserAlreadyBlockedException(UserAlreadyBlockedException userAlreadyBlockedException) {
         return new ResponseEntity<>("User with given id is already blocked", HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(PasswordNotMatchException.class)
+    public ResponseEntity<Object> handlePasswordNotMatchException() {
+        return new ResponseEntity<>("Password and repeat password fields should match!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsInDatabaseException.class)
+    public ResponseEntity<Object> handleEmailAlreadyExistsInDatabaseException() {
+        return new ResponseEntity<>("You have to pick another login! This one already occupied!", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(EmailNotValidException.class)
+    public ResponseEntity<Object> handleEmailNotValidException() {
+        return new ResponseEntity<>("Type in valid email address!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<Object> handleTokenNotFoundException() {
+        return new ResponseEntity<>("Couldn't find confirmation token in database!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EmailAlreadyConfirmedException.class)
+    public ResponseEntity<Object> handleEmaiAlreadyConfirmedException() {
+        return new ResponseEntity<>("Email has been already confirmed!", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Object> handleTokenExpiredException() {
+        return new ResponseEntity<>("Token already expired!", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({IllegalPasswordFormatException.class})
+    public ResponseEntity<String> handleIllegalPasswordFormatException(IllegalPasswordFormatException e) {
+        return new ResponseEntity<>("Your password should contains at least 6 signs!", HttpStatus.BAD_REQUEST);
+    }
 }
