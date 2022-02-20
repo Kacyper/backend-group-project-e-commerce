@@ -38,7 +38,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Product with given name exist in the repository", HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(ProductNameIsEmptyException.class)
+        @ExceptionHandler(ProductNameIsEmptyException.class)
     public ResponseEntity<Object> handleProductNameIsEmptyException(ProductNameIsEmptyException productNameIsEmptyException) {
         return new ResponseEntity<>("Product name can not be empty", HttpStatus.NOT_ACCEPTABLE);
     }
