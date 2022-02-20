@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.ProductDto;
-import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.DbServiceProduct;
 import lombok.RequiredArgsConstructor;
@@ -15,27 +15,26 @@ import java.util.List;
 public class ProductController {
 
     private final DbServiceProduct serviceProduct;
+    private final ProductMapper productMapper;
 
     @GetMapping
-    public List<ProductDto> getProducts() {
-        return ProductMapper.mapToListDto(serviceProduct.getProducts());
+    public List<ProductDto> getProducts() throws EmptyProductRepositoryException {
+        return productMapper.mapToListDto(serviceProduct.getProducts());
     }
 
     @GetMapping("/{id}")
-    public ProductDto getProduct(@PathVariable Long id)
-            throws ProductNotFoundException {
-        return ProductMapper.mapToDto(serviceProduct.getProduct(id));
+    public ProductDto getProduct(@PathVariable Long id) throws ProductNotFoundException {
+        return productMapper.mapToDto(serviceProduct.getProduct(id));
     }
 
     @PostMapping
-    public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        return ProductMapper.mapToDto(serviceProduct.createProduct(ProductMapper.mapToProduct(productDto)));
+    public ProductDto createProduct(@RequestBody ProductDto productDto) throws GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException {
+        return productMapper.mapToDto(serviceProduct.createProduct(productMapper.mapToProduct(productDto)));
     }
 
     @PutMapping("/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto)
-            throws ProductNotFoundException {
-        return ProductMapper.mapToDto(serviceProduct.updateProduct(id, ProductMapper.mapToProduct(productDto)));
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws ProductNotFoundException, GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException {
+        return productMapper.mapToDto(serviceProduct.updateProduct(id, productMapper.mapToProduct(productDto)));
     }
 
     @DeleteMapping("/{id}")

@@ -2,47 +2,52 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ProductMapper {
 
     private final ProductRepository productRepository;
+    private final GroupRepository groupRepository;
 
-    public static Product mapToProduct(final ProductDto dto) {
+    public Product mapToProduct(final ProductDto productDto) throws GroupNotFoundException {
         return Product.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .price(dto.getPrice())
-                .productDescription(dto.getProductDescription())
-                .available(dto.isAvailable())
-                .group(dto.getGroup())
+                .id(productDto.getId())
+                .name(productDto.getName())
+                .price(productDto.getPrice())
+                .productDescription(productDto.getProductDescription())
+                .available(productDto.isAvailable())
+                .group(groupRepository.findById(productDto.getIdGroup()).orElseThrow(GroupNotFoundException::new))
                 .build();
     }
 
-    public static ProductDto mapToDto(final Product product) {
+    public ProductDto mapToDto(final Product product) {
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
                 .productDescription(product.getProductDescription())
                 .available(product.isAvailable())
-                .group(product.getGroup())
+                .idGroup(product.getGroup().getId())
                 .build();
     }
 
-    public static List<ProductDto> mapToListDto(final List<Product> products) {
-        return products.stream()
-                .map(ProductMapper::mapToDto)
-                .collect(Collectors.toList());
+    public List<ProductDto> mapToListDto(final List<Product> products) {
+        List<ProductDto> productDtos = new ArrayList<>();
+        for (Product product : products) {
+            ProductDto productDto = mapToDto(product);
+            productDtos.add(productDto);
+        }
+        return productDtos;
     }
 
     public List<Product> mapToProductsFromIdProducts(final List<Long> productIds) throws ProductNotFoundException {

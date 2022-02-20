@@ -17,5 +17,5 @@ public class ProductDto {
     private BigDecimal price;
     private String productDescription;
     private boolean available;
-    private Group group;
+    private Long idGroup;
 }

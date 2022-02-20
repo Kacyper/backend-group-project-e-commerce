@@ -16,10 +16,11 @@ public class CartController {
 
     private final DbServiceCart dbServiceCart;
     private final CartMapper cartMapper;
+    private final ProductMapper productMapper;
 
     @GetMapping("/{idCart}")
     public ResponseEntity <List<ProductDto>> getProductsFromCart(@PathVariable Long idCart) throws CartNotFoundException {
-        return ResponseEntity.ok(ProductMapper.mapToListDto(dbServiceCart.getAllProducts(idCart)));
+        return ResponseEntity.ok(productMapper.mapToListDto(dbServiceCart.getAllProducts(idCart)));
     }
 
     @PutMapping("addProduct/{idCart}/{idProduct}")

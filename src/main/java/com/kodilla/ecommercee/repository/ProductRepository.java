@@ -15,4 +15,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query
     List<Product> retrieveAvailableProducts();
+
+    boolean existsProductByName(String productName);
 }
