@@ -63,8 +63,8 @@ public class DbServiceOrder {
         return order;
     }
 
-    public BigDecimal setShippingCompany(final int shippingComapny) {
-        switch (shippingComapny) {
+    public BigDecimal setShippingCompany(final int shippingCompany) {
+        switch (shippingCompany) {
             case 1:
                 return new BigDecimal("10"); //paczkomat
             case 2:

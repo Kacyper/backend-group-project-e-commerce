@@ -134,7 +134,6 @@ public class CartRepositoryTestSuite {
          Long userId = user.getId();
 
          cartRepository.save(myCart);
-         Long cartId = myCart.getId();
 
          //Then
          assertEquals(1, userRepository.findAll().size());

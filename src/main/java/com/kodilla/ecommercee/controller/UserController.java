@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.exception.*;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.service.DbServiceUser;
 import com.kodilla.ecommercee.service.ModificationTokenService;
@@ -20,7 +20,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException {
+    public ResponseEntity<UserDto> blockUser (@PathVariable Long id) throws UserNotFoundException, UserAlreadyBlockedException {
         return ResponseEntity.ok(userMapper.mapToUserDto(dbServiceUser.blockUser(id)));
     }
 

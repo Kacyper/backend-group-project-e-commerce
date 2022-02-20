@@ -24,7 +24,7 @@ public class DbServiceCart {
                 .collect(Collectors.toList());
     }
 
-    public Cart addToCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {
+    public Cart addToCart(final Long idCart, final Long idProduct) throws Exception {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
         Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
 
@@ -36,7 +36,7 @@ public class DbServiceCart {
         } else throw new ProductNotAvailableException();
     }
 
-    public Cart deleteFromCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
+    public Cart deleteFromCart(final Long idCart, final Long idProduct) throws Exception {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
 
         Product product = cart.getProducts().stream()

@@ -5,7 +5,6 @@ import com.kodilla.ecommercee.domain.GroupDto;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class GroupMapper {
 
     private final ProductMapper productMapper;
 
-    public Group mapToGroup(final GroupDto groupDto) throws ProductNotFoundException{
+    public Group mapToGroup(final GroupDto groupDto) throws ProductNotFoundException {
         return Group.builder()
                 .id(groupDto.getId())
                 .groupName(groupDto.getGroupName())

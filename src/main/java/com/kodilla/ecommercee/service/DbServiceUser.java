@@ -62,9 +62,15 @@ public class DbServiceUser implements UserDetailsService {
         return confirmationToken.getToken();
     }
 
-    public User blockUser(final Long idUser) throws UserNotFoundException {
+    public User blockUser(final Long idUser) throws UserNotFoundException, UserAlreadyBlockedException {
         User userFromDb = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
+
+        if (!userFromDb.isEnabled()) {
+            throw new UserAlreadyBlockedException();
+        }
+
         userFromDb.setEnabled(false);
+        userFromDb.setActive(false);
         userRepository.save(userFromDb);
         return userFromDb;
     }

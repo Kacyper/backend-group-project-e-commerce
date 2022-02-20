@@ -12,25 +12,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DbServiceProduct {
 
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
 
     public List<Product> getProducts() {
-        return repository.findAll();
+        return productRepository.findAll();
     }
 
-    public Product getProduct(final Long id)
-            throws ProductNotFoundException {
-        return repository.findById(id)
-                .orElseThrow(ProductNotFoundException::new);
+    public Product getProduct(final Long id) throws ProductNotFoundException {
+        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
     public Product createProduct(final Product product) {
-        return repository.save(product);
+        return productRepository.save(product);
     }
 
     public Product updateProduct(final Long id, final Product product)
             throws ProductNotFoundException {
-        Product productFromDb = repository.findById(id)
+        Product productFromDb = productRepository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
         productFromDb.setName(product.getName());
         productFromDb.setPrice(product.getPrice());
