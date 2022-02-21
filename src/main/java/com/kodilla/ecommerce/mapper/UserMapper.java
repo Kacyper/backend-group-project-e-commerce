@@ -2,8 +2,6 @@ package com.kodilla.ecommerce.mapper;
 
 import com.kodilla.ecommerce.domain.User;
 import com.kodilla.ecommerce.domain.UserDto;
-import com.kodilla.ecommerce.exception.CartNotFoundException;
-import com.kodilla.ecommerce.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
