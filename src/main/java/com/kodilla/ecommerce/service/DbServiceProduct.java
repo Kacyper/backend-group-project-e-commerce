@@ -1,10 +1,14 @@
 package com.kodilla.ecommerce.service;
 
-import com.kodilla.ecommerce.exception.*;
-import com.kodilla.ecommerce.repository.ProductRepository;
 import com.kodilla.ecommerce.domain.Product;
+import com.kodilla.ecommerce.exception.ProductExistInRepositoryException;
+import com.kodilla.ecommerce.exception.ProductIsAlreadyUnavailable;
+import com.kodilla.ecommerce.exception.ProductNameIsEmptyException;
+import com.kodilla.ecommerce.exception.ProductNotFoundException;
+import com.kodilla.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +57,7 @@ public class DbServiceProduct {
 
         if (id != 0L) {
             productNames = productRepository.findAll().stream()
-                    .filter(product -> product.getName() != productRepository.findById(id).get().getName())
+                    .filter(product -> !product.getName().equals(productRepository.findById(id).get().getName()))
                     .map(Product::getName)
                     .collect(Collectors.toList());
         }
