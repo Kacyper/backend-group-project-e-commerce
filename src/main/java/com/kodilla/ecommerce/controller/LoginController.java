@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @PostMapping
-    public void login(@RequestBody LoginCredentials request){
+    public void login(@RequestBody LoginCredentials request) {
     }
 }

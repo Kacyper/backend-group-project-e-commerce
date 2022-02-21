@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @NamedQuery(
         name = "Product.retrieveAvailableProducts",
         query = "FROM PRODUCTS WHERE available = true")
+
 @Entity(name = "PRODUCTS")
 @Builder
 @Getter

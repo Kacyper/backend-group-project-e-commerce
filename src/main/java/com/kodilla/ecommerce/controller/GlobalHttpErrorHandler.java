@@ -43,6 +43,11 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Product name can not be empty", HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(ProductIsAlreadyUnavailable.class)
+    public ResponseEntity<Object> handleProductIsAlreadyUnavailable(ProductIsAlreadyUnavailable productIsAlreadyUnavailable) {
+        return new ResponseEntity<>("Product with given id is already not available", HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException orderNotFoundException) {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);

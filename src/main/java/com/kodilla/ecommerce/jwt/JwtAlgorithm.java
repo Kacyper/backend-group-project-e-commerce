@@ -10,6 +10,7 @@ public class JwtAlgorithm {
     public JwtAlgorithm() {
         this.algorithm = Algorithm.HMAC512("secret");
     }
+
     public Algorithm getAlgorithm() {
         return algorithm;
     }

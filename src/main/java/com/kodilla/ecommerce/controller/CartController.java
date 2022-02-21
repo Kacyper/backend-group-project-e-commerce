@@ -2,6 +2,9 @@ package com.kodilla.ecommerce.controller;
 
 import com.kodilla.ecommerce.domain.*;
 import com.kodilla.ecommerce.exception.CartNotFoundException;
+import com.kodilla.ecommerce.exception.ProductNotAvailableException;
+import com.kodilla.ecommerce.exception.ProductNotFoundException;
+import com.kodilla.ecommerce.exception.ProductNotFoundInCartException;
 import com.kodilla.ecommerce.mapper.*;
 import com.kodilla.ecommerce.service.DbServiceCart;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +31,13 @@ public class CartController {
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("addProduct/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws Exception {
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws ProductNotFoundException, ProductNotAvailableException, CartNotFoundException {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.addToCart(idCart, idProduct)));
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/{idCart}/{idProduct}")
-    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws Exception {
+    public ResponseEntity<CartDto> deleteProductFromCart(@PathVariable Long idCart, @PathVariable Long idProduct) throws CartNotFoundException, ProductNotFoundInCartException {
         return ResponseEntity.ok(cartMapper.mapToCartDto(dbServiceCart.deleteFromCart(idCart, idProduct)));
     }
 }

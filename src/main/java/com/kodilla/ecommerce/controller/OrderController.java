@@ -42,24 +42,21 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/{id}/{shippingCompany}")
-    public ResponseEntity<OrderDto> updateOrderChooseShippingCompany(@PathVariable Long id, @PathVariable int shippingCompany, @RequestParam String modificationToken)
-            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<OrderDto> updateOrderChooseShippingCompany(@PathVariable Long id, @PathVariable int shippingCompany, @RequestParam String modificationToken) throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderChooseShippingCompany(id, shippingCompany)));
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/send/{id}")
-    public ResponseEntity<OrderDto> updateOrderIsSent(@PathVariable Long id, @RequestParam String modificationToken)
-            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<OrderDto> updateOrderIsSent(@PathVariable Long id, @RequestParam String modificationToken) throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsSent(id)));
     }
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PutMapping("/pay/{id}")
-    public ResponseEntity<OrderDto> updateOrderIsPaid(@PathVariable Long id, @RequestParam String modificationToken)
-            throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<OrderDto> updateOrderIsPaid(@PathVariable Long id, @RequestParam String modificationToken) throws OrderNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(dbServiceOrder.updateOrderIsPaid(id)));
     }

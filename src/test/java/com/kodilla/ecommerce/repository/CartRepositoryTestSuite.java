@@ -123,7 +123,6 @@ public class CartRepositoryTestSuite {
                  .fullName("whatever")
                  .password("1234")
                  .createDate(LocalDateTime.now())
-                 .active(true)
                  .enabled(true)
                  .build();
 

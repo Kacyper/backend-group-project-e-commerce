@@ -1,4 +1,4 @@
 package com.kodilla.ecommerce.exception;
 
-public class IllegalPasswordFormatException extends Exception{
+public class IllegalPasswordFormatException extends Exception {
 }

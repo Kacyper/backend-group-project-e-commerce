@@ -13,22 +13,18 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
     private final ObjectMapper objectMapper;
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response)
-            throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            LoginCredentials credentials = objectMapper.readValue(request.getInputStream(),
-                    LoginCredentials.class);
-
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    credentials.getEmail(),
-                    credentials.getPassword()
-            );
+            LoginCredentials credentials = objectMapper.readValue(request.getInputStream(), LoginCredentials.class);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
             setDetails(request, token);
+
             return this.getAuthenticationManager().authenticate(token);
+
         } catch (IOException e) {
             throw new IllegalArgumentException(e.getMessage());
         }

@@ -28,7 +28,6 @@ public class Cart {
                 CascadeType.REFRESH
         },
         fetch = FetchType.LAZY
-
     )
     @JoinTable(
             name = "CARTS_HAVE_PRODUCTS",

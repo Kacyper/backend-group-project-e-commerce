@@ -38,7 +38,6 @@ public class UserRepositoryTestSuite {
                 .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .active(true)
                 .enabled(true)
                 .build();
         //When
@@ -61,7 +60,6 @@ public class UserRepositoryTestSuite {
                 .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .active(true)
                 .enabled(true)
                 .build();
 
@@ -86,7 +84,6 @@ public class UserRepositoryTestSuite {
                 .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .active(true)
                 .enabled(true)
                 .build();
 
@@ -111,7 +108,6 @@ public class UserRepositoryTestSuite {
                 .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .active(true)
                 .enabled(true)
                 .build();
 
@@ -148,7 +144,6 @@ public class UserRepositoryTestSuite {
                 .fullName("kate@poczta.pl")
                 .password("aaaa1111")
                 .createDate(LocalDateTime.now())
-                .active(true)
                 .enabled(true)
                 .cart(cart)
                 .build();

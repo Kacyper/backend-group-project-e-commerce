@@ -35,25 +35,20 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
-            throws GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException {
-        return ResponseEntity.ok(productMapper
-                .mapToDto(serviceProduct.createProduct(productMapper
-                        .mapToProduct(productDto))));
+    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) throws GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException {
+        return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.createProduct(productMapper.mapToProduct(productDto))));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto, @RequestParam String modificationToken)
-            throws ProductNotFoundException, GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto, @RequestParam String modificationToken) throws ProductNotFoundException, GroupNotFoundException, ProductNameIsEmptyException, ProductExistInRepositoryException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.updateProduct(id, productMapper.mapToProduct(productDto))));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/deleteProduct/{idProduct}")
-    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long idProduct, @RequestParam String modificationToken )
-            throws ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long idProduct, @RequestParam String modificationToken ) throws ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException, ProductIsAlreadyUnavailable {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.deleteProduct(idProduct)));
     }

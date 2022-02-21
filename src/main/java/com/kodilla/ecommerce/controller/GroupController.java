@@ -35,18 +35,14 @@ public class GroupController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<GroupDto> createGroup(@RequestBody GroupDto groupDto, @RequestParam String modificationToken)
-            throws GroupExistInRepositoryException, GroupNameIsEmptyException, ProductNotFoundException{
+    public ResponseEntity<GroupDto> createGroup(@RequestBody GroupDto groupDto, @RequestParam String modificationToken) throws GroupExistInRepositoryException, GroupNameIsEmptyException, ProductNotFoundException {
         return ResponseEntity.ok(groupMapper.mapToGroupDto(dbServiceGroup.createGroup(groupMapper.mapToGroup(groupDto))));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestParam String groupName, @RequestParam String modificationToken)
-            throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException,
-            ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable Long id, @RequestParam String groupName, @RequestParam String modificationToken) throws GroupNotFoundException, GroupExistInRepositoryException, GroupNameIsEmptyException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(groupMapper.mapToGroupDto(dbServiceGroup.updateGroup(id, groupName)));
     }
-
 }

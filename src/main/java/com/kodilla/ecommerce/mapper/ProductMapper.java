@@ -57,22 +57,19 @@ public class ProductMapper {
                 Product product = productRepository.findById(idProduct).orElseThrow(ProductNotFoundException::new);
                 products.add(product);
             }
-            return products;
-
-        } else return new ArrayList<>();
+        }
+        return products;
     }
 
     public List<Long> mapToProductsIdsFromProducts(final List<Product> products) {
         List<Long> productIds = new ArrayList<>();
 
-        if(productIds.size() > 0) {
+        if(products.size() > 0) {
+            productIds = products.stream()
+                    .map(Product::getId)
+                    .collect(Collectors.toList());
+        }
 
-            for (Product product : products) {
-                Long idProduct = product.getId();
-                productIds.add(idProduct);
-            }
-            return productIds;
-
-        } else return new ArrayList<>();
+        return productIds;
     }
 }

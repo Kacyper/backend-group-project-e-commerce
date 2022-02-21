@@ -1,7 +1,6 @@
 package com.kodilla.ecommerce.jwt;
 
 import com.auth0.jwt.JWT;
-import com.kodilla.ecommerce.repository.UserRepository;
 import com.kodilla.ecommerce.service.ModificationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -19,13 +18,13 @@ import static com.kodilla.ecommerce.jwt.JwtConstant.*;
 @Component
 @RequiredArgsConstructor
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
     private final JwtAlgorithm algorithm;
     private final ModificationTokenService modificationTokenService;
 
     @SneakyThrows
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication){
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         String modificationToken = modificationTokenService.createModificationTokenAndSaveToDb();
         String token = JWT.create()
@@ -37,5 +36,4 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         response.setHeader(ACCESS_TOKEN_HEADER, PREFIX.concat(token));
         response.setHeader("modification_token", modificationToken);
     }
-
 }
