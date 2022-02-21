@@ -48,7 +48,7 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/deleteProduct/{idProduct}")
-    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long idProduct, @RequestParam String modificationToken ) throws ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long idProduct, @RequestParam String modificationToken ) throws ProductNotFoundException, ModificationTokenNotFoundException, ModificationTokenNotValidException, ProductIsAlreadyUnavailable {
         modificationTokenService.checkIfModificationTokenValid(modificationToken);
         return ResponseEntity.ok(productMapper.mapToDto(serviceProduct.deleteProduct(idProduct)));
     }
