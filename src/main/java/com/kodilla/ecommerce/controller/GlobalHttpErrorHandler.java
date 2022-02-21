@@ -55,7 +55,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OrderNotPaidException.class)
     public ResponseEntity<String> handleOrderNotPaidException() {
-        return new ResponseEntity<>("Cannot proceed, order is not paid! Please verify Your payment status.", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>("Cannot proceed, order is not paid!", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(OrderAlreadyProcessedException.class)
