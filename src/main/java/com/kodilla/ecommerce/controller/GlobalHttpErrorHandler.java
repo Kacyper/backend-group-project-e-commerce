@@ -100,7 +100,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidEmailException.class)
     public ResponseEntity<Object> handleInvalidEmailException(InvalidEmailException invalidEmailException) {
-        return new ResponseEntity<>("Given e-mail adress is not valid", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>("Given e-mail address is not valid", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(UserExistByEmailException.class)
