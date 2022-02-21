@@ -11,8 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@NamedEntityGraph(name = "graph.Order.products",
-        attributeNodes = @NamedAttributeNode("products"))
+@NamedEntityGraph(name = "graph.Order.products", attributeNodes = @NamedAttributeNode("products"))
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

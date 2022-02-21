@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
+
     public static final String EMAIL_WITH_LINK_JUST_SEND = "Email with confirmation request just send";
     public static final String EMAIL_SUCCESSFULLY_CONFIRMED = "Email successfully confirmed!";
     private final EmailValidator emailValidator;
@@ -28,9 +29,8 @@ public class RegistrationService {
     private final TokenValidator tokenValidator;
 
 
-    public String register(RegistrationRequestDto request)
-            throws EmailNotValidException, PasswordNotMatchException, IllegalPasswordFormatException,
-            EmailAlreadyExistsInDatabaseException {
+    public String register(RegistrationRequestDto request) throws EmailNotValidException, PasswordNotMatchException, IllegalPasswordFormatException, EmailAlreadyExistsInDatabaseException {
+
         emailValidator.validate(request.getEmail());
         passwordFormatValidator.validate(request.getPassword());
         passwordEqualityValidator.validate(request.getPassword(), request.getRepeatPassword());
@@ -44,9 +44,8 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(final String token)
-            throws TokenNotFoundException, EmailAlreadyConfirmedException,
-            TokenExpiredException {
+    public String confirmToken(final String token) throws TokenNotFoundException, EmailAlreadyConfirmedException, TokenExpiredException {
+
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(TokenNotFoundException::new);

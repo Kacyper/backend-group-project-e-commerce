@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailService implements EmailSender {
+
     private final JavaMailSenderImpl mailSender;
     private static final String CONFIRMATION_SUBJECT = "Confirm your email";
 
@@ -26,6 +27,7 @@ public class EmailService implements EmailSender {
             helper.setSubject(CONFIRMATION_SUBJECT);
             helper.setFrom("adminEmail");
             mailSender.send(myMessage);
+
         } catch (MessagingException | MailSendException e) {
             log.error("Failed to send email", e);
         }

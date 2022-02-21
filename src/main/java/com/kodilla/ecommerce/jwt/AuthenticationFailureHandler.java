@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
         throw new WrongCredentialException();
     }
 }

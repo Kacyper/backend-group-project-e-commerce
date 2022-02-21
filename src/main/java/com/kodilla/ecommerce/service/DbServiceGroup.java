@@ -41,6 +41,7 @@ public class DbServiceGroup {
     }
 
     private void validateGroupName(String groupName) throws GroupExistInRepositoryException, GroupNameIsEmptyException {
+
         if (groupRepository.existsGroupByGroupName(groupName)) {
             throw new GroupExistInRepositoryException();
         }

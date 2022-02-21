@@ -18,8 +18,10 @@ import java.util.List;
 @Entity
 @NamedEntityGraph(name = "graph.User.orders",
         attributeNodes = @NamedAttributeNode("orders"))
+
 @Table(name = "USERS")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_USER", unique = true)
@@ -63,14 +65,17 @@ public class User implements UserDetails {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
         return Collections.singletonList(authority);
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

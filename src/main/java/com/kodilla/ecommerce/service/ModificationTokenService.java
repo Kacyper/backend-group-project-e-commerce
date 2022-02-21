@@ -13,6 +13,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ModificationTokenService {
+
     private final ModificationTokenRepository modificationTokenRepository;
     private final DbServiceUser serviceUser;
 
@@ -28,8 +29,7 @@ public class ModificationTokenService {
         return token;
     }
 
-    public void checkIfModificationTokenValid(final String token)
-            throws ModificationTokenNotFoundException, ModificationTokenNotValidException {
+    public void checkIfModificationTokenValid(final String token) throws ModificationTokenNotFoundException, ModificationTokenNotValidException {
         User currentlyLoggedInUser = serviceUser.getCurrentlyLoggedInUser();
         ModificationToken modificationToken = modificationTokenRepository.findAllByAppUser(currentlyLoggedInUser)
                 .stream()
