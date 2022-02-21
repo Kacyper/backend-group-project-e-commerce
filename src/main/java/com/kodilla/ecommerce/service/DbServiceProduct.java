@@ -45,6 +45,7 @@ public class DbServiceProduct {
     }
 
     private void validateProductName(String productName) throws ProductNameIsEmptyException, ProductExistInRepositoryException {
+
         if (productRepository.existsProductByName(productName)) {
             throw new ProductExistInRepositoryException();
         }
