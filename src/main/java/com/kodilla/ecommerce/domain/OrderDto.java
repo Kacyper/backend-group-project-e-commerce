@@ -20,6 +20,6 @@ public class OrderDto {
     private BigDecimal orderTotalPrice;
     private boolean isSent;
     private boolean isPaid;
-    private List<Product> products;
+    private List<Long> productIds;
 }
 
