@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +33,13 @@ public class DbServiceOrder {
         return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
-    public Order createOrder(final Long idCart, final int shipping) throws CartNotFoundException, CartIsEmptyException {
+    public Order createOrder(final Long idCart, final int shipping) throws CartNotFoundException, CartIsEmptyException, CartHasNoAvailableProductsException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
 
         if (cart.getProducts().size() == 0) {
             throw new CartIsEmptyException();
+        } else if (cart.getProducts().stream().noneMatch(Product::isAvailable)) {
+            throw new CartHasNoAvailableProductsException();
         }
 
         User user = userRepository.findByCart(cart);
@@ -57,7 +60,7 @@ public class DbServiceOrder {
 
         order.setOrderTotalPrice(totalPrice.add(order.getShippingPrice()));
 
-        order.setProducts(cart.getProducts());
+        order.setProducts(cart.getProducts().stream().filter(Product::isAvailable).collect(Collectors.toList()));
         cart.setProducts(new ArrayList<>());
 
         orderRepository.save(order);

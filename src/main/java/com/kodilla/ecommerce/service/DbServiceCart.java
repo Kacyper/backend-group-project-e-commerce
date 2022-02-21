@@ -5,6 +5,8 @@ import com.kodilla.ecommerce.exception.*;
 import com.kodilla.ecommerce.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,12 +18,9 @@ public class DbServiceCart {
     private final ProductRepository productRepository;
 
     public List<Product> getAllProducts(final Long idCart) throws CartNotFoundException {
-        return cartRepository.findById(idCart)
+        return new ArrayList<>(cartRepository.findById(idCart)
                 .orElseThrow(CartNotFoundException::new)
-                .getProducts()
-                .stream()
-                .filter(product -> product.isAvailable())
-                .collect(Collectors.toList());
+                .getProducts());
     }
 
     public Cart addToCart(final Long idCart, final Long idProduct) throws CartNotFoundException, ProductNotFoundException, ProductNotAvailableException {

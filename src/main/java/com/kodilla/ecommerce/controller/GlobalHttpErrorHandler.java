@@ -13,6 +13,11 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Cart with given id doesn't exist or can't be found in repository", HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CartHasNoAvailableProductsException.class)
+    public ResponseEntity<String> handleCartHasNoAvailableProductsException() {
+        return new ResponseEntity<>("Cart has no available products!", HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
         return new ResponseEntity<>("Product with given id doesn't exist or can't be found in repository", HttpStatus.NOT_FOUND);

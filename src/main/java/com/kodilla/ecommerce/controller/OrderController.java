@@ -35,7 +35,7 @@ public class OrderController {
 
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     @PostMapping("/{idCart}")
-    public ResponseEntity<OrderDto> createOrder(@PathVariable Long idCart, @RequestParam(required = false) int shippingCompany) throws CartNotFoundException, CartIsEmptyException {
+    public ResponseEntity<OrderDto> createOrder(@PathVariable Long idCart, @RequestParam(required = false) int shippingCompany) throws CartNotFoundException, CartIsEmptyException, CartHasNoAvailableProductsException {
         Order order = dbServiceOrder.createOrder(idCart, shippingCompany);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
