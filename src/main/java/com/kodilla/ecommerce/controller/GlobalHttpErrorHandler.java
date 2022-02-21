@@ -49,8 +49,28 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException orderNotFoundException) {
+    public ResponseEntity<Object> handleOrderNotFoundException() {
         return new ResponseEntity<>("Order with given id doesn't exist or can't be found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotPaidException.class)
+    public ResponseEntity<String> handleOrderNotPaidException() {
+        return new ResponseEntity<>("You cannot proceed, the order is not paid", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(OrderAlreadyProcessedException.class)
+    public ResponseEntity<String> handleOrderAlreadyProcessedException() {
+        return new ResponseEntity<>("Cannot change shipping company, order has been already processed!", HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(OrderAlreadySentException.class)
+    public ResponseEntity<String> handleOrderAlreadySentException() {
+        return new ResponseEntity<>("Order is already sent!", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(OrderAlreadyPaidException.class)
+    public ResponseEntity<String> handleOrderAlreadyPaidException() {
+        return new ResponseEntity<>("Order is already paid!", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(GroupNotFoundException.class)
@@ -80,7 +100,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidEmailException.class)
     public ResponseEntity<Object> handleInvalidEmailException(InvalidEmailException invalidEmailException) {
-        return new ResponseEntity<>("Given e-mail adress is not valid", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>("Given e-mail address is not valid", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(UserExistByEmailException.class)
@@ -151,5 +171,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(WrongCredentialException.class)
     public ResponseEntity<String> handleWrongCredentialException() {
         return new ResponseEntity<>("Wrong credentials!", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CartIsEmptyException.class)
+    public ResponseEntity<String> handleCartIsEmptyException() {
+        return new ResponseEntity<>("Cannot creat order, cart is empty!", HttpStatus.CONFLICT);
     }
 }

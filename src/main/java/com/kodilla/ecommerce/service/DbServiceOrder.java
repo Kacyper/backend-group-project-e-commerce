@@ -4,9 +4,7 @@ import com.kodilla.ecommerce.domain.Cart;
 import com.kodilla.ecommerce.domain.Order;
 import com.kodilla.ecommerce.domain.Product;
 import com.kodilla.ecommerce.domain.User;
-import com.kodilla.ecommerce.exception.CartNotFoundException;
-import com.kodilla.ecommerce.exception.OrderNotFoundException;
-import com.kodilla.ecommerce.exception.UserNotFoundException;
+import com.kodilla.ecommerce.exception.*;
 import com.kodilla.ecommerce.repository.CartRepository;
 import com.kodilla.ecommerce.repository.OrderRepository;
 import com.kodilla.ecommerce.repository.UserRepository;
@@ -34,8 +32,13 @@ public class DbServiceOrder {
         return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
-    public Order createOrder(final Long idCart, final int shipping) throws CartNotFoundException {
+    public Order createOrder(final Long idCart, final int shipping) throws CartNotFoundException, CartIsEmptyException {
         Cart cart = cartRepository.findById(idCart).orElseThrow(CartNotFoundException::new);
+
+        if (cart.getProducts().size() == 0) {
+            throw new CartIsEmptyException();
+        }
+
         User user = userRepository.findByCart(cart);
         BigDecimal totalPrice = cart.getProducts().stream()
                 .filter(Product::isAvailable)
@@ -78,23 +81,36 @@ public class DbServiceOrder {
         }
     }
 
-    public Order updateOrderChooseShippingCompany(final Long id, final int shippingCompany) throws OrderNotFoundException {
+    public Order updateOrderChooseShippingCompany(final Long id, final int shippingCompany) throws OrderNotFoundException, OrderAlreadyProcessedException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+
+        if (order.isPaid()) {
+            throw new OrderAlreadyProcessedException();
+        }
+
         order.setShippingPrice(setShippingCompany(shippingCompany));
         order.setOrderTotalPrice(order.getProductsTotalPrice().add(order.getShippingPrice()));
         orderRepository.save(order);
         return order;
     }
 
-    public Order updateOrderIsSent(final Long id) throws OrderNotFoundException {
+    public Order updateOrderIsSent(final Long id) throws OrderNotFoundException, OrderNotPaidException, OrderAlreadySentException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        if(!order.isPaid()) {
+            throw new OrderNotPaidException();
+        } else if (order.isSent()) {
+            throw new OrderAlreadySentException();
+        }
         order.setSent(true);
         orderRepository.save(order);
         return order;
     }
 
-    public Order updateOrderIsPaid(final Long id) throws OrderNotFoundException {
+    public Order updateOrderIsPaid(final Long id) throws OrderNotFoundException, OrderAlreadyPaidException {
         Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        if (order.isPaid()) {
+            throw new OrderAlreadyPaidException();
+        }
         order.setPaid(true);
         orderRepository.save(order);
         return order;
