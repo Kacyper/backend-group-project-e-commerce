@@ -42,9 +42,6 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private AppUserRole appUserRole;
 
-    @Column(name = "ACTIVE")
-    private boolean active;
-
     @Column(name = "ENABLED")
     private Boolean enabled;
 

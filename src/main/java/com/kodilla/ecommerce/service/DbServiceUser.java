@@ -65,7 +65,6 @@ public class DbServiceUser implements UserDetailsService {
         }
 
         userFromDb.setEnabled(false);
-        userFromDb.setActive(false);
         userRepository.save(userFromDb);
         return userFromDb;
     }
